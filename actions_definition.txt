@@ -1,0 +1,122 @@
+Entry & manipulation:
+Write ->                    	destination_sheet, destination_range, value
+deletecells ->                  destination_sheet, destination_range
+MergeCells ->                   destination_sheet, destination_range
+UnMergeCells ->                 destination_sheet, destination_range
+CopyPaste ->                	source_sheet, source_range, destination_range, destination_sheet
+CutPaste ->                 	source_sheet, source_range, destination_range, destination_sheet
+CopyPasteFromat ->              source_sheet, source_range, destination_range, destination_sheet
+CopySheet ->                    sheet_name, destination_workbook, new_sheet_name
+SetHyperlink ->             	destination_sheet, destination_range, url
+RemoveHyperlink ->          	destination_sheet, destination_range
+AutoFill ->                 	destination_sheet,	destination_range
+InsertRow ->                	destination_sheet,	above_row,	below_row
+InsertColumn ->             	destination_sheet,	before_column,	after_column
+DeleteSheet ->                  sheet_name, work_book_name(optional)
+RenameSheet ->                  sheet_name, new_name
+InsertCheckbox ->               destination_sheet, destination_range
+InsertTextbox ->                destination_sheet, destination_range
+CreateSheet ->                  sheet_name
+Clear ->                    	destination_sheet, destination_range
+
+
+CopyPasteVisible ->         	source_sheet, source_range, destination_range, destination_sheet
+FindReplace ->              	destination_sheet, org_value, new_value
+WrapText ->                 	destination_sheet, destination_range 
+UnwrapText ->               	destination_sheet, destination_range
+TransposeRange ->           	destination_sheet, destination_range
+CreateNamedRange ->         	source_sheet, source_range,	name
+SplitText ->                	source_sheet, source_range,	delimiter
+GetBlankArea ->             	sheetName
+
+Management:
+Sort ->                     	source,	key1,	order,	orientation
+Filter ->                   	source,	fieldIndex,	criteria
+DeleteFilter ->             	
+MoveRow ->                  	source,	destination
+MoveColumn ->               	source,	destination
+RemoveDuplicate ->          	source,	key
+
+#NO TESTCASES
+
+
+Formatting:
+SetFormat ->                	source,	font,	fontSize,	color,	fillColor,	bold,	italic,	underline,	horizontalAlignment
+DeleteFormat ->             	source
+SetDataType ->              	source,	dataType
+SetCellMerge ->             	source,	merge
+AutoFit ->                  	source
+ResizeRowColumn ->          	source,	height,	width
+SetConditionalFormat ->     	source,	formula,	bold,	color,	fillColor,	italic,	underline
+SetDataValidation ->        	source,	type,	formula1
+SetCellLock ->              	source,	lock
+FreezePanes ->              	source
+UnfreezePanes ->            	sheetName
+
+#NO TESTCASES
+SetPassword ->              	password
+CopyPasteFormat ->          	source,	destination
+SetPageLayout ->            	orientation,	paperSize
+SetBorderAround ->          	source,	color,	weight
+ToggleRowColumnVisibility ->	range,	visible,	region
+ToggleFormulaDisplay ->     	display
+SplitPanes ->               	rowCount,	columnCount
+ToggleSheetProtection ->    	sheetName,	protect,	password
+
+Chart:
+CreateChart ->              	source,	destSheet,	chartType,	chartName,	XField,	YField
+SetChartTrendline ->        	chartName,	trendlineType,	DisplayEquation,	DisplayRSquared
+SetChartTitle ->            	chartName,	title,	fontSize,	bold,	color
+SetChartHasAxis ->          	chartName,	axis,	hasAxis
+SetChartAxis ->             	chartName,	axis,	title,	labelOrientation,	maxValue,	miniValue
+SetChartHasLegend ->        	chartName,	hasLegend
+SetChartLegend ->           	chartName,	position,	fontSize,	seriesName
+SetChartType ->             	chartName,	chartType
+AddChartErrorBars ->        	chartName
+RemoveChartErrorBars ->     	chartName
+AddDataLabels ->            	chartName
+RemoveDataLabels ->         	chartName
+SetChartMarker ->           	chartName,	style,	size
+
+#NO TESTCASES
+SetChartSource ->           	chartName,	source
+SetChartBackgroundColor ->  	chartName,	color
+ResizeChart ->              	chartName,	width,	height
+SetChartDataColor ->        	chartName,	colorRGB
+HighlightDataPoints ->      	chartName,	pointIndex,	colorRGB
+SetDataSeriesType ->        	chartName,	seriesIndex,	seriesType
+AddDataSeries ->            	chartName,	xrange,	yrange
+RemoveDataSeries ->         	chartName,	seriesIndex
+SetDataSeriesSource ->      	chartName,	seriesIndex,	xrange,	yrange
+AddChartErrorBar ->         	chartName,	seriesIndex
+RemoveChartErrorBar ->      	chartName,	seriesIndex
+CopyPasteChart ->           	chartName,	destination
+
+
+Pivot Table:
+CreatePivotTable ->         	source,	destSheet,	name,	RowField,	ColumnField,	PageField,	DataField,	summarizeFunction
+CreateChartFromPivotTable ->	pivotTableName,	destSheet,	chartName,	chartType
+RemoveSheet ->              	sheetName
+
+#NO TESTCASES
+RemovePivotTable ->         	name
+SetPivotTableSummaryFunction ->	name,	field,	func
+SortPivotTable ->           	name,	field,	key,	oder
+SwitchSheet ->              	sheetName
+
+
+#NOT IMPLEMENTED#
+group_ungroup ->            	
+merging_text ->             	
+
+
+#HELPER FUNCTIONS#
+__init__ ->                 	app,	api_doc
+activeAPP @property ->      	
+activeWB @property ->       	
+activeWB @activeWB.setter ->	wb
+activeWS @property ->       	
+toRange ->                  	source
+OpenWorkbook ->             	path
+SaveWorkbook ->             	path
+GetSheetsState ->           	

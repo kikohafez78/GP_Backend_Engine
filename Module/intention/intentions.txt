@@ -1,0 +1,322 @@
+problem definition:
+the available intentions for the user and their descriptions
+
+============ entry and manipulation(22) ==========  (Done)                                                                                                                                 
+Update cell range: Modify the values of a specific range of cells.                                                        
+Delete: Remove cells, rows, columns.
+Merge cells: Combine multiple cells into one.
+Unmerge: Split previously merged cells back into individual cells.
+Split text to columns: Divide text in a cell into separate columns based on a delimiter.
+Insert row: Add a new row to the spreadsheet.
+Insert column: Add a new column to the spreadsheet.
+Autofill: Automatically extend a series or pattern of values across a range of cells.
+Copy-paste: Duplicate the content of cells and paste it elsewhere.
+Copy-paste format: Copy the formatting of cells and apply it to other cells.
+Copy sheet: Create a duplicate of a sheet within the same or different workbook.
+Cut-paste: Move the content of cells and paste it elsewhere.
+Find and replace: Search for specific text within the spreadsheet and replace it with another text.
+Set hyperlink: Create a hyperlink to another location within the spreadsheet or an external resource.
+Delete hyperlink: Remove hyperlinks from cells.
+Remove duplicates: Delete duplicate values within a range of cells.
+Rename sheets: Change the name of a sheet within the workbook.
+Insert checkbox: Add a checkbox control to a cell.
+Insert textbox: Insert a text box control into the spreadsheet.
+Create sheet: Add a new sheet to the workbook.
+Delete sheet: Remove a sheet from the workbook.
+Clear: Remove the content, formatting, or both from cells.
+===========================================================================
+===================== Management(23) ======================================
+Switch sheet: Navigate between different sheets within the workbook.
+Sort: Arrange the data within a range of cells in ascending or descending order.
+Filter: Display only the rows of data that meet specified criteria.
+Delete filter: Remove filter criteria from a range of cells.
+Slicer: Create a slicer to filter data interactively.
+Move rows: Change the position of rows within the spreadsheet.
+Move columns: Change the position of columns within the spreadsheet.
+Group: Group rows or columns together for organization.
+Ungroup: Remove grouping from rows or columns.
+Hide rows: Conceal rows from view.
+Hide columns: Conceal columns from view.
+Unhide rows: Reveal hidden rows.
+Unhide columns: Reveal hidden columns.
+Hide sheet: Make a sheet invisible within the workbook.
+Unhide sheet: Make a previously hidden sheet visible again.
+Set password: Protect the workbook or specific sheets with a password.
+Transpose: Swap rows and columns in a range of cells.
+Create named range: Define a named range of cells for easier reference.
+Delete named range: Remove a named range from the workbook.
+Data consolidation: Combine data from multiple ranges into a single range.
+Freeze panes: Lock rows or columns to keep them visible while scrolling.
+Unfreeze panes: Remove frozen panes from the spreadsheet.
+Split panes: Divide the worksheet window into multiple resizable panes.
+========================================================================================
+================================ Formatting(17) ========================================
+Format cells: Change the appearance of cells, such as font, color, alignment, etc.
+Set data type: Specify the data type for a range of cells (e.g., text, number, date).
+Delete format: Remove formatting from cells.
+Change page layout: Adjust page settings such as orientation, margins, and print area.
+Set border: Add borders to cells or ranges of cells.
+Resize cells: Adjust the width and height of cells.
+Conditional formatting: Apply formatting to cells based on specific conditions or criteria.
+Lock: Protect cells from editing 
+unlock: unlock them for editing.
+Protect: Protect the workbook or specific sheets from unauthorized changes.
+Unprotect: Remove protection from the workbook or specific sheets.
+Drop-down list: Create a drop-down list control in a cell.
+Data validation: Specify restrictions or rules for the data entered into cells.
+Display formulas: Show or hide formulas in cells. -> seperate actions from each other
+Wrap text: Wrap text within cells to display long content.
+Unwrap text: Remove text wrapping from cells.
+Autofit: Automatically adjust the width of columns or height of rows to fit the content.
+
+=========================================================================================
+================================ Charts(22) =============================================
+Create chart: Generate a chart or graph based on the data in the spreadsheet.
+Create Pivot Chart: Create a pivot chart for interactive data analysis.
+Set chart title: Add a title to a chart.
+Set chart axis: Customize the axis labels and formatting of a chart.
+Set chart has axis: Show or hide axes in a chart.
+Set chart legend: Add or remove a legend in a chart.
+Set chart type: Change the type of chart (e.g., bar chart, line chart, pie chart).
+Set chart color: Modify the color scheme of a chart.
+Set chart source: Specify the data range used to create a chart.
+Set chart marker: Customize data point markers in a chart.
+Resize chart: Adjust the size of a chart.
+Set trend line: Add a trend line to a chart.
+Add data labels: Display data labels (values) on a chart.
+Remove data labels: Hide data labels from a chart.
+Highlight data points: Emphasize specific data points on a chart.
+Add data series: Include additional data series in a chart.
+Remove data series: Exclude data series from a chart.
+Set data series source: Specify the data range for a data series in a chart.
+Format data points: Customize the appearance of data points in a chart.
+Copy-paste chart: Duplicate a chart and paste it elsewhere.
+Add error bars: Include error bars in a chart to indicate variability or uncertainty.
+remove error bars: Exclude error bars from a chart.
+=========================================================================================
+================================ Pivot table(4) =========================================
+Create Pivot Table: Generate a pivot table for interactive data analysis.
+Remove Pivot Table: Delete a pivot table from the spreadsheet.
+Set summary type: Specify summary calculations (e.g., sum, count, average) for pivot table values.
+Sort Pivot Table: Arrange the data within a pivot table in ascending or descending order.
+
+===========================================================================================
+================================ Formula(162) =============================================
+Date and time functions: Perform calculations or manipulations involving dates and times.
+    TODAY: Returns the current date.
+    NOW: Returns the current date and time.
+    DATE: Creates a date value given a year, month, and day.
+    TIME: Creates a time value given an hour, minute, and second.
+    YEAR: Extracts the year from a given date.
+    MONTH: Extracts the month from a given date.
+    DAY: Extracts the day of the month from a given date.
+    HOUR: Extracts the hour from a given time.
+    MINUTE: Extracts the minute from a given time.
+    SECOND: Extracts the second from a given time.
+    DATEDIF: Calculates the difference between two dates in days, months, or years.
+    DATEDIF: Calculates the number of days between two dates.
+    DATEDIF: Calculates the number of complete months between two dates.
+    DATEDIF: Calculates the number of complete years between two dates.
+    DATEDIF: Calculates the difference between two dates in a specified time unit (e.g., "m" for months, "y" for years).
+    DATEVALUE: Converts a date string into a serial number that Excel recognizes as a date.
+    TIMEVALUE: Converts a time string into a serial number that Excel recognizes as a time.
+    EOMONTH: Returns the last day of the month, a specified number of months before or after a given date.
+    WORKDAY: Calculates the date of the Nth workday before or after a given date, excluding weekends and specified holidays.
+    NETWORKDAYS: Calculates the number of workdays between two dates, excluding weekends and specified holidays.
+
+Logical functions: Evaluate logical conditions and return true or false values.
+    IF: Evaluates a specified condition and returns one value if the condition is true and another value if the condition is false for a range of cells.
+    AND: Returns TRUE if all the supplied arguments evaluate to TRUE; otherwise, it returns FALSE for a range of cells.
+    OR: Returns TRUE if any of the supplied arguments evaluate to TRUE; otherwise, it returns FALSE  for a range of cells.
+    NOT: Returns the opposite of a logical value; it converts TRUE to FALSE and FALSE to TRUE for a range of cells.
+    IFERROR: Checks whether a formula results in an error and returns a specified value if an error is encountered; otherwise, it returns the result of the formula for a range of cells.
+    IFNA: Checks whether a formula results in the #N/A error value and returns a specified value if #N/A is encountered; otherwise, it returns the result of the formula for a range of cells.
+    IFS: Checks multiple conditions and returns a value that corresponds to the first TRUE condition; it replaces nested IF statements for a range of cells.
+    SWITCH: Evaluates an expression against a list of values and returns a corresponding result; it replaces multiple IF statements for a range of cells.
+    XOR: Returns TRUE if an odd number of arguments evaluate to TRUE; otherwise, it returns FALSE for a range of cells.
+    ISEVEN: Checks whether a number is even and returns TRUE if the number is even; otherwise, it returns FALSE for a range of cells.
+    ISODD: Checks whether a number is odd and returns TRUE if the number is odd; otherwise, it returns FALSE for a range of cells.
+    IFERROR: Checks whether a formula results in an error and returns a specified value if an error is encountered; otherwise, it returns the result of the formula for a range of cells.
+    IFNA: Checks whether a formula results in the #N/A error value and returns a specified value if #N/A is encountered; otherwise, it returns the result of the formula for a range of cells.
+    ISEMPTY: Checks whether a specified cell is empty and returns TRUE if the range of cells is empty; otherwise, it returns FALSE.
+    ISBLANK: Checks whether a specified cell is blank (i.e., contains no value) and returns TRUE if the cell is blank; otherwise, it returns FALSE for a range of cells.
+
+Lookup and reference functions: Retrieve data from specific locations within the spreadsheet.
+    VLOOKUP: Searches for a value in the leftmost column of a table and returns a value in the same row from a specified column.
+    HLOOKUP: Searches for a value in the top row of a table and returns a value in the same column from a specified row.
+    LOOKUP: Searches for a value in a vector or array and returns a value from the same position in another vector or array.
+    INDEX: Returns the value of a cell in a specified row and column of a table or range.
+    MATCH: Searches for a specified value in a range and returns the relative position of that item.
+    OFFSET: Returns a reference to a range that is a specified number of rows and columns from a starting cell.
+    INDIRECT: Returns the reference specified by a text string.
+    ADDRESS: Returns the cell reference as a text string, given specified row and column numbers.
+    ROW: Returns the row number of a reference.
+    COLUMN: Returns the column number of a reference.
+    CHOOSE: Returns a value from a list of values based on a specified index number.
+    MATCH: Searches for a value in a range and returns the position of that item.
+    INDEX-MATCH: Combines the INDEX and MATCH functions to perform advanced lookup operations.
+
+Math functions: Perform mathematical calculations (e.g., addition, subtraction, multiplication, division).
+    ADDITION: add a number of cells to another number of cells or to a scalar and store the result in a range of target cells
+    SUBTRACTION: subtract a number of cells from another number of cells or from a scalar and store the result in a range of target cells
+    MULTIPLICATION: multiply a number of cells by another number of cells or by a scalar and store the result in a range of target cells
+    DIVISION: divide a number of cells by another number of cells or by a scalar and store the result in a range of target cells
+    SUM: Calculates the sum of a range of cells.
+    AVERAGE: Calculates the average of a range of cells.
+    MIN: Returns the minimum value from a range of cells.
+    MAX: Returns the maximum value from a range of cells.
+    COUNT: Counts the number of cells containing numbers in a range for a range of cells.
+    COUNTA: Counts the number of non-empty cells in a range for a range of cells.
+    COUNTIF: Counts the number of cells in a range that meet a specific condition for a range of cells.
+    SUMIF: Adds the cells in a range that meet a specific condition for a range of cells.
+    AVERAGEIF: Calculates the average of cells in a range that meet a specific condition for a range of cells.
+    SUMIFS: Adds the cells in a range that meet multiple conditions for a range of cells.
+    AVERAGEIFS: Calculates the average of cells in a range that meet multiple conditions for a range of cells.
+    ABS: Returns the absolute value of a number for a range of cells.
+    ROUND: Rounds a number to a specified number of digits for a range of cells.
+    ROUNDUP: Rounds a number up, away from zero, to a specified number of digits for a range of cells.
+    ROUNDDOWN: Rounds a number down, towards zero, to a specified number of digits for a range of cells.
+    INT: Rounds a number down to the nearest integer for a range of cells.
+    MOD: Returns the remainder of a division operation for a range of cells.
+    SQRT: Returns the square root of a number for a range of cells.
+    POWER: Raises a number to a specified power for a range of cells.
+    LOG: Returns the logarithm of a number to a specified base for a range of cells.
+    EXP: Returns e raised to the power of a specified number for a range of cells.
+    RANDBETWEEN: Returns a random integer between two specified numbers.
+    TRUNC: Truncates a number to a specified number of digits for a range of cells.
+    LN: Returns the natural logarithm of a number for a range of cells.
+    LOG10: Returns the base-10 logarithm of a number for a range of cells.
+    CEILING: Rounds a number up, towards positive infinity, to the nearest multiple of significance for a range of cells.
+    FLOOR: Rounds a number down, towards negative infinity, to the nearest multiple of significance for a range of cells
+    SIGN: Returns the sign of a number (1 for positive, -1 for negative, 0 for zero) for a range of cells.
+
+Statistical functions: Calculate statistical measures (e.g., mean, median, standard deviation) from a range of cells.
+    MEDIAN: Calculates the median (middle value) of a range of values from a range of cells.
+    MODE: Calculates the mode (most frequently occurring value) of a range of values from a range of cells.
+    MIN: Returns the minimum value from a range of cells.
+    MAX: Returns the maximum value from a range of cells.
+    STDEV.S: Calculates the standard deviation based on a sample of data from a range of cells.
+    STDEV.P: Calculates the standard deviation of an entire population of data from a range of cells.
+    VAR.S: Calculates the variance based on a sample of data from a range of cells.
+    VAR.P: Calculates the variance of an entire population of data from a range of cells.
+    COUNT: Counts the number of cells containing numerical values in a range of cells.
+    COUNTA: Counts the number of non-empty cells in a range.
+    COUNTIF: Counts the number of cells in a range that meet a specific condition.
+    SUM: Calculates the sum of a range of cells.
+    SUMIF: Adds the cells in a range of cells that meet a specific condition.
+    AVERAGEIF: Calculates the average in a range of cells if that cell meet a specific condition.
+    CORREL: Calculates the correlation coefficient between two sets of values.
+    COVARIANCE.S: Calculates the covariance between two ranges of cells based on a sample range of cells.
+    COVARIANCE.P: Calculates the covariance between two ranges of cells for an entire population.
+    PERCENTILE: Returns the value at a specified percentile in a range of cells.
+    QUARTILE: Returns the quartile (25th, 50th, or 75th percentile) of a range of cells.
+    RANK: Returns the rank of a value in a range of cells.
+    FORECAST: Calculates a future value based on existing values using linear regression for a range of cells.
+    GROWTH: Calculates predicted exponential growth based on existing values.
+    TREND: Calculates linear trend values based on existing values in a range of cells.
+    CHISQ.DIST: Returns the chi-square distribution probability for a range of cells.
+    Z.TEST: Returns the one-tailed probability value of a z-test for a range of cells.
+    T.TEST: Returns the probability associated with a t-test for a range of cells.
+    F.TEST: Returns the result of an F-test for a range of cells.
+    NORM.DIST: Returns the normal distribution probability for given values  from a range of cells.
+    NORM.INV: Returns the inverse of the normal distribution function for a given probability .
+
+Text functions: Manipulate and format text strings.
+    CONCATENATE: Combines two or more text strings from different cells into one.
+    LEN: Returns the length of a text string from a range of cells.
+    LEFT: Returns the leftmost characters from a text string from a range of cells.
+    RIGHT: Returns the rightmost characters from a text string from a range of cells.
+    MID: Returns a specific number of characters from the middle of a text string from a range of cells.
+    LOWER: Converts text to lowercase for a range of cells.
+    UPPER: Converts text to uppercase for a range of cells.
+    PROPER: Capitalizes the first letter of each word in a text string in a range of cells.
+    TRIM: Removes leading and trailing spaces from a text string in a range of cells.
+    SUBSTITUTE: Replaces occurrences of a specified substring with another substring in a text string in a range of cells.
+    FIND: Returns the starting position of one text string within another text string in a range of cells.
+    SEARCH: Returns the starting position of one text string within another text string (case-insensitive) in range of cells.
+    REPLACE: Replaces part of a text string with another text string, starting at a specified position in a range of cells.
+    REPT: Repeats a text string a specified number of times in a range of cells.
+    TEXT: Formats a number as text using a specified format in a range of cells.
+    VALUE: Converts a text string that represents a number to a number in a range of cells.
+    CONCAT: Concatenates a list of text strings from a range of cells.
+    EXACT: Compares two ranges of cells and returns TRUE if they are exactly the same, otherwise returns FALSE.
+    LEFTB: Returns the leftmost characters from a text string, based on the number of bytes from a range of cells.
+    RIGHTB: Returns the rightmost characters from a text string, based on the number of bytes from a range of cells.
+    MIDB: Returns a specific number of characters from the middle of a text string, based on the number of bytes from a range of cells.
+    LENB: Returns the length of a text string, in bytes from a range of cells.
+    FIND: Returns the starting position of one text string within another text string in a range of cells.
+    SEARCH: Returns the starting position of one text string within another text string (case-insensitive) in a range of cells.
+    REPLACE: Replaces part of a text string with another text string, starting at a specified position.
+    REPLACEB: Replaces part of a text string with another text string, based on the number of bytes in a range of cells.
+    TEXTJOIN: Joins multiple text strings into one text string, with a specified delimiter from a range of cells.
+    SUBSTITUTE: Replaces occurrences of a specified substring with another substring in a text string, based on the number of occurrences to replac in a range of cells.
+    CHAR: Returns the character specified by a numeric code  from a range of cells.
+    CLEAN: Removes non-printable characters from a text string  from a range of cells.
+
+Financial functions: Perform financial calculations (e.g., present value, future value, interest rate).
+    BS(Balance sheet): Calculates the balance sheet for a given set of financial data.
+    CF(Cash flow): Calculates the cash flow for a given set of financial data.
+    IS(Income statement): Calculates the income statement for a given set of financial data.
+    FS(Financial statement): Calculates the financial statement for a given set of financial data.
+    PV (Present Value): Calculates the present value of an investment based on a series of future payments and a discount rate.
+    FV (Future Value): Calculates the future value of an investment based on a series of periodic payments and a specified interest rate.
+    PMT (Payment): Calculates the periodic payment for a loan based on a constant interest rate and a fixed number of payments.
+    RATE (Interest Rate): Calculates the interest rate for a loan or investment based on a series of periodic payments and a specified present value and future value.
+    NPER (Number of Periods): Calculates the number of payment periods for a loan or investment based on a constant interest rate and a fixed payment amount.
+    NPV (Net Present Value): Calculates the net present value of a series of cash flows using a specified discount rate.
+    IRR (Internal Rate of Return): Calculates the internal rate of return for a series of cash flows, representing the discount rate that makes the net present value of the cash flows equal to zero.
+    MIRR (Modified Internal Rate of Return): Calculates the modified internal rate of return for a series of cash flows, adjusting for reinvestment of intermediate cash flows at a specified reinvestment rate.
+    XNPV (Extended Net Present Value): Calculates the net present value of a series of cash flows using specific dates and a specified discount rate.
+    XIRR (Extended Internal Rate of Return): Calculates the internal rate of return for a series of cash flows using specific dates.
+    DDB (Double-Declining Balance): Calculates depreciation using the double-declining balance method.
+    SLN (Straight-Line Depreciation): Calculates depreciation using the straight-line method.
+    SYD (Sum of Years' Digits Depreciation): Calculates depreciation using the sum of years' digits method.
+    ACCUMPRINC: Calculates the cumulative principal paid on a loan between two specified periods.
+    ACCUMINT: Calculates the cumulative interest paid on a loan between two specified periods.
+    CUMIPMT: Calculates the cumulative interest paid on a loan between two specified periods.
+    CUMPRINC: Calculates the cumulative principal paid on a loan between two specified periods.
+    DB (Declining Balance): Calculates depreciation using the declining balance method.
+    DISC (Discount Rate): Calculates the discount rate for a security based on its price and redemption value.
+    DURATION: Calculates the Macaulay duration of a security, representing the weighted average of the times until each cash flow is received.
+
+ARRAY FORMULAS: Allows for complex lookup operations using arrays and array formulas.
+    SUM: Calculates the sum of values in a range or array.
+    AVERAGE: Calculates the average of values in a range or array.
+    MAX: Returns the maximum value in a range or array.
+    MIN: Returns the minimum value in a range or array.
+    MEDIAN: Calculates the median of values in a range or array.
+    MODE: Returns the most frequently occurring value in a range or array.
+    COUNT: Counts the number of cells that contain numbers in a range or array.
+    COUNTA: Counts the number of non-empty cells in a range or array.
+    COUNTIF: Counts the number of cells that meet a specific condition in a range or array.
+    SUMIF: Adds the cells in a range that meet a specific condition in a range or array.
+    AVERAGEIF: Calculates the average of cells that meet a specific condition in a range or array.
+    SUMIFS: Adds the cells in a range that meet multiple criteria in a range or array.
+    AVERAGEIFS: Calculates the average of cells that meet multiple criteria in a range or array.
+    INDEX: Returns the value of a cell in a specified row and column of a range or array.
+    MATCH: Searches for a specified value in a range or array and returns the relative position of that item.
+    TRANSPOSE: Transposes rows and columns in a range or array.
+    FREQUENCY: Calculates the frequency distribution of values in a range or array.
+    SMALL: Returns the kth smallest value in a range or array.
+    LARGE: Returns the kth largest value in a range or array.
+    FILTER: Filters a range or array based on specified criteria.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+torch
+sentencepiece
+tqdm
+Flask
+requests
+numpy
+scikit-learn
+openpyxl
+tensorboard
+psutil
+tensorflow_datasets
+nlp
+torchtext
+textGenie

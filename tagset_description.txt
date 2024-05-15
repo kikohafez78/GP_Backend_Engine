@@ -1,0 +1,66 @@
+As a machine learning expert, you are helping us create and annotate a dataset for our graduation project, which is an AI model that allows the user to enter a natural language prompt that will be directly executed in Excel.
+Our model relies on a CRF model that uses a custom tag set to extract entities (cells, ranges, column names, dates, …etc.)  from the user's prompt. here is the custom tag set:
+"
+    (True) Sheet Name: the range of tokens that represent any sheet name or possible name of a sheet -> example: "Salesforce" sheet
+    (True) Cell Reference: range of tokens representing a reference to a cell in excel sheets -> example: A1
+    (True) Range: the range of tokens representing a range of cells in excel as mentioned in the following example -> A1:B2 
+    (True) Value: a number of consecutive of tokens representing a integer or text that will be used by the sentence to update a certain object
+    (True) Formula: the range of tokens representing any formula mentioned in the sentence wether it is in text format or mathematical format -> text format: A1:B1 = 20 -> mathematical format: X + y = 4
+    (True) Condition: the range of tokens representing any condition that will enforced on the excel sheet or the function  that will be done on the excel sheet -> example: revenue > 3000
+    (True) Data Type: range of tokens mentioning any data type related to excel such as numerical, general, text,.. 
+    (True) Column Reference: the range of tokens representing of a reference to a column in excel -> column A
+    (True) source sheet: the source sheet name where the used data will be taken from
+    (True) destination sheet: the destination
+    Font: the range of tokens referencing any Font style in excel -> Example: Italic font
+    Alignment: range of tokens representing any reference to any excel alignment options such as left, right, center or justify -> center alignment
+    Border Style: range of tokens referencing any border style in excel
+    Background Color: 
+    Fill Color
+    Font Color
+    Number Format
+    Chart Type
+    Chart Axis
+    Chart Series
+    Chart Title
+    Chart Legend
+    Chart Data Labels
+    Chart Data Table
+    Chart Data Source
+    Pivot Table
+    Verb
+    Date
+    Time
+    Number
+    Sheet Location
+    Column Name
+    Row Number
+    O
+"
+The user's prompt is a specific intent that they would like to accomplish in the Excel sheet, written in natural language. We would like you to generate 20 example data points annotated with our tag set for us to use for training the CRF model. the generated examples should represent a realistic normal Excel user prompt, not one written by an Excel specialist. 
+
+For example:
+Given the intent "Insert column":
+        """
+        Insert one column.
+
+        Parameters:
+        sheetName (str): The name of the sheet.
+        beforeColumn (str): The column before which the new column will be inserted.
+        afterColumn (str): The column after which the new column will be inserted.
+        """
+a generated example for this intent would be:
+(Please : O) (add : Verb) (a : O) (new : O) (column  : O) (named : O) (" : O) (Expenses : Column Name) (" : O) (after : O) (the : O) (" : O) (Revenue : Column Reference) (" : O) (. : O)
+
+now it's your turn, please do this given the intent "Update cell value":
+        '''
+        Writes a value to a Range.
+
+        Parameters:
+        range (str): The Range object to write to.
+        value (Any): The value to write to the Range.
+        '''
+
+
+copy paste the data from sheet 1 to sheet 2
+                         -------    -------
+                          source    destination

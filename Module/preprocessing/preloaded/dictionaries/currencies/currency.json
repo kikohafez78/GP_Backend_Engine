@@ -1,0 +1,21 @@
+{
+    "$": "US Dollar (USD)",
+    "€": "Euro (EUR)",
+    "£": "British Pound (GBP)",
+    "¥": "Japanese Yen (JPY) or Chinese Yuan Renminbi (CNY)",
+    "A$": "Australian Dollar (AUD)",
+    "CA$": "Canadian Dollar (CAD)",
+    "₹": "Indian Rupee (INR)",
+    "₩": "South Korean Won (KRW)",
+    "₽": "Russian Ruble (RUB)",
+    "MXN$": "Mexican Peso (MXN)",
+    "R$": "Brazilian Real (BRL)",
+    "CHF": "Swiss Franc (CHF)",
+    "SEK": "Swedish Krona (SEK)",
+    "NOK": "Norwegian Krone (NOK)",
+    "DKK": "Danish Krone (DKK)",
+    "PLN": "Polish Złoty (PLN)",
+    "THB": "Thai Baht (THB)",
+    "TRY": "Turkish Lira (TRY)",
+    "ZAR": "South African Rand (ZAR)"
+  }
