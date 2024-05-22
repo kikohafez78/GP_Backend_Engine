@@ -294,6 +294,10 @@ def sign_up():
         return Response(response=json.dumps({"message" : "the username is already used"}),status =  401,mimetype="application/json")
     elif mydb.User.find_one({"email": email}) is not None:
         return Response(response=json.dumps({"message" : "there is an account registered with this email"}),status =  402,mimetype="application/json")
+    try:
+        os.makedirs(f"Sessions\\{user_name}")
+    except:
+        return {"message" : "user already exists"}, 402
     user = {
         "user_name": user_name,
         "email": email,
@@ -302,10 +306,6 @@ def sign_up():
         "password": bcrypt.hashpw(bytes(password, "ascii"), bcrypt.gensalt()),
         "role": None
     }
-    try:
-        os.makedirs(f"Sessions\\{user_name}")
-    except:
-        return {"message" : "session already exists"}, 402
     new_user = mydb.User.insert_one(user)
     del user["password"]
     user["_id"] = str(user["_id"])
