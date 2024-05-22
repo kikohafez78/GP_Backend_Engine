@@ -1,20 +1,11 @@
 import json
 import bcrypt
-from flask import Blueprint, request, session, abort, jsonify, render_template, redirect, Response
+from flask import Blueprint, request, Response
 import datetime
-from flask_mail import Mail, Message
-import jwt
-import requests
 import os
-import math, random
 from Database.Database import Database as mydb
-from pip._vendor import cachecontrol
-from google_auth_oauthlib.flow import Flow
-from google.oauth2 import id_token
-import google.auth.transport.requests
-import pathlib
-from pytest import Session
 import sys
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(script_dir)
 #from app import mail
@@ -308,7 +299,7 @@ def sign_up():
         "email": email,
         "creation_date": str(datetime.datetime.now()),
         "organization": None,
-        "password": bytes(password, "ascii"),
+        "password": bcrypt.hashpw(bytes(password, "ascii"), bcrypt.gensalt()),
         "role": None
     }
     try:
