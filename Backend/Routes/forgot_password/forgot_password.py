@@ -13,7 +13,10 @@ from flask_mail import Mail, Message
 import math
 import random
 from Database.Database import Database as mydb
-
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 forgot_password = Blueprint("forgot_password", __name__)
 mail = Mail()

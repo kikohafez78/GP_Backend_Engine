@@ -1,4 +1,8 @@
 from win32com.client import constants as c
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 class constants:
     ChartType = {

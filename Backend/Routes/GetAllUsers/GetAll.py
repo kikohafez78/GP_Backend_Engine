@@ -9,7 +9,10 @@ from bson import ObjectId
 from functools import wraps
 from Database.Database import Database 
 import re
-
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 
 

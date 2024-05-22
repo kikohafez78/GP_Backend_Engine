@@ -1,0 +1,340 @@
+prompt,ner
+,I need to sort the data in range A1:C10 in ascending order based on the values in column B.
+Fill the rest of column B based on the value in B2. ,Fill(O) the(rest) rest(grad) of(column) column(ColumnName) B(Key) based(Function) on(on) the(value) value in(in) B2(Source).
+Fill the column B with the formula already written in B2. ,Fill (Function) the column (Source) B with the formula (Formula) already (Text) written in B2 (Cell).
+Fill the rest cells in column B according to B2. ,Fill(O) the(rest) Source(Cell) cells(Position)(After ColumnLetter)(B) in(Destination)(ColumnLetter)(B) according(Function)(to)(Source(Cell))(B2)
+Fill out the rest of the rows for column B using B2. ,"Fill(Source= B2, Destination= ColumnLetter B, DestinationPosition= After ColumnLetter B)"
+Copy the Hanging Mass column to a new sheet. ,Copy (Function) the Hanging (Source) Mass (ColumnLetter) column to a new (NewDestination) sheet (DestinationSheet).
+"Copy the distances from ""Berkeley"", ""Denver"", ""Kansas City"", and ""Chicago"" to the four destinations along with the four destination headers to a new sheet. ","Copy(O) the distances from ""Berkeley""(Cell) , ""Denver""(Cell) , ""Kansas City""(Cell) , and ""Chicago""(Cell) to the four destinations along with the four destination headers to a new sheet.(Destination, NewDestinationSheet)"
+Copy the Customers column to a new sheet. ,"Copy (Function) the (Source) Customers (ColumnLetter) column to (Destination) a (NewDestination) new sheet. 
+
+Tags:
+Function: copy
+Source: Customers
+ColumnLetter: column
+Destination: new
+NewDestination: true"
+"Copy the Year, Sales, and Gross Profit columns to a new sheet. ","Copy (Function) the (Source) Year, Sales, and Gross Profit (RowField) columns to a new (Destination) sheet. 
+
+Tokens with tags:
+Copy (Function) the (Source) Year, Sales, and Gross Profit (ColumnField) columns to a new (NewDestinationSheet) sheet."
+Copy the Product column to a new sheet. ,"Copy (Function) the Product (Source) column (Source) to (Function) a new (NewDestination) sheet (Destination). 
+
+Tokens with tags:
+- Copy (Function)
+- the (Function)
+- Product (Source)
+- column (Source)
+- to (Function)
+- a (Function)
+- new (NewDestination)
+- sheet (Destination)"
+"Copy the ""Revenue"" column along with the header to a new sheet. ","Copy (Function) the ""Revenue"" (Source) column (Source) along with the header (Source) to a new (NewDestination) sheet (DestinationSheet)."
+Copy all the values from the Displacement column to a new sheet. ,Copy (Function) all (Source) the (Source) values (Function) from (Source) the (Source) Displacement (ColumnName) column (Function) to (Destination) a (NewDestination) new (NewDestination) sheet (DestinationSheet).
+Copy the Year column to column A of a new sheet. ,Copy(O) the(Function) Year(Source) column(Source) to(Function) column(Destination) A(Destination) of(Function) a(Function) new(NewDestination) sheet(NewDestinationSheet).
+"Copy all values from the Date column to column A named ""Dates"" in a new sheet and keep the data type the same. ","Copy (Function) all (Source) values (Destination) from (SourceSheet) the (Key) Date (ColumnField) column (Source) to (Destination) column (ColumnLetter) A (Destination) named ""Dates"" (Name) in (NewDestinationSheet) a new sheet (DestinationSheet) and keep the data type (DataType) the same."
+Copy the Sales Rep column along with the header to Column A of a new sheet. ,Copy(O) the Sales(Source) Rep(ColumnName) column(Column) along with the header to Destination(ColumnLetter) A(Column) of a new(NewDestinationSheet) sheet.
+Duplicate the first 10 rows from Sheet1 to Sheet2.  ,Duplicate(O) the(Function) first(DataField) 10(Source) rows(Source) from(SourceSheet) Sheet1 to(DestinationSheet) Sheet2.
+List the customers from column A in a new sheet named Sheet2. ,List(O) the customers(Function) from(ColumnLetter) column(ColumnField) A(ColumnLetter) in a new sheet(NewDestinationSheet) named(Name) Sheet2(SheetName).
+Write the Week column data with header to a new sheet.,Write(O) the(Function) Week(ColumnLetter) column(Column) data(Source) with(Function) header(Source) to(Destination) a(NewDestination) new(NewDestination) sheet(DestinationSheet).
+"Insert a link to the first header, linking to a file with the same name as the cell value and the extension "".pdf"". ","Insert (Function) a link (Source) to the first (RowField) header, linking to a file (Source) with the same name (Destination) as the cell (Destination) value and the extension (HyperlinkExtension) "".pdf""."
+"Insert a link to the second header, linking to a file with the same name as the cell value and the extension "".pdf"". ","Insert (Function) a link (Source) to (Function) the second header, linking (Function) to a file with the same name as the cell (Source) value and the extension "".pdf"" (HyperlinkExtension)."
+"Insert a link to the third header, linking to a file with the same name as the cell value and the extension "".pdf"". ","Insert (Function) a link (Source) to the third (Criteria) header, linking (Function) to a file with the same name as the cell (Source) value and the extension "".pdf"" (HyperlinkExtension)."
+"Insert a hyperlink to the first header, where the hyperlink opens a file with the same name as the corresponding cell with an extension "".dat"". ","Insert (Function) a hyperlink (Source) to the first (Key) header (Source) , where the hyperlink opens a file with the same name as the corresponding cell with an extension "".dat""."
+"Insert a hyperlink to the second header, where the hyperlink opens a file with the same name as the corresponding cell with an extension "".dat"". ","Insert(Source=a, hyperlink, to, Source=b, the, second, header, comma, where, the, hyperlink, opens, a, file, with, the, same, name, as, the, corresponding, cell, with, an, extension, quote, .dat, quote)"
+Fill the Present Value column. ,"Fill(O) the Present(Value) column. 
+
+Entities: 
+- Function: Fill
+- Destination: ColumnName (Present Value)
+- DestinationPosition: Not mentioned
+- DestinationSheet: Not mentioned
+- Key: Not mentioned
+- Criteria: Not mentioned
+- Order: Not mentioned
+- Orientation: Not mentioned
+- Font: Not mentioned
+- FontSize: Not mentioned
+- Color: Not mentioned
+- FillColor: Not mentioned
+- Bold: Not mentioned
+- Italic: Not mentioned
+- Underline: Not mentioned
+- HorizontalAlignment: Not mentioned
+- DataType: Not mentioned
+- FormattingConditionType: Not mentioned
+- Formula: Not mentioned
+- Name: Not mentioned
+- RowField: Not mentioned
+- ColumnField: Not mentioned
+- PageField: Not mentioned
+- DataField: Not mentioned
+- Function: Not mentioned
+- XField: Not mentioned
+- YField: Not mentioned
+- ChartTitle: Not mentioned
+- ChartTitleBold: Not mentioned
+- ChartTrendlineType: Not mentioned
+- ChartTrendlineEquation: Not mentioned
+- ChartTrendlineRSquared: Not mentioned
+- ChartTrendlineField: Not mentioned
+- ChartLegend: Not mentioned
+- ChartLegendPosition: Not mentioned
+- ChartType: Not mentioned
+- ChartDataLabels: Not mentioned
+- ChartMarkerStyle: Not mentioned
+- ChartMarkerSize: Not mentioned
+- ChartMarkerField: Not mentioned
+- ChartXAxis: Not mentioned
+- ChartXAxisTitle: Not mentioned
+- ChartXAxisLabelOrientation: Not mentioned
+- ChartXAxisMaxScale: Not mentioned
+- ChartXAxisMinScale: Not mentioned
+- ChartYAxis: Not mentioned
+- ChartYAxisTitle: Not mentioned
+- ChartYAxisLabelOrientation: Not mentioned
+- ChartYAxisMaxScale: Not mentioned
+- ChartYAxisMinScale: Not mentioned"
+Fill in the Present Value column. ,Fill (Function) in the Present (Destination) Value (Name) column (ColumnField).
+Fill in the Assets column. ,Fill (Function) in (Function) the (Function) Assets (ColumnField).
+Fill in the Liabilities & Owner's Equity column. ,Fill (Function) in (Source) the (SourceSheet) Liabilities (ColumnName) & (Function) Owner's (ColumnName) Equity (ColumnName) column.
+Fill in the Assets column. ,Fill (Function) in (Function) the (Source) Assets (ColumnField) column (Destination) (DestinationPosition) (After) (Key) column (Criteria) (Text).
+Fill the Assets column. ,Fill(O) the Assets(ColumnName) column.
+Fill in the Assets column. ,Fill (Function) in (Function) the (Source) Assets (ColumnField) column.
+"Fill in the Gross profit, Operating profit, and Net profit columns. ","Fill (Function) in the Gross (ColumnField) profit, Operating (ColumnField) profit, and Net (DataField) profit columns. 
+
+Gross (ColumnField) profit, Operating (ColumnField) profit, and Net (DataField) profit (Columns) are the Source entities while Fill, Gross, Operating, Net, Profit are the Function, ColumnField, ColumnField, DataField, Column types in the given sentence."
+Fill the Net Profit column. ,Fill (Function) the (Source) Net (Key) Profit (ColumnField) column.
+"Add a new row titled ""Total"" to calculate total units and total sales. ","Add (Function) a new (NewDestination) row titled (Name) ""Total"" to calculate total (Function) units and total (Function) sales. 
+
+Tags:
+NewDestination, Name, Function"
+"Add a new column after the ""Date Time"" column named ""Month"". ","Add(O) a(O) new(O) column(Source) after(DestinationPosition) the(Destination) ""Date(Cell)"" column(Source) named(Name) ""Month""(Name)."
+Remove the data from 2000 to 2002. ,Remove (Function) the (Text) data (Function) from (Source) 2000 (RowNumber) to (Destination) 2002 (RowNumber).
+Delete the columns from 2000 to 2012. ,"Delete (Function) the columns (Source: ColumnLetter) from 2000 to 2012. 
+1      2              3     4    5    6   7    8      9     10   11   12"
+Create a new sheet. ,Create(O) a(Destination) new(NewDestination) sheet(NewDestinationSheet).
+"Create a new sheet named ""Sheet2"". ","Create(O) a(O) new(O) sheet(O) named(O) ""Sheet2""(Name)."
+"Create a new sheet with investment numbers, present value, and future value. ","Create (Function) a (SourceSheet) new sheet with (Source) investment numbers, present value, and future value."
+Create a new sheet with the same headers as in Sheet1.,"Create (Function) a new (NewDestinationSheet) sheet with the same headers as in (SourceSheet) Sheet1. 
+(Create)(Text)(Bool)(Text) (Text) (SheetName) (Text)"
+Sort the data according to column A in ascending order. ,Sort (Function) the (Source) data according to (Key) column (ColumnLetter) A in (Order) ascending order.
+Sort the data by the Sex column from A to Z. ,"Sort (Function) the data by the (Key) Sex (RowField) column from (After ColumnLetter) A to Z. 
+
+Tokens with their respective tags:
+- Sort (Function)
+- the (Null)
+- data (Null)
+- by (Null)
+- the (Null)
+- Sex (RowField)
+- column (Null)
+- from (Null)
+- A (Null)
+- to (Null)
+- Z (Null)"
+Sort the data by Sales column in descending order. ,"Sort(Orientation=rows, Source=the data, Key=Sales, Order=descending)"
+Sort the copied Product column in ascending order. ,Sort(O) the (O) copied (O) Product (ColumnName) column (Column) in (O) ascending (Order) order.
+Sort the data by the Sales Rep column in alphabetical order. ,Sort (Function) the data by the Sales (Key) Rep (Key) column (ColumnField) in alphabetical (Order) order.
+"Sort the ""Exports of goods and services"" data in descending order. ","Sort (Function) the ""Exports (Source) of goods (Source) and (Source) services (Source)"" data (Source) in descending (Order) order (Order)."
+Sort the data by the Revenue column in ascending order. ,Sort (Function) the (Function) data (Source) by the Revenue (Key) column (ColumnField) in (Order) ascending (Order) order.
+"Sort the data by the ""IndicatorName"" column from A to Z. ","Sort (Function) the data by Key (Criteria) the ""IndicatorName"" (ColumnLetter) column from A (ColumnLetter) to Z (ColumnLetter)."
+Sort the data by the Seattle column in ascending order. ,Sort (Function) the (null) data (Destination) by the (null) Seattle (Key) column (ColumnField) in (Order) ascending (Order) order (null).
+Sort the table in ascending order by annual rate. ,"Sort(Orientation:rows, Source:Table, Key:annual, Order:ascending)"
+Sort the data by the Date column in ascending order. ,"Sort(Orientation=rows, Source=Data, Key=Date, Order=ascending)"
+Sort the listed customers by their distance to Seattle in descending order. ,"Sort(Organization) the listed customers by their distance to (Location) Seattle in (Order) descending order. 
+
+In the above sentence, the tags assigned are:
+- Organization: Function
+- Location: Source
+- Order: Order"
+"Sort the sales data in ascending order by the ""Revenue"" column. ",Sort(Orientation['rows']) the Source['sales'] data in Order['ascending'] by the Key['Revenue'] column.
+Filter the respondents who have attained a senior high school diploma. ,"Filter (Function) the (Source) respondents who have attained a (Criteria) senior high school diploma. 
+
+In this sentence:
+- ""Filter"" is tagged as Function
+- ""the"" is not tagged
+- ""respondents"" is tagged as Source
+- ""who"" is not tagged
+- ""have"" is not tagged
+- ""attained"" is tagged as Criteria
+- ""a"" is not tagged
+- ""senior"" is tagged as Criteria
+- ""high"" is tagged as Criteria
+- ""school"" is tagged as Criteria
+- ""diploma"" is tagged as Criteria"
+Filter the data to only show loans issued in December. ,Filter (Function) the data (Source) to only show loans issued in December (Criteria).
+"Extract data based on the criteria ""Gross Domestic Product (GDP)"" from the IndicatorName field. ","Extract(data) based on the criteria(""Gross Domestic Product (GDP)"") from the IndicatorName field."
+"Keep only ""Gross Domestic Product (GDP)"" from the IndicatorName field. ","Keep(T) only ""Gross(Criteria) Domestic(Criteria) Product(Criteria) (GDP)(Criteria)"" from the IndicatorName(Source) field(Function)."
+"Display only the rows whose Week is greater than ""Week 5"". ","Display (Function) only (Text) the (Text) rows (Destination) whose (Text) Week (Source) is (Text) greater (Text) than (Text) ""Week 5"" (Criteria)."
+Display only the rows where the distances to Milwaukee are less than 2000 miles. ,Display(Function) only(Function) the(Function) rows(Function) where(Function) the(Function) distances(Criteria) to(Function) Milwaukee(Criteria) are(Function) less(Criteria) than(Criteria) 2000(Criteria) miles(DataType).
+Display only the indicators for Japan. ,Display (Function) only (Function) the indicators (Source) for (Criteria) Japan (Criteria).
+"Display only the ""Exports of goods and services"" data. ","Display (Function) only (Function) the ""Exports(Source) of (Function) goods (Function) and (Function) services (Function)""(Function) data (Function)."
+Exclude data from 2000 to 2002. ,Exclude (Function) data (Source) from (Function) 2000 (Key) to (Function) 2002 (Key).
+"Highlight ""Brazil"" in the Country column with green text and yellow fill. ","Highlight (Function) ""Brazil"" (Criteria) in the (Source) Country (ColumnField) column with (Color) green text and (FillColor) yellow fill. 
+
+Tokens with NER tags:
+- Highlight (Function)
+- ""Brazil"" (Criteria)
+- in (O)
+- the (O)
+- Country (ColumnField)
+- column with (O)
+- green (Color)
+- text and (O)
+- yellow (FillColor)
+- fill."
+Adjust the font size of all columns to 10. ,Adjust(O) the font(Bold) size(FontSize) of all columns(Source) to 10.
+Set all headers bold. ,Set(all) Font(headers) Bold.
+Set the font size of all data to 12. ,Set (Function) the font(Font) size(FontSize) of all (Source) data to 12.
+"Format the ""Elapsed Time"" column. ","Format/O the ""Elapsed Time""/ColumnName column. 
+
+Tokens with NER tags:
+- Format (Function)
+- the (O)
+- ""Elapsed Time"" (Name)
+- column (Source)"
+"Change the format of the ""Sales"" and ""COGS"" columns to display accounting numbers. ","Change (Function) the format (DataType) of the ""Sales"" (ColumnField) and ""COGS"" (ColumnField) columns to display accounting numbers."
+Set the results type as accounting. ,Set (Function) the results (NewDestination) type (DataType) as accounting.
+Format the last three columns with Accounting type. ,"Format (Function) the (Selection) last three (Column) columns with (DataType) Accounting type. 
+(Function) (Source) the (Selection) last three (Column) columns with (DataType) Accounting type."
+"Set the results in the ""Total Shipping Charge"" column as accounting format. ","Set(O) the(results) Source(ColumnLetter) in(the) the(""Total Shipping Charge"") Destination(ColumnName) column(ColumnName) as(as) accounting(DataType) format(DataType)."
+Set the results in column F as accounting number type. ,Set(O) the results in Destination(Destination) ColumnField(Source) as DataType(DataType) number.
+Format the stock values as currency. ,Format(O) the stock(Date) values(Function) as currency(DataType).
+Format the value change as a percentage. ,Format (Function) the (Value) change as a (DataType) percentage.
+"Display the values in the ""Revenue"" column with the currency format. ","Display(O) the(Function) values(O) in(Function) the(Function) ""Revenue""(Source) column(ColumnLetter) with(Function) the(O) currency(DataType) format(Function)."
+Display the values in columns C through P with an accounting format. ,Display(O) the(O) values(Source) in(O) columns(Destination) C(ColumnLetter) through(O) P(ColumnLetter) with(O) an(O) accounting(DataType) format(DataType).
+"Set the results in the Gross profit, Operating profit, and Net profit columns as accounting type. ","Set(Orientation) the(Function) results(Function) in(Source) the(Destination) Gross(Key) profit,(Key) Operating(Key) profit,(Key) and(Key) Net(Key) profit(Key) columns as(DataType) accounting(DataType) type."
+Format the results with Accounting Number Format. ,Format(O) the(results) with(Accounting) Number(Formatting) Format(Function).
+Format the results with Currency format. ,"Format (Function) the (Source) results with (DataType) Currency format. 
+
+- Format (Function) the (Results) with (Currency) format."
+Format all numbers with Accounting Number Format. ,Format(all) (DataType['number']) with(Function['Accounting Number Format']).
+Set all values except the years as accounting type. ,Set(Function) all values except the years as DataType Function accounting type.
+Format all data as accounting number type. ,Format (Function) all (Destination) data (DataType) as (FormattingConditionType) accounting (DataType) number (DataType) type.
+"Convert the results in the ""Period Rate (%)"" column to number type. ","Convert (Function) the results (Source) in the ""Period Rate (%)"" (ColumnName) column to number (DataType) type."
+Set the results in the Present Value column as accounting number type. ,Set(O) the(results) Source(Cell) in the Present(ColumnName) Value (ColumnLetter) column as DataType(number) accounting number type.
+Set the results in columns B and C as accounting type. ,"Set (Function)
+the (O)
+results (O)
+in (O)
+columns (Source)
+B (ColumnLetter)
+and (O)
+C (ColumnLetter)
+as (O)
+accounting (DataType)
+type (O)"
+Set all cells in the Assets and Liabilities & Owner's Equity columns as an accounting number type. ,Set( Function) all( Function) cells( Source) in( Function) the( Function) Assets( Criteria) and( Function) Liabilities( Criteria) & ( Key) Owner's( Key) Equity( Criteria) columns( Criteria) as( Function) an( DataType) accounting( DataType) number( DataType) type( DataType).
+Set the ratio values as number type. ,Set (Function) the ratio (Source) values as number (DataType) type.
+Set the results as percentage type. ,Set(Orientation) the(Function) results as(DataType) percentage(DataType) type.
+Format the growth values as percentage type. ,Format (Function) the (NewDestination) growth (DataType) values (Source) as (DataType) percentage (DataType) type.
+Format the values in the Current Assets column as currency. ,Format(the) the(values) in(the) Current(ColumnName) Assets(ColumnName) column(as) currency(DataType).
+Set all stock values as currency type. ,Set (Function) all (None) stock (None) values (None) as (None) currency (DataType) type (None).
+Merge cells A1:C1 in the new sheet. ,Merge(cells A1:C1) in the NewDestinationSheet.
+"Merge cells A1:B1 and write bold text ""Summer sales ($)"" with yellow fill color and white text color. ","Merge (Function) cells (Source) A1:B1 (Source) and write (Function) bold (Bold) text ""Summer sales ($)"" (Text) with yellow (Color) fill color and white (Color) text color."
+"Merge cells A1:B1 and write bold text ""Summer sales ($)"" with blue fill color and white text color. ","Merge(cells(A1:B1) & write(bold(""Summer sales ($)"")) with fillColor(blue) and color(white). 
+
+Tokens with ner tags:
+Merge(Source(Range)) cells(Cell) A1:B1 and write(Function) bold(""Summer sales ($)"") with fillColor(blue) and color(white)."
+"Merge cells A1:C1 to write the header ""Investment Summary"". ","Merge(cells(A1:C1)) to write the header ""Investment Summary"". 
+[Function]       [Destination]"
+"Beneath the header, merge cells A2:B2 to write ""High Interest Rate"". ","Beneath (Source) the (Destination) header, merge (Function) cells (Range) A2:B2 to write ""High Interest Rate"" (Text). 
+
+Tokens with tags:
+- Beneath (Source)
+- the (DestinationSheet)
+- header, merge (Function)
+- cells (Range)
+- A2:B2 (Range)
+- to write ""High Interest Rate"" (Text)"
+"Merge cells C2:D2 to write ""Low Interest Rate"". ","Merge(cells(C2:D2), text(""Low Interest Rate""))"
+Highlight cells with accelerations >= 1 with green fill. ,"Highlight(cells) (with) (accelerations) (>=) (1) (with) (green) (fill). 
+
+[Function] [Destination] [Source] [Criteria] [text] [FillColor] [text] [FillColor]"
+Highlight cells with accelerations < 1 with yellow fill. ,Highlight(cells(Source) with accelerations < 1 with yellow fill.
+"Display the Revenue column cells with yellow fill if the ""Promotion"" is not ""None"" and the ""Sales Channel"" is ""In Store Sales"". ","Display (Function) the Revenue (Source) column (Column) cells (Destination) with yellow (FillColor) fill if the ""Promotion"" (Criteria) is not ""None"" (Criteria) and the ""Sales Channel"" (Criteria) is ""In Store Sales"" (Criteria)."
+"Find cells in the ""Vendor/Client"" column that contain the text ""Client"" and highlight them with yellow fill. ","Find(cells) in (the) ""Vendor/Client""(Table) (column) that (contain) the (text) ""Client"" (and) (highlight) them (with) (yellow)(FillColor). 
+
+Tags:
+Function: (Find, contain, highlight)
+Source: (cells)
+SourceSheet: (N/A)
+Destination: (N/A)
+DestinationPosition: (N/A)
+NewDestination: (N/A)
+DestinationSheet: (N/A)
+NewDestinationSheet: (N/A)
+HyperlinkName: (N/A)
+HyperlinkExtension: (N/A)
+Key: (N/A)
+Criteria: (""Client"")
+Order: (N/A)
+Orientation: (N/A)
+Font: (N/A)
+FontSize: (N/A)
+Color: (yellow)
+FillColor: (yellow)
+Bold: (N/A)
+Italic: (N/A)
+Underline: (N/A)
+HorizontalAlignment: (N/A)
+DataType: (N/A)
+FormattingConditionType: (N/A)
+Formula: (N/A)
+Name: (""Vendor/Client"")
+RowField: (N/A)
+ColumnField: (N/A)
+PageField: (N/A)
+DataField: (N/A)
+Function: (N/A)
+XField: (N/A)
+YField: (N/A)
+ChartTitle: (N/A)
+ChartTitleBold: (N/A)
+ChartTrendlineType: (N/A)
+ChartTrendlineEquation: (N/A)
+ChartTrendlineRSquared: (N/A)
+ChartTrendlineField: (N/A)
+ChartLegend: (N/A)
+ChartLegendPosition: (N/A)
+ChartType: (N/A)
+ChartDataLabels: (N/A)
+ChartMarkerStyle: (N/A)
+ChartMarkerSize: (N/A)
+ChartMarkerField: (N/A)
+ChartXAxis: (N/A)
+ChartXAxisTitle: (N/A)
+ChartXAxisLabelOrientation: (N/A)
+ChartXAxisMaxScale: (N/A)
+ChartXAxisMinScale: (N/A)
+ChartYAxis: (N/A)
+ChartYAxisTitle: (N/A)
+ChartYAxisLabelOrientation: (N/A)
+ChartYAxisMaxScale: (N/A)
+ChartYAxisMinScale: (N/A)"
+"Highlight the column B cells less than 10,000 with yellow fill. ","Highlight (Function) the (Source) column (ColumnLetter) B (Key) cells less than 10,000 with yellow (FillColor) fill."
+"Highlight the column B cells greater than 50,000 with green fill. ","Highlight(O) the(ColumnLetter) column(B) cells greater(Function) than 50,000 with green(Fill)."
+"Set the cells in the ""Difference"" column with a difference greater than 750 miles with green fill. ","Set(O) the cells(O) in(O) the(O) ""Difference""(ColumnName) column(ColumnName) with Function('difference')(Text) a(O) difference(Function('greater')) greater(Function('than')) than 750(Number) miles(DataField) with FillColor('green')(Color) fill(DataType)"
+Highlight sales above average. ,Highlight (Function) sales (Source) above (FormattingConditionType) average (FormattingConditionType).
+"Highlight cells in the ""Date"" column before May 27th with yellow fill. ","Highlight(cells) in the(SheetName) ""Date"" (ColumnName) column before(Key) May 27th with yellowFillColor."
+"Highlight ""Loan Issue Date"" in red if the ""Length of Loan in Days"" is greater than 100. ","Highlight (Function) ""Loan (Source) Issue (Source) Date (Source)"" in (Font) red (Color) if the ""Length (Source) of (NewDestination) Loan (Source) in (NewDestination) Days (Source)"" is (Order) greater (Criteria) than 100."
+"Change the background color in the Customers column based on the criteria: If the distance to Birmingham is 1.5 times greater than the distance to Seattle, use red. ","Change (Function) the background (FillColor) color (Color) in the Customers (ColumnName) column (Column) based (Source) on the criteria (Criteria): If (Criteria) the distance to Birmingham (Text) is 1.5 times greater (Text) than the distance to Seattle (Text), use (Function) red (Color)."
+Highlight the mass values in column A > 0.8 in italic. ,Highlight (Function) the mass (Name) values in column (ColumnField) A > 0.8 in italic (Italic).
+Highlight the mass value in column C < 0.4 with underlines. ,Highlight (Function) the (Function) mass (Name) value (DataType) in (Source) column (ColumnLetter) C (ColumnLetter) < (Criteria) 0.4 (Criteria) with (FormattingConditionType) underlines.
+Highlight the employee with the largest total sales with blue fill. ,Highlight (Function) the (Source) employee (DataField) with the largest (Function) total (Function) sales with (Color) blue fill.
+Highlight the employee with the lowest total sales with red fill. ,"Highlight (Function) the (Source) employee with the lowest total (Criteria) sales with (FillColor) red fill. 
+
+Tokens with Tags: 
+1. Highlight (Function)
+2. the - NA
+3. employee - Source
+4. with - NA
+5. the - NA
+6. lowest - NA
+7. total - NA
+8. sales - Criteria
+9. with - NA
+10. red - FillColor
+11. fill - NA"
+"Change the background color in the Customers column based on the criteria: If the distance to Seattle is less than 2 times the distance to Oakland, use yellow. ","Change (Function) the background (FillColor) color (Color) in (Source) the (Source) Customers (ColumnName) column (Destination) based (Function) on (Function) the (Source) criteria (Criteria): If (Function) the (Source) distance (DataField) to (Function) Seattle (Text) is (Function) less (Function) than (Function) 2 (number) times (Function) the (DataField) distance (Function) to (Function) Oakland (Text), use (Function) yellow (Color)."

@@ -1,0 +1,55 @@
+prompt,ner
+"Create a table in a new sheet with headers ""Customers"" and ""Avg Distance"". ","Create(O) a(table) table in a(new) NewDestinationSheet sheet with(headers) header ""Customers"" and ""Avg Distance""."
+Create a pivot table at A1 in a new sheet to show the counts of the websites on which boomerangs were sold. ,"Create(Function) a pivot table at A1 in a new sheet to show the counts of the websites on which boomerangs were sold. 
+
+(Create)(NewDestinationSheet) a (pivot table)(Destination) at (A1)(Destination) in a (new sheet)(NewDestinationSheet) to show the (counts)(Function) of the (websites)(Source) on which (boomerangs)(Source) were sold."
+Create a pivot table at A1 in a new sheet to show the sum of revenue for each product sold. ,"Create (Function) a pivot table at (Destination) A1 in a new sheet (NewDestinationSheet) to show the sum (Function) of revenue for each product sold. 
+
+In this sentence:
+- 'Create' is tagged as Function.
+- 'A1' is tagged as Destination and ColumnLetter.
+- 'new' and 'sheet' are tagged as NewDestinationSheet.
+- 'sum' is tagged as Function.
+- 'revenue' is tagged as Source, ColumnName.
+- 'each', 'for', and 'product' are not tagged as they are not related to Excel entities in this context."
+Generate a Pivot Table in a new sheet that summarizes the revenue of each product. ,Generate(O) a Pivot(Table) in a new(NewDestinationSheet)[NewDestinationSheet] that summarizes the revenue of each product.
+Create a pivot table to show the percentage of Sex at A2. ,Create (Function) a pivot table (Source) to show the percentage (Function) of Sex (RowField) at A2 (Source).
+Create a pivot table to show the percentage of Civil Status at A7. ,Create(O) a pivot table(Function) to show the percentage of Civil(Status) at A7(Destination).
+Create a pivot table to show the percentage of Highest Educational Attainment at A13. ,Create (Function) a pivot table to show the percentage (Function) of Highest (Key) Educational (Criteria) Attainment at (Source) A13 (Source).
+Create a summary table in a new sheet that shows all indicators of each country for 2013. ,"Create (Function) a summary (Name) table in (Destination) a new (NewDestinationSheet) sheet that shows all indicators of each country for (Criteria) 2013. 
+
+Tokens with NER tags:
+- Create (Function)
+- a (Source)
+- summary (Name)
+- table (Source)
+- in (Function)
+- a (NewDestinationSheet)
+- new (NewDestinationSheet)
+- sheet (NewDestinationSheet)
+- that (Function)
+- shows (Function)
+- all (Source)
+- indicators (Source)
+- of (Function)
+- each (Source)
+- country (Source)
+- for (Criteria)
+- 2013 (Criteria)"
+Create a pivot table starting at A2 in a new sheet for the Sheet 1 data to calculate the revenue sum for each product. ,"Create (Function) a pivot table starting at A2 (Destination: Cell, DestinationSheet: NewDestinationSheet, SheetName: 'Sheet 1') for the Sheet 1 (SourceSheet: SheetName) data to calculate the revenue sum (Function: 'sum') for each product (RowField: 'product', DataField: 'revenue')."
+Create a pivot table starting at A2 in a new sheet to calculate the sum of revenue for each week using the data from Sheet 1. ,Create (Function) a pivot table (Source) starting at (Destination) A2 (Cell) in a new sheet (NewDestinationSheet) to calculate the sum (Function) of revenue (DataField) for each week (RowField) using the data (Source) from Sheet 1 (SourceSheet).
+Create a pivot table at A2 in this new sheet for the data in Sheet 1 and summarize the monthly revenue for each sales channel. ,Create(O) a(P) pivot table(Function) at(A) A2(Destination) in(this) this(NewDestinationSheet) new(NewDestination) sheet(NewDestinationSheet) for(the) the(Source) data(Source) in(Souce) Sheet(SourceSheet) 1(DestinationSheet) and(Source) summarize(Function) the(Function) monthly(Source) revenue(Source) for(the) each(Destination) sales(Source) channel(Destination)
+Create a pivot table starting at A2 in the new sheet to calculate the sum of revenue for each promotion using the data from Sheet 1. ,Create (Function) a pivot table starting at A2 (Destination) in the new sheet (NewDestinationSheet) to calculate the sum (Function) of revenue (DataField) for each promotion (RowField) using the data from Sheet 1 (SourceSheet).
+Create a pivot table in the new sheet to summarize the total revenue by month. ,Create (Function) a (Source) pivot table in the (NewDestinationSheet) new sheet to summarize the total revenue by month.
+Create a pivot table in a new sheet to calculate the sum of revenue for each product. ,"Create (Function) a (Source) pivot (Source) table in a (NewDestinationSheet) new sheet to calculate the (Function) sum of (DataField) revenue for each (RowField) product. 
+
+(The entities in the sentence have been tagged according to the definitions provided for the NER tags)"
+Summarize the total roll numbers for each date in a new sheet. ,Summarize (Function) the total (Function) roll (Function) numbers (Function) for each date (Source) in a new (NewDestinationSheet) sheet (Destination).
+Summarize the average roll number per day in a new sheet. ,Summarize(O) the average(Function) roll(DataField) number(DataField) per(DataField) day(DataField) in(in) a(a) new(NewDestinationSheet) sheet(NewDestination).
+Summarize the revenue sum for each product in a new sheet. ,"Summarize(O) the revenue sum for each product in a new sheet.
+
+Function[text] Source[ColumnLetter] Key[ColumnName] NewDestinationSheet[Bool] "
+Summarize the total Units for each Date in a new sheet. ,"Summarize(O) the total Units for each Date in a new sheet.
+
+Function(O) Source [Table] Destination [NewDestination, Range] DestinationSheet [NewDestinationSheet, SheetName] Key [ColumnName] DataType [number]"
+"Summarize the count of respondents by ""Sex"". ","Summarize (Function) the count (Function) of respondents by ""Sex"" (Key)"

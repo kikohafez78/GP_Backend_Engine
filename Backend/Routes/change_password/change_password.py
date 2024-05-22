@@ -10,7 +10,10 @@ import json
 from functools import wraps
 from flask_cors import cross_origin
 from Database.Database import Database as mydb
-
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 change_password = Blueprint('change_password', __name__)
 

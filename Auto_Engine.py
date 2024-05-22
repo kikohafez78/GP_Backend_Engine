@@ -1,6 +1,8 @@
 from Module.preprocessing.preprocessing import preprocessing
 from Module.feature_extraction.ExcelToJson import excel_information_extractor
 from Module.feature_extraction.text_feature_extraction import text_features
+from Module.action_module.feature_resolution import feature_resolution
+from Module.action_module.feature_resolution_config import get_feature_resolution
 # from Module.coreference.main import coreference_resolution_seive
 #==========================================================================
 from Module.action_module.actions.charts import Charts_App
@@ -8,7 +10,7 @@ from Module.action_module.actions.entryandmanipulation import enntry_manipulatio
 from Module.action_module.actions.formatting import formatting_App
 from Module.action_module.actions.management import management_App
 from Module.action_module.actions.pivot_table import Pivot_App
-from Module.action_module.actions.formula import formula_App
+from Module.action_module.actions.formula import Formula_App
 #==========================================================================
 from Module.self_instruct.self_Instruct_config import get_self_instruct
 from Module.self_instruct.self_instruct import self_instruct
@@ -17,7 +19,11 @@ from Module.intention.classical.Integrated_ISF import classical_Integrated
 from Module.intention.deep.bert_model_implementation_torch.intention_model import JOINTIDSF
 #==========================================================================
 from Auto_Config import get_auto_config
-
+#==========================================================================
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 #==========================================================================
 import glob2 as gl 
 import speech_recognition as sr
@@ -53,19 +59,19 @@ def listen():
 
 
 
-class Auto_Engine:
+class Auto:
     config = get_auto_config()
     speech_recognition = sr.Recognizer()
     preprocessing = preprocessing()
     feature_extraction = excel_information_extractor(False, "excel dissector")
     text_features = text_features
-    coreference_resolution = coreference_resolution_seive
+    coreference_resolution = None
     sentence_simplification = None
     #=======================
     simplifier_module = None
     classical_planning_module = classical_Integrated("planning")
     deep_planning_module = None
-    feature_resolver = None
+    feature_resolver = feature_resolution(get_feature_resolution())
     #=======================
     #===== actions =========
     charts_action = Charts_App()
@@ -73,7 +79,7 @@ class Auto_Engine:
     manipulation_action = enntry_manipulation_App()
     management_action = management_App()
     formatting_action = formatting_App()
-    formula_action = None
+    formula_action = Formula_App()
     #========================
     self_instruction = self_instruct("instructor", get_self_instruct())
     #========================

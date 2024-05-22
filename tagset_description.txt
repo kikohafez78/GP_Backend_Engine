@@ -1,66 +1,111 @@
-As a machine learning expert, you are helping us create and annotate a dataset for our graduation project, which is an AI model that allows the user to enter a natural language prompt that will be directly executed in Excel.
-Our model relies on a CRF model that uses a custom tag set to extract entities (cells, ranges, column names, dates, …etc.)  from the user's prompt. here is the custom tag set:
-"
-    (True) Sheet Name: the range of tokens that represent any sheet name or possible name of a sheet -> example: "Salesforce" sheet
-    (True) Cell Reference: range of tokens representing a reference to a cell in excel sheets -> example: A1
-    (True) Range: the range of tokens representing a range of cells in excel as mentioned in the following example -> A1:B2 
-    (True) Value: a number of consecutive of tokens representing a integer or text that will be used by the sentence to update a certain object
-    (True) Formula: the range of tokens representing any formula mentioned in the sentence wether it is in text format or mathematical format -> text format: A1:B1 = 20 -> mathematical format: X + y = 4
-    (True) Condition: the range of tokens representing any condition that will enforced on the excel sheet or the function  that will be done on the excel sheet -> example: revenue > 3000
-    (True) Data Type: range of tokens mentioning any data type related to excel such as numerical, general, text,.. 
-    (True) Column Reference: the range of tokens representing of a reference to a column in excel -> column A
-    (True) source sheet: the source sheet name where the used data will be taken from
-    (True) destination sheet: the destination
-    Font: the range of tokens referencing any Font style in excel -> Example: Italic font
-    Alignment: range of tokens representing any reference to any excel alignment options such as left, right, center or justify -> center alignment
-    Border Style: range of tokens referencing any border style in excel
-    Background Color: 
-    Fill Color
-    Font Color
-    Number Format
-    Chart Type
-    Chart Axis
-    Chart Series
-    Chart Title
-    Chart Legend
-    Chart Data Labels
-    Chart Data Table
-    Chart Data Source
-    Pivot Table
-    Verb
-    Date
-    Time
-    Number
-    Sheet Location
-    Column Name
-    Row Number
-    O
-"
-The user's prompt is a specific intent that they would like to accomplish in the Excel sheet, written in natural language. We would like you to generate 20 example data points annotated with our tag set for us to use for training the CRF model. the generated examples should represent a realistic normal Excel user prompt, not one written by an Excel specialist. 
-
-For example:
-Given the intent "Insert column":
-        """
-        Insert one column.
-
-        Parameters:
-        sheetName (str): The name of the sheet.
-        beforeColumn (str): The column before which the new column will be inserted.
-        afterColumn (str): The column after which the new column will be inserted.
-        """
-a generated example for this intent would be:
-(Please : O) (add : Verb) (a : O) (new : O) (column  : O) (named : O) (" : O) (Expenses : Column Name) (" : O) (after : O) (the : O) (" : O) (Revenue : Column Reference) (" : O) (. : O)
-
-now it's your turn, please do this given the intent "Update cell value":
-        '''
-        Writes a value to a Range.
-
-        Parameters:
-        range (str): The Range object to write to.
-        value (Any): The value to write to the Range.
-        '''
-
-
-copy paste the data from sheet 1 to sheet 2
-                         -------    -------
-                          source    destination
+Arguments:
+Source [Range, Cell, ColumnLetter, ColumnName, Table, PivotTable]
+*Represents the source that will be used as a value for certain actions. it can be a Cell, a Column, a full Range, a Table or a Pivot Table.
+SourceSheet [SheetName]
+*Represents the name of the sheet where the source is.
+Destination [Range, Cell, ColumnLetter, ColumnName]
+*Represents the destination that will be modified by the action. It can be a Cell, a full Range, or a Column.
+DestinationPosition [After ColumnLetter, After ColumnName, After RowNumber, Before ColumnLetter, Before ColumnName, Before RowNumber]
+*Represents the position of the modified destination. If the destination is a column, the position will usually be after or before another column. If the destination is a row, the position wil be after or before a certain row numnber.
+NewDestination [Bool]
+*Exists as a tag if the destination will be newly created by the action, like the insert column action.
+DestinationSheet [SheetName]
+*Represents the name of the sheet where the destination is.
+NewDestinationSheet [Bool]
+*Exists as a tag if the action will be creating a new sheet, like the create sheet action.
+HyperlinkName [Text]
+*Represents the hyperlink URL that will be added in the Add Hyperlink action if one exists.
+HyperlinkExtension [Text]
+*Represents the file extension of the hyperlink, if the hyperlink is a file.
+Key [ColumnLetter, ColumnName]
+*Represents the columns used as keys for sorting the source range during the Sort action. There can be multiple keys.
+Criteria [Text]
+*Represents the criteria used to filter certain rows in the Filter action, there can be multiple criterias.
+Order ['ascending', 'descending']
+*Represents the order of sorting the source range during the sort action, whether ascending (A to Z) or descending (Z to A)
+Orientation ['rows', 'columns']
+*Represents the orientation of the ordering in the sort action, whether row-oriented or column-oriented.
+Font [Text]
+*Represents a font used for formatting a cell's value text.
+FontSize [Float]
+*Represents a font size used for formatting a cell's value text.
+Color ['black', 'white', 'red', 'green', 'blue', 'yellow', 'magenta', 'cyan', 'dark_red', 'dark_green']
+*Represents a color used for formatting a cell's value text.
+FillColor ['black', 'white', 'red', 'green', 'blue', 'yellow', 'magenta', 'cyan', 'dark_red', 'dark_green']
+*Represents a color used for formatting a cell's background.
+Bold [Bool]
+*Exists as a tag if the action will be making the cell's value text bold.
+Italic [Bool]
+*Exists as a tag if the action will be making the cell's value text italic.
+Underline [Bool]
+*Exists as a tag if the action will be making the cell's value text underlined.
+HorizontalAlignment ['left', 'center', 'right', 'justify']
+*Represents the horizontal alignment of the cell's value text in the cell, whether center-aligned, left or right aligned, or justified.
+DataType ['date', 'text', 'number', 'currency', 'time', 'general', 'percentage']
+*Represents the cell value's data type.
+FormattingConditionType ['aboveAverage', 'blanks', 'cellValue', 'colorScale', 'dataBar', 'errors', 'expression', 'iconSet', 'noBlanks', 'noErrors', 'textString', 'timePeriod', 'top10', 'uniqueValues']
+*Represents the condition type used in conditional formatting.
+Formula [Text]
+*Represents the Formulas and conditions used for conditional formatting.
+Name [Text]
+*Represents the Name of the table, pivot table, or chart being created by the action.
+RowField [ColumnLetter, ColumnName]
+*Represents the columns that will be used in the row field of the pivot table.
+ColumnField [ColumnLetter, ColumnName]
+*Represents the columns that will be used in the column field of the pivot table.
+PageField [ColumnLetter, ColumnName]
+*Represents the columns that will be used in the filter field of the pivot table.
+DataField [ColumnLetter, ColumnName]
+*Represents the columns that will be used in the values field of the pivot table.
+Function ['sum', 'count', 'average', 'max', 'min', 'product', 'countNumbers', 'standardDeviation', 'var']
+*Represents the function that will be used for the values in the values field of the pivot table.
+XField [ColumnLetter, ColumnName]
+*Represents the columns that will be used as the x-axis of the chart.
+YField [ColumnLetter, ColumnName]
+*Represents the columns that will be used as the y-axis of the chart.
+ChartTitle [Text]
+*Represents the text that will be used as the title of the chart.
+ChartTitleBold [Bool]
+*Exists as a tag if the chart action will be making the chart's title text bold
+ChartTrendlineType ['exponential', 'linear', 'logarithmic', 'movingAvg', 'polynomial', 'power']
+*Represents the type of the chart's trendline
+ChartTrendlineEquation [Bool]
+*Exists as a tag if the chart action will be showing the trendline's equation.
+ChartTrendlineRSquared [Bool]
+*Exists as a tag if the chart action will be showing the trendline's RSquared.
+ChartTrendlineField [ColumnLetter, ColumnName]
+*Represents the column in the YField that will be affected by the trendline action.
+ChartLegend [Bool]
+*Exists as a tag if the chart action will be showing the chart legend.
+ChartLegendPosition ['bottom', 'corner', 'left', 'right', 'top']
+*Represents the location of the chart's legend.
+ChartType ['3DArea', '3DAreaStacked', '3DAreaStacked100', '3DBarClustered', '3DBarStacked', '3DBarStacked100', '3DColumn', '3DColumnClustered', '3DColumnStacked', '3DColumnStacked100', '3DLine', '3DPie', '3DPieExploded', 'Area', 'AreaStacked', 'AreaStacked100', 'BarClustered', 'BarOfPie', 'BarStacked', 'BarStacked100', 'Bubble', 'Bubble3DEffect', 'ColumnClustered', 'ColumnStacked', 'ColumnStacked100', 'ConeBarClustered', 'ConeBarStacked', 'ConeBarStacked100', 'ConeCol', 'ConeColClustered', 'ConeColStacked', 'ConeColStacked100', 'CylinderBarClustered', 'CylinderBarStacked', 'CylinderBarStacked100', 'CylinderCol', 'CylinderColClustered', 'CylinderColStacked', 'CylinderColStacked100', 'Doughnut', 'DoughnutExploded', 'Line', 'LineMarkers', 'LineMarkersStacked', 'LineMarkersStacked100', 'LineStacked', 'LineStacked100', 'Pie', 'PieExploded', 'PieOfPie', 'PyramidBarClustered', 'PyramidBarStacked', 'PyramidBarStacked100', 'PyramidCol', 'PyramidColClustered', 'PyramidColStacked', 'PyramidColStacked100', 'Radar', 'RadarFilled', 'RadarMarkers', 'StockHLC', 'StockOHLC', 'StockVHLC', 'StockVOHLC', 'Surface', 'SurfaceTopView', 'SurfaceTopViewWireframe', 'SurfaceWireframe', 'Scatter', 'XYScatter', 'XYScatterLines', 'XYScatterLinesNoMarkers', 'XYScatterSmooth', 'XYScatterSmoothNoMarkers']
+*Represents the type of the chart.
+ChartDataLabels [Bool]
+*Exists as a tag if the chart action will be showing the chart data labels.
+ChartMarkerStyle ['auto', 'circle', 'dash', 'diamond', 'dot', 'none', 'picture', 'plus', 'square', 'star', 'triangle', 'x']
+*Represents the shape of the chart data markers.
+ChartMarkerSize [Float]
+*Represents the size of the chart data markers.
+ChartMarkerField [ColumnLetter, ColumnName]
+*Represents the column in the YField that will be affected by the chart marker action.
+ChartXAxis [Bool]
+*Exists as a tag if the chart will be showing the X axis.
+ChartXAxisTitle [Text]
+*Represents the text that will be used as the title of the chart's X axis.
+ChartXAxisLabelOrientation ['upward', 'downward', 'horizontal', 'vertical']
+*Represents the orientation of the chart X axis's label.
+ChartXAxisMaxScale [Float]
+*Represents the maximum value of the X axis.
+ChartXAxisMinScale [Float]
+*Represents the minimum value of the X axis.
+ChartYAxis [Bool]
+*Exists as a tag if the chart will be showing the Y axis.
+ChartYAxisTitle [Text]
+*Represents the text that will be used as the title of the chart's Y axis.
+ChartYAxisLabelOrientation ['upward', 'downward', 'horizontal', 'vertical']
+*Represents the orientation of the chart Y axis's label.
+ChartYAxisMaxScale [Float]
+*Represents the maximum value of the Y axis.
+ChartYAxisMinScale [Float]
+*Represents the minimum value of the Y axis.

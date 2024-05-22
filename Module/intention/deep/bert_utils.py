@@ -1,4 +1,5 @@
 import os
+import sys
 import random
 import logging
 
@@ -10,6 +11,9 @@ from transformers import BertConfig, DistilBertConfig, AlbertConfig
 from transformers import BertTokenizer
 
 from bertcrf import JointBert
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
 
 MODEL_CLASSES = {
     'bert': (BertConfig, JointBert, BertTokenizer),

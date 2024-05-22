@@ -6,6 +6,10 @@ import jwt
 import json
 from functools import wraps
 from Database.Database import Database as mydb
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 # try:
 #     app = Flask(__name__)

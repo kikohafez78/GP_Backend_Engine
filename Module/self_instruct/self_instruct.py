@@ -41,3 +41,9 @@ class self_instruct:
             
 
 
+from self_Instruct_config import get_self_instruct
+
+
+config = get_self_instruct()
+model = self_instruct("a7a", config)
+model.generate_parphrases_based_on_s("create a new sheet called 'hero'")

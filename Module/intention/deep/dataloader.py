@@ -68,6 +68,7 @@ class JointProcessor(object):
     def _read_file(cls, input_file, column=None):
         """Reads a tab separated value file."""
         df = pd.read_csv(input_file)
+        print(df.columns)
         return df[column].to_list()
 
     def _create_examples(self, texts, intents, slots, set_type):
@@ -89,10 +90,6 @@ class JointProcessor(object):
         return examples
 
     def get_examples(self, mode):
-        """
-        Args:
-            mode: train, dev, test
-        """
         data_path = os.path.join(self.args.data_dir, self.args.task, mode)
         logger.info("LOOKING AT {}".format(data_path))
         return self._create_examples(texts=self._read_file(os.path.join(data_path, self.input_text_file)),
@@ -194,7 +191,7 @@ def convert_examples_to_features(examples, max_seq_len, tokenizer,
 
 def load_and_cache_examples(args, tokenizer, mode):
     processor = processors[args.task](args)
-
+    print(processor)
     # Load data features from cache or dataset file
     cached_features_file = os.path.join(
         args.data_dir,

@@ -1,19 +1,10 @@
-from actions.charts import Charts_App
-from actions.entryandmanipulation import enntry_manipulation_App
-from actions.formatting import formatting_App
-from actions.management import management_App
-from actions.pivot_table import Pivot_App
-from actions.formula import Formula_App
-
+import sys
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 
 class feature_resolution:
-    charts_app = Charts_App()
-    entry_app = enntry_manipulation_App()
-    formatting_app = formatting_App()
-    management_app = management_App()
-    pivot_app = Pivot_App()
-    formula_app = Formula_App()
     
     def __init__(self, config):
         self.config = config
@@ -22,18 +13,35 @@ class feature_resolution:
     def update_state(self, current_json):
         self.current_state = current_json
     
-    def resolve(self, class_, intent_,  text, features_):
-        steps = []
+    def resolve(self, class_, intent_, features_, workbook_definition_json: dict):
+        step = None
         if class_ == "entry and manipulation":
-            self.entry_n_man(intent_, features_)
+            step = self.entry_n_man(intent_, features_)
         elif class_ == "management":
-            self.management(intent_, features_)
+            step = self.management(intent_, features_)
         elif class_ == "formatting":
-            self.formatting(intent_, features_)
+            step = self.formatting(intent_, features_)
         elif class_ == "charts":
-            self.charts(intent_, features_)
+            step = self.charts(intent_, features_)
         elif class_ == "pivot table":
-            self.pivot(intent_, features_)
+            step = self.pivot(intent_, features_)
         else:
-            self.formula(intent_, features_)
+            step = self.formula(intent_, features_)
     
+    def entry_n_man(self, intent: str, features: list[tuple]):
+        pass
+    
+    def management(self, intent: str, features: list[tuple]):
+        pass
+    
+    def formatting(self, intent: str, features: list[tuple]):
+        pass
+    
+    def charts(self, intent: str, features: list[tuple]):
+        pass
+    
+    def pivot(self, intent: str, features: list[tuple]):
+        pass
+    
+    def formula(self, intent: str, features: list[tuple]):
+        pass

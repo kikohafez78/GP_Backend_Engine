@@ -1,298 +1,327 @@
 import json
 import bcrypt
-from flask import Blueprint, request, session, abort, jsonify, render_template, redirect
-from flask_cors import cross_origin
+from flask import Blueprint, request, session, abort, jsonify, render_template, redirect, Response
 import datetime
 from flask_mail import Mail, Message
 import jwt
 import requests
 import os
 import math, random
-from Database.Database import Database
+from Database.Database import Database as mydb
 from pip._vendor import cachecontrol
 from google_auth_oauthlib.flow import Flow
 from google.oauth2 import id_token
 import google.auth.transport.requests
 import pathlib
 from pytest import Session
-
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 #from app import mail
 #from app import app
 
 
 signup = Blueprint("signup" ,__name__)
-mail = Mail()
-GOOGLE_CLIENT_ID = "502944148272-a1p36kfp4muj13vtrklhl3ik427a3tn7.apps.googleusercontent.com"
-client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
-flow = Flow.from_client_secrets_file(client_secrets_file = client_secrets_file, 
-scopes = ["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
-redirect_uri = "http://54.91.86.151.ip.linodeusercontent.com:5000/signup/callback") #once you deploy this code change the IP!
+# mail = Mail()
+# GOOGLE_CLIENT_ID = "502944148272-a1p36kfp4muj13vtrklhl3ik427a3tn7.apps.googleusercontent.com"
+# client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
+# flow = Flow.from_client_secrets_file(client_secrets_file = client_secrets_file, 
+# scopes = ["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
+# redirect_uri = "http://54.91.86.151.ip.linodeusercontent.com:5000/signup/callback") #once you deploy this code change the IP!
 
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
-
-# function to generate OTP
-def generateOTP():
-
-    # Declare a digits variable 
-    # which stores all digits
-    digits = "0123456789"
-    OTP = ""
-
-# length of password can be changed
-# by changing value in range
-    for i in range(4) :
-        OTP += digits[math.floor(random.random() * 10)]
-
-    return OTP
-
-def randomnumber():
-
-    # Declare a digits variable 
-    # which stores all digits
-    digits = "0123456789"
-    OTP = ""
-
-# length of password can be changed
-# by changing value in range
-    for i in range(8) :
-        OTP += digits[math.floor(random.random() * 10)]
-
-    return OTP
+# os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 
+# # function to generate OTP
+# def generateOTP():
+
+#     # Declare a digits variable 
+#     # which stores all digits
+#     digits = "0123456789"
+#     OTP = ""
+
+# # length of password can be changed
+# # by changing value in range
+#     for i in range(4) :
+#         OTP += digits[math.floor(random.random() * 10)]
+
+#     return OTP
+
+# def randomnumber():
+
+#     # Declare a digits variable 
+#     # which stores all digits
+#     digits = "0123456789"
+#     OTP = ""
+
+# # length of password can be changed
+# # by changing value in range
+#     for i in range(8) :
+#         OTP += digits[math.floor(random.random() * 10)]
+
+#     return OTP
 
 
-@signup.route("/verify/phone", methods=["POST"])
-def Verify_phone():
-    user_phone_json = request.get_json()
-    phone_number = user_phone_json['phone']
-    isfound = Database.User.find_one({'phone': phone_number})
-    if isfound:
-        return jsonify({"message": "phone does already exist"}), 400
 
-    #elif isExists == False:
-        #return jsonify({"404": "Email doesn't exist"}), 404 
-        #GENERATING TOO MANY ERRORS, WILL BE CONSIDERED LATER
 
-    else:
-        OTP = generateOTP()
+# @signup.route("/verify/phone", methods=["POST"])
+# def Verify_phone():
+#     user_phone_json = request.get_json()
+#     phone_number = user_phone_json['phone']
+#     isfound = Database.User.find_one({'phone': phone_number})
+#     if isfound:
+#         return jsonify({"message": "phone does already exist"}), 400
 
-    resp = requests.post('https://textbelt.com/text', {
-    'phone': '+201019937668',
-    'message': 'Hello world',
-    'key': 'textbelt',
-    })
-    print(resp.json())
+#     #elif isExists == False:
+#         #return jsonify({"404": "Email doesn't exist"}), 404 
+#         #GENERATING TOO MANY ERRORS, WILL BE CONSIDERED LATER
 
-    return jsonify({"message": "sent OTP "}),200
+#     else:
+#         OTP = generateOTP()
 
-@signup.route("/google", methods=['GET', 'POST'])
-def Google_Login():
-    if request.method == 'GET':
-        authorization_url, state = flow.authorization_url()
-        session["state"] = state
-        print(session["state"])
-        return redirect(authorization_url)
-    else:
-        user_data = request.get_json() 
-        email = user_data["email"]
-        username = user_data["username"]
-        gender = user_data["gender"]
-        name = user_data["name"]
-        location = user_data["location"]
-        website = user_data["website"]
-        prof_pic_url = user_data["prof_pic_url"]
-        date_of_birth = user_data["date_of_birth"]
-        isfound = Database.User.find_one({"username": username})
-        creation_date = datetime.datetime.now()
-        if isfound == None:
-            following = []
-            followers = []
-            notifications = []
-            Database.User.insert_one({
-                "email": email,
-                "name": name,
-                "username": username,
-                "date_of_birth": date_of_birth,
-                "gender": gender,
-                "creation_date": creation_date,
-                "admin": False,
-                "bio": None,
-                "webiste": website,
-                "location": location,
-                "prof_pic_url": prof_pic_url,
-                "chats": {},
-                "cover_pic_url": "https://i.pinimg.com/564x/a2/64/b4/a264b464b6fd6138d972448e19ba764d.jpg"
-                })
+#     resp = requests.post('https://textbelt.com/text', {
+#     'phone': '+201019937668',
+#     'message': 'Hello world',
+#     'key': 'textbelt',
+#     })
+#     print(resp.json())
 
-            db_response = Database.User.find_one({"username": username})
-            user_id = db_response["_id"]
-            user_id = str(user_id)
+#     return jsonify({"message": "sent OTP "}),200
 
-            token = jwt.encode({'_id': user_id, 'admin': False, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes= 525600)}, "SecretKey1911")
-            return jsonify({"message": "google user created",
-            "token": token,
-            "admin": False,
-            "user_id": user_id}),200
+# @signup.route("/google", methods=['GET', 'POST'])
+# def Google_Login():
+#     if request.method == 'GET':
+#         authorization_url, state = flow.authorization_url()
+#         session["state"] = state
+#         print(session["state"])
+#         return redirect(authorization_url)
+#     else:
+#         user_data = request.get_json() 
+#         email = user_data["email"]
+#         username = user_data["username"]
+#         gender = user_data["gender"]
+#         name = user_data["name"]
+#         location = user_data["location"]
+#         website = user_data["website"]
+#         prof_pic_url = user_data["prof_pic_url"]
+#         date_of_birth = user_data["date_of_birth"]
+#         isfound = Database.User.find_one({"username": username})
+#         creation_date = datetime.datetime.now()
+#         if isfound == None:
+#             following = []
+#             followers = []
+#             notifications = []
+#             Database.User.insert_one({
+#                 "email": email,
+#                 "name": name,
+#                 "username": username,
+#                 "date_of_birth": date_of_birth,
+#                 "gender": gender,
+#                 "creation_date": creation_date,
+#                 "admin": False,
+#                 "bio": None,
+#                 "webiste": website,
+#                 "location": location,
+#                 "prof_pic_url": prof_pic_url,
+#                 "chats": {},
+#                 "cover_pic_url": "https://i.pinimg.com/564x/a2/64/b4/a264b464b6fd6138d972448e19ba764d.jpg"
+#                 })
+
+#             db_response = Database.User.find_one({"username": username})
+#             user_id = db_response["_id"]
+#             user_id = str(user_id)
+
+#             token = jwt.encode({'_id': user_id, 'admin': False, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes= 525600)}, "SecretKey1911")
+#             return jsonify({"message": "google user created",
+#             "token": token,
+#             "admin": False,
+#             "user_id": user_id}),200
     
-        else:
-            return jsonify({"messsage": "username exists"}),400
+#         else:
+#             return jsonify({"messsage": "username exists"}),400
 
 
 
-@signup.route("/callback", methods=['GET'])
-def callback():
-    flow.fetch_token(authorization_response=request.url)
-    print(session)
-    if not session["state"] == request.args["state"]:
-        abort(500)  # State does not match!
+# @signup.route("/callback", methods=['GET'])
+# def callback():
+#     flow.fetch_token(authorization_response=request.url)
+#     print(session)
+#     if not session["state"] == request.args["state"]:
+#         abort(500)  # State does not match!
 
-    credentials = flow.credentials
-    request_session = requests.session()
-    cached_session = cachecontrol.CacheControl(request_session)
-    token_request = google.auth.transport.requests.Request(session=cached_session)
-    
-
-    id_info = id_token.verify_oauth2_token(
-        id_token=credentials._id_token,
-        request=token_request,
-        audience=GOOGLE_CLIENT_ID
-    )
-    isfound = Database.User.find_one({"email": id_info['email']})
-
-    
-    if isfound == None:
-        isfound = Database.User.find_one({"username": id_info["given_name"]})
-        if isfound == None:
-            username = id_info["given_name"]
-        else:
-            while (1):
-                OTP = generateOTP()
-                username = id_info["given_name"] + OTP
-                if Database.User.find_one({"username": username}) == None:
-                    break
-
-        return jsonify({"message": "user verified",
-        "prof_pic_url": id_info["picture"],
-        "name": id_info["given_name"],
-        "recommended_user_name": username}),200
-
-
-
-    
-    else:
-        db_response = Database.User.find_one({"email": id_info["email"]})
-        user_id = db_response["_id"]
-        user_id = str(user_id)
-        token = jwt.encode({'_id': user_id, 'admin': False, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes= 525600)}, "SecretKey1911")
-        return jsonify({"message": "user exists",
-        "token": token,
-        "admin": False,
-        "user_id": user_id}),201
+#     credentials = flow.credentials
+#     request_session = requests.session()
+#     cached_session = cachecontrol.CacheControl(request_session)
+#     token_request = google.auth.transport.requests.Request(session=cached_session)
     
 
+#     id_info = id_token.verify_oauth2_token(
+#         id_token=credentials._id_token,
+#         request=token_request,
+#         audience=GOOGLE_CLIENT_ID
+#     )
+#     isfound = Database.User.find_one({"email": id_info['email']})
 
+    
+#     if isfound == None:
+#         isfound = Database.User.find_one({"username": id_info["given_name"]})
+#         if isfound == None:
+#             username = id_info["given_name"]
+#         else:
+#             while (1):
+#                 OTP = generateOTP()
+#                 username = id_info["given_name"] + OTP
+#                 if Database.User.find_one({"username": username}) == None:
+#                     break
 
-@signup.route("/verify", methods=["POST"])
-def verify():   
-    user_email = request.get_json()
-    email = user_email["email"]
-    isfound = Database.User.find_one({'email': email})
-    #isExists = validate_email(email, verify=True)
-    if isfound:
-        return jsonify({"email status": "Email does already exist"}), 400
+#         return jsonify({"message": "user verified",
+#         "prof_pic_url": id_info["picture"],
+#         "name": id_info["given_name"],
+#         "recommended_user_name": username}),200
 
-    #elif isExists == False:
-        #return jsonify({"404": "Email doesn't exist"}), 404 
-        #GENERATING TOO MANY ERRORS, WILL BE CONSIDERED LATER
-
-    else:
-        OTP = generateOTP()
-        token = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes= 1440)},"SecretKey1911")
-        Database.OTPs.insert_one({"OTP":OTP,"token": token, "email": email})
-        msg = Message('Confirm Email', sender='mohamedmohsen96661@gmail.com', recipients=[email])
-        msg.html = render_template('OTP_EMAIL.html',OTP=OTP)
-        mail.send(msg)
-        return jsonify({"message": "OTP Sent",
-        "OTP": OTP}), 200
 
 
     
-    
-
-@signup.route("", methods=["POST"])
-def home():
-    user_data = request.get_json() 
-    email = user_data["email"]
-    username = user_data["username"]
-    gender = user_data["gender"]
-    name = user_data["name"]
-    location = user_data["location"]
-    website = user_data["website"]
-    date_of_birth = user_data["date_of_birth"]
-    password = user_data["password"]
-    password_byte = bytes(password, "ascii")
-    hashed_pw = bcrypt.hashpw(password_byte, bcrypt.gensalt())
-    isfound = Database.User.find_one({"username": username})
-    creation_date = datetime.datetime.now()
-    if isfound == None:
-        following = []
-        followers = []
-        notifications = []
-        Database.User.insert_one({
-            "email": email,
-            "password": hashed_pw,
-            "name": name,
-            "username": username,
-            "date_of_birth": date_of_birth,
-            "gender": gender,
-            "creation_date": creation_date,
-            "admin": False,
-            "bio": None,
-            "webiste": website,
-            "location": location,
-            "prof_pic_url": "https://pbs.twimg.com/media/EEI178KWsAEC79p.jpg",
-            "cover_pic_url": "https://i.pinimg.com/564x/a2/64/b4/a264b464b6fd6138d972448e19ba764d.jpg",
-            "following_count": 0,
-            "followers_count": 0,
-            "following": following,
-            "followers": followers,
-            "tweet_count": 0,
-            "notifications": notifications
-            })
-    
-        return jsonify({"message": "Successufly inserted new user"}),200
-    else:
-        return jsonify({"messsage": "username exists"}),400
-
-
+#     else:
+#         db_response = Database.User.find_one({"email": id_info["email"]})
+#         user_id = db_response["_id"]
+#         user_id = str(user_id)
+#         token = jwt.encode({'_id': user_id, 'admin': False, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes= 525600)}, "SecretKey1911")
+#         return jsonify({"message": "user exists",
+#         "token": token,
+#         "admin": False,
+#         "user_id": user_id}),201
     
 
 
 
-@signup.route('/confirm_email', methods=["GET"])
-def confirm_email():
-    OTP = request.args.get('OTP')
-    email = request.args.get('email')
-    OTP_ON_DB = Database.OTPs.find_one({"OTP": OTP})
-    if not OTP_ON_DB or email != OTP_ON_DB["email"] :
-        return jsonify({"message": "OTP IS Invalid"}), 404
-    else:
-        Token = OTP_ON_DB["token"]
-        email = OTP_ON_DB["email"]
-        Database.OTPs.delete_one({"OTP": OTP})
-        try: 
-            data = jwt.decode(Token, "SecretKey1911", "HS256")
-        except:
-            return jsonify({'message': 'OTP Expired'}), 401
+# @signup.route("/verify", methods=["POST"])
+# def verify():   
+#     user_email = request.get_json()
+#     email = user_email["email"]
+#     isfound = Database.User.find_one({'email': email})
+#     #isExists = validate_email(email, verify=True)
+#     if isfound:
+#         return jsonify({"email status": "Email does already exist"}), 400
 
-    return jsonify({
-        "message": "Email verifiedd",
-        "email": email
-    }), 200
+#     #elif isExists == False:
+#         #return jsonify({"404": "Email doesn't exist"}), 404 
+#         #GENERATING TOO MANY ERRORS, WILL BE CONSIDERED LATER
+
+#     else:
+#         OTP = generateOTP()
+#         token = jwt.encode({'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes= 1440)},"SecretKey1911")
+#         Database.OTPs.insert_one({"OTP":OTP,"token": token, "email": email})
+#         msg = Message('Confirm Email', sender='mohamedmohsen96661@gmail.com', recipients=[email])
+#         msg.html = render_template('OTP_EMAIL.html',OTP=OTP)
+#         mail.send(msg)
+#         return jsonify({"message": "OTP Sent",
+#         "OTP": OTP}), 200
+
+
     
     
 
+# @signup.route("", methods=["POST"])
+# def home():
+#     user_data = request.get_json() 
+#     email = user_data["email"]
+#     username = user_data["username"]
+#     gender = user_data["gender"]
+#     name = user_data["name"]
+#     location = user_data["location"]
+#     website = user_data["website"]
+#     date_of_birth = user_data["date_of_birth"]
+#     password = user_data["password"]
+#     password_byte = bytes(password, "ascii")
+#     hashed_pw = bcrypt.hashpw(password_byte, bcrypt.gensalt())
+#     isfound = Database.User.find_one({"username": username})
+#     creation_date = datetime.datetime.now()
+#     if isfound == None:
+#         following = []
+#         followers = []
+#         notifications = []
+#         Database.User.insert_one({
+#             "email": email,
+#             "password": hashed_pw,
+#             "name": name,
+#             "username": username,
+#             "date_of_birth": date_of_birth,
+#             "gender": gender,
+#             "creation_date": creation_date,
+#             "admin": False,
+#             "bio": None,
+#             "webiste": website,
+#             "location": location,
+#             "prof_pic_url": "https://pbs.twimg.com/media/EEI178KWsAEC79p.jpg",
+#             "cover_pic_url": "https://i.pinimg.com/564x/a2/64/b4/a264b464b6fd6138d972448e19ba764d.jpg",
+#             "following_count": 0,
+#             "followers_count": 0,
+#             "following": following,
+#             "followers": followers,
+#             "tweet_count": 0,
+#             "notifications": notifications
+#             })
+    
+#         return jsonify({"message": "Successufly inserted new user"}),200
+#     else:
+#         return jsonify({"messsage": "username exists"}),400
+
+
+    
+
+
+
+# @signup.route('/confirm_email', methods=["GET"])
+# def confirm_email():
+#     OTP = request.args.get('OTP')
+#     email = request.args.get('email')
+#     OTP_ON_DB = Database.OTPs.find_one({"OTP": OTP})
+#     if not OTP_ON_DB or email != OTP_ON_DB["email"] :
+#         return jsonify({"message": "OTP IS Invalid"}), 404
+#     else:
+#         Token = OTP_ON_DB["token"]
+#         email = OTP_ON_DB["email"]
+#         Database.OTPs.delete_one({"OTP": OTP})
+#         try: 
+#             data = jwt.decode(Token, "SecretKey1911", "HS256")
+#         except:
+#             return jsonify({'message': 'OTP Expired'}), 401
+
+#     return jsonify({
+#         "message": "Email verifiedd",
+#         "email": email
+#     }), 200
+    
+    
+@signup.route("/", methods=["POST"])
+def sign_up():
+    user_name = request.form.get("user_name")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    if mydb.User.find_one({"user_name": user_name}) is not None:
+        return Response(response=json.dumps({"message" : "the username is already used"}),status =  401,mimetype="application/json")
+    elif mydb.User.find_one({"email": email}) is not None:
+        return Response(response=json.dumps({"message" : "there is an account registered with this email"}),status =  402,mimetype="application/json")
+    user = {
+        "user_name": user_name,
+        "email": email,
+        "creation_date": str(datetime.datetime.now()),
+        "organization": None,
+        "password": bytes(password, "ascii"),
+        "role": None
+    }
+    try:
+        os.makedirs(f"Sessions\\{user_name}")
+    except:
+        return {"message" : "session already exists"}, 402
+    new_user = mydb.User.insert_one(user)
+    del user["password"]
+    user["_id"] = str(user["_id"])
+    print(user)
+    return Response(response=json.dumps({"message": "new user is created", "user": user}),status = 200, mimetype="application/json")
+    
+    
+    
 
 

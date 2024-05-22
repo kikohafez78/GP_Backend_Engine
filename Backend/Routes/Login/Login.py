@@ -1,15 +1,12 @@
-import json
-import os
 import bcrypt
-import requests
-from flask import Blueprint, request, jsonify, session, abort, redirect, request
-from flask_cors import cross_origin
+from flask import Blueprint, request, jsonify, request
 import jwt
 import datetime
 from Database.Database import Database
-import math, random
+import os
 import sys
-sys.path.append("..")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 
 
@@ -21,9 +18,8 @@ Login = Blueprint("Login" ,__name__)
 
 @Login.route("", methods=['POST'])
 def Home():
-    Login_data = request.get_json()
-    email = Login_data["email"]
-    password = Login_data["password"]
+    email = request.form.get('email')
+    password = request.form.get('password')
     if password == None:
         password = "NULL"
     password_byte = bytes(password, "ascii")
@@ -31,18 +27,19 @@ def Home():
     isfound = Database.User.find_one({'email': email})
 
     if isfound and password == "NULL":
-        return jsonify({"message": "user found", "prof_pic_url": isfound["prof_pic_url"]}), 200
+        return jsonify({"message": "user is found but the password is wrong"}), 203
     elif isfound:
         if bcrypt.checkpw(password_byte, isfound["password"]):
             user_id = isfound['_id']
             user_id = str(user_id)
-            admin = isfound["admin"]
-            token = jwt.encode({'_id': str(isfound["_id"]), 'admin': admin, 'exp': datetime.datetime.ctime() + datetime.timedelta(minutes= 525600)}, "SecretKey1911") 
-            return jsonify({'message': "user found", 'token': token, '_id': user_id, "admin": isfound["admin"] }), 201
+            del isfound["password"]
+            isfound["_id"] = str(isfound["_id"])
+            token = jwt.encode({"user": isfound}) 
+            return jsonify({'message': "user found", 'token': token, "user": isfound }), 200
         else:
-            return jsonify({"message": "incorrect password"}), 400
+            return jsonify({"message": "email or password may not be incorrect"}), 400
     else:
-            return jsonify({"message": "email doesn't exist"}),404
+            return jsonify({"message": "user doesn't exist"}),404
 
 
 

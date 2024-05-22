@@ -1,0 +1,269 @@
+prompt,ner
+Highlight the customer name with green text if the corresponding cost is less than the minimum charge. ,Highlight (Function) the customer (ColumnLetter) name with green (Color) text if the corresponding cost is less than the minimum charge.
+Highlight the Sales column cells > 600$ with red fill and white text. ,Highlight (Function) the (Source) Sales (ColumnField) column (Source) cells (DataType) > (Criteria) 600$ (Text) with (Color) red (Color) fill and (Color) white (Color) text.
+Apply red fill to the cells in the Sales column that are less than 250. ,Apply(red) red(Fill) to the cells in the Sales(ColumnName) column that are less than 250.
+Apply blue fill to the cells in the Sales column that are greater than 500. ,Apply (Function) blue (Color) fill to the cells in the Sales (ColumnName) column that are greater than 500.
+Highlight cells with a green background color if their values are above the average. ,Highlight(cells) (Function) with a (FillColor) green (Color) background color if their values are above the (average) (Criteria).
+Highlight the Sales Rep cells whose corresponding values in the Sales column are above the median. Apply green fill with white text. ,Highlight (Function) the Sales (Source) Rep cells whose corresponding values in the Sales (Source) column are above the median. Apply green (FillColor) fill with white (Color) text.
+Set the fill color of the Invoice No. column cells whose corresponding values in the Sales column range between 200 and 500 as green. ,Set (Function) the (Fill) fill (Fill) color of the (ColumnName) Invoice (No.) column cells whose corresponding values in the (ColumnName) Sales column range between 200 and 500 as (Color) green.
+Set cells in the Sales column that are on 5/25/2011 as red fill with white text. ,Set (Function) cells (Source) in (Destination) the (Source) Sales (ColumnName) column (ColumnField) that (Criteria) are on 5/25/2011 as (Color) red (FillColor) fill with (Color) white (Font) text.
+Highlight the column D cells greater than 0.1 in green. ,Highlight (Function) the (Source) column (ColumnLetter) D (ColumnLetter) cells (DataType) greater than 0.1 (Number) in (Color) green.
+Set the background color of the column F cells less than 40000 to red. ,Set (Function) the background (FillColor) color of the column (ColumnLetter) F cells less than 40000 to (Source) red.
+Highlight the years in columns B and C whose simple interest is less than or equal to 20 with green fill. ,Highlight (Function) the (blank) years (Criteria) in (Destination) columns (ColumnLetter) B (ColumnLetter) and (blank) C (ColumnLetter) whose (blank) simple interest (Criteria) is less than or equal to 20 with (blank) green (FillColor) fill.
+Highlight the years in columns B and C whose compound interest is greater than 40 with yellow fill. ,Highlight (Function) the (Entity: ColumnLetter) years in (Entity: ColumnLetter) columns (Source: ColumnLetter) B and (Source: ColumnLetter) C whose compound interest is greater than 40 with (Entity: FillColor) yellow fill.
+Highlight the values below 5% with red fill. ,Highlight(O) the(values) below(criteria) 5%(Criteria) with (FillColor) red(FillColor) fill(Fill).
+Highlight the stock name with green fill if its value increased. ,Highlight(O) the(stock) stock(Name) name(with) with(green) green(fill) fill(if) if(its) its(value) value(increased) increased.
+Change the font color of the corresponding Range column cells to red if the column A angle < 75 and the column C height > 0.25. ,Change (Function) the (Source) font (Property) color (Property) of (Property) the (Criteria) corresponding (Source) Range (Entity) column (Entity) cells (Entity) to (Function) red (Color) if (Function) the (Key) column (Entity) A angle < (Criteria) 75 and (Function) the (Key) column (Entity) C height > (Criteria) 0.25.
+Highlight the corresponding cell in the Angle column with green fill if the corresponding cell value in the Range column is increasing. ,Highlight (Function) the corresponding (ColumnLetter) cell in the Angle (ColumnName) column with (Color) green fill if the corresponding (Cell) cell value in the (ColumnLetter) Range (Source) column is increasing.
+Highlight married respondents with white text and yellow fill. ,Highlight (Function) married (Criteria) respondents with (SourceSheet) white (Color) text and yellow (FillColor) fill.
+Mark the net profit margins ranking top with red fill. ,Mark (Function) the net (Source) profit (Function) margins (Function) ranking (Function) top (Function) with red (Color) fill.
+"Highlight the highest result in the ""Period Rate (%)"" column as green. ","Highlight (Function) the highest (Criteria) result in the ""Period Rate (%)"" (Source) column (ColumnField) as green (Color). 
+
+Tokens with tags:
+- Highlight (Function)
+- the (O)
+- highest (Criteria)
+- result (O)
+- in (O)
+- the (O)
+- ""Period Rate (%)"" (Source)
+- column (ColumnField)
+- as (O)
+- green (Color)"
+Freeze the first two columns. ,Freeze (Function) the (NewDestination) first (Key) two (Key) columns.
+Keep the headers in the first row visible when scrolling vertically or horizontally. ,Keep (Function) the headers (Source) in (NewDestination) the first row (Destination) visible (Function) when (Function) scrolling (Function) vertically (Function) or (Function) horizontally (Function).
+Make the headers remain visible while scrolling. ,"Make(Function) the(ColumnLetter) headers remain(visible) while(Function) scrolling. 
+
+In this sentence, ""Make"" is tagged as the Function tag, ""headers"" is tagged as the ColumnLetter tag, ""visible"" is not a recognized tag, and ""scrolling"" is tagged as the Function tag."
+Keep the header row visible when scrolling vertically or horizontally. ,Keep (Function) the header (Source) row (Source) visible when (Function) scrolling (Function) vertically (Orientation) or (Function) horizontally (Orientation).
+Keep the header row visible while scrolling in any direction. ,Keep (Function) the header (Destination) row (Source) visible while scrolling in any direction.
+Keep the headers visible when scrolling horizontally or vertically. ,"Keep (Function) the (Destination) headers (Source) visible when scrolling horizontally or vertically. 
+
+- Function: -
+- Destination: -
+- Source: -"
+Keep the column headers always visible while scrolling. ,"Keep (Function) the column (Source) headers always visible while scrolling. 
+
+1. Function: Keep
+2. Source: Column
+
+(Note: In this sentence, the tag ""Function"" is not mentioned explicitly, but the action described in the sentence is indicated by the verb ""Keep."")"
+Display the total of each month as bars. ,Display(Orientation: 'columns') the total(Function: 'sum') of each month as bars.
+Illustrate the trends of columns E and I with a line chart. Display the legend at the bottom. ,Illustrate (Function) the trends (Name) of columns (Source: ColumnName) E (ColumnField) and I (ColumnField) with a line (ChartType) chart. Display (Function) the legend (ChartLegend) at the bottom (ChartLegendPosition).
+Plot a bar chart in this new sheet for the pivot table with chart title 'Sales frequency by website' and without legends. ,Plot (Function) a bar (ChartType) chart in this new (NewDestinationSheet) sheet for the pivot (Source) table with chart (Destination) title 'Sales frequency by website' and without (ChartLegend) legends.
+Plot a column chart in the new sheet illustrating this pivot table with chart title 'Revenue of each product' and without legends. ,"Plot(Source=column, ChartType=column, NewDestinationSheet=True, Name=pivot table, ChartTitle='Revenue of each product', ChartLegend=False)"
+"Create a line chart with the ""Date Time"" column on the X-axis and quantity on the Y-axis. ","Create (Function) a line (ChartType) chart with the ""Date (XField) Time"" column on the X-axis (ChartXAxis) and quantity on the Y-axis (ChartYAxis)."
+Create a bar chart for the results. ,"Create (Function) a bar (ChartType) chart (Function) for the results.
+
+Tokenized sentence with NER tags:
+- Create (Function)
+- a (ChartType)
+- bar (ChartType)
+- chart (Function)
+- for the results."
+Create a bar chart in the same sheet to display the table with data labels on top of the bars. ,Create (Function) a (ChartType) bar (ChartType) chart (Function) in the (DestinationSheet) same (DestinationSheet) sheet (SourceSheet) to (Function) display (Function) the (Source) table (Source) with (ChartDataLabels) data (ChartDataLabels) labels (Function) on (ChartMarkerField) top (ChartDataLabels) of (ChartMarkerField) the (ChartType) bars (ChartMarkerField).
+Display the result on a bar chart. ,"Display (Function) the result on a bar (ChartType) chart. 
+
+Token Tags:
+- Display (Function)
+- the (O)
+- result (O)
+- on (O)
+- a (O)
+- bar (ChartType)
+- chart (ChartType)"
+Display the result with a column chart in a new sheet. ,"Display(O) the(result) result with(O) a(chart) column(chart) chart(chart) in(O) a(new) new(sheet) sheet.
+
+Entities:
+- Function: Display
+- Destination: chart
+- ChartType: column
+- NewDestinationSheet: true"
+Draw a scatter plot with smooth lines and without markers to show column A (X-axis) vs. column B (Y-axis). ,Draw (Function) a scatter plot with smooth (ChartMarkerStyle) lines and without (ChartMarkerStyle) markers to show column (ColumnField) A (XField) (X-axis) vs. column (ColumnField) B (YField) (Y-axis).
+Create a scatter chart in a new sheet with acceleration on the y-axis and the hanging mass on the x-axis. ,Create(O) a scatter(O) chart(Source) in(O) a new(B) sheet(NewDestinationSheet) with acceleration(YField) on(O) the(B) y-axis(ChartYAxis) and(O) the(B) hanging(B) mass(YField) on(O) the(B) x-axis(ChartXAxis).
+Plot acceleration values on the y-axis and hanging mass values on the x-axis in a scatter chart with a smooth line without markers. ,"Token (Entity Tag): 
+Plot (Function) acceleration (Source) values (Name) on (Destination) the (Destination) y-axis (ChartYAxis) and (Function) hanging (Source) mass (Source) values (Name) on (Destination) the (Destination) x-axis (ChartXAxis) in (Function) a (Function) scatter (ChartType) chart (Function) with (Function) a (Function) smooth (ChartTrendlineType) line (Function) without (Function) markers (ChartMarkerStyle)."
+Create a line chart showing the acceleration vs. hanging mass. ,Create(O) a(Line) line(Chart) chart(Function) showing the(Chart) acceleration(Destination) vs.(Function) hanging(Destination) mass(Destination).
+Create a stacked area chart in the new sheet to display the GDP growth against the years for the top 10 countries. ,Create( Function ) a( Function ) stacked( ChartType ) area( ChartType ) chart( Function ) in( Function ) the( Function ) new( NewDestinationSheet ) sheet( DestinationSheet ) to( Function ) display( Function ) the( Function ) GDP( ChartTitle ) growth( ChartTitle ) against( Function ) the( Function ) years( ChartXAxisTitle ) for( Function ) the( Function ) top( Order ) 10( Order ) countries( Criteria ).
+Create a pie chart in the new sheet showing the data. ,Create (Function) a pie (ChartType) chart in (Destination) the new (NewDestinationSheet) sheet showing (Function) the data.
+Display the results in a bar chart. ,"Display(O) the results in a bar chart. 
+
+In the above sentence, the token ""Display"" is tagged as Function[text], and the whole sentence is related to creating a bar chart in Excel."
+Create a scatter chart in a new sheet with the No. column as the x-axis and the Future Value column as the y-axis. ,Create(Function) a scatter(chartType) chart in a new(NewDestinationSheet) sheet with the No.(XField) column as the x-axis and the Future Value(YField) column as the y-axis.
+"Create a stacked area chart in the new sheet with the title ""GDP Growth"" to display the GDP over time for the listed countries. ","Create (Function) a stacked (ChartType) area (ChartType) chart in the new (NewDestinationSheet) sheet with the title ""GDP Growth"" (ChartTitle) to display the GDP over time for the listed countries."
+Plot a clustered column chart displaying the sales and profits vs. the years. ,Plot (Function) a clustered (ChartType) column (ChartType) chart (ChartType) displaying (Function) the sales (YField) and profits (YField) vs. the years (XField).
+Illustrate the sales for each product with a bar chart in a new sheet. ,Illustrate (Function) the sales (Source) for each product (Key) with a bar (ChartType) chart in a new (NewDestinationSheet) sheet.
+Show the relation between the Dates and the total Units using a column chart. ,Show (Function) the relation (Function) between the (Source) Dates (RowField) and the total (Key) Units (DataField) using a column (ChartType) chart.
+Display the yearly average loan lengths using a column chart. ,Display (Function) the yearly (Source) average (Function) loan (Source) lengths (Function) using a column (ChartType) chart (ChartType).
+"Create a scatter chart that shows the relationship between ""No."" and the present values. ","Create (Function) a (Function) scatter (ChartType) chart that shows the relationship between ""No."" (ChartDataLabels) and the present values."
+Create a line chart in the new sheet that displays the trend over time. ,Create (Function) a line (ChartType) chart (Function) in (SourceSheet) the new (NewDestinationSheet) sheet (DestinationSheet) that displays the trend (ChartTitle) over (ChartXAxisTitle) time (ChartYAxisTitle).
+Display the summarized data in a pie chart in a new sheet. ,Display (Function) the summarized (Function) data (Source) in a pie (ChartType) chart (ChartType) in a a new (NewDestinationSheet) sheet (Destination) .
+Draw a scatter plot showing the trends for the two scenarios. ,Draw (Function) a scatter (ChartType) plot showing the trends for the two scenarios.
+Draw a scatter plot with smooth lines to show the A:B and C:D as separate series. ,Draw (Function) a scatter (ChartType) plot with smooth (Function) lines to show the A:B (Source Range) and C:D (Source Range) as separate series.
+Display the data with a line chart. ,Display (Function) the data (Source) with a line (ChartType) chart.
+Show the growth percentages in a line chart. ,Show(O) the(Function) growth(O) percentages(O) in(O) a(O) line(ChartType) chart(ChartType)
+Create a line chart to show the monthly total sales. ,"Create (Function) a (ChartType) line (ChartType) chart to show the (Criteria) monthly total sales. 
+
+In this sentence, the tags used are Function, ChartType, and Criteria."
+Plot a line chart to compare the two types of interests. Show the legends at the bottom. ,"Plot(Source=two types of interests, Destination=Chart, ChartType=Line, ChartLegend=True, ChartLegendPosition=bottom, Function=Plot) a line chart to compare the two types of interests. Show the legends at the bottom."
+Create a bar chart displaying stock names and their values on Dec 31. ,Create(O) a bar(Function) chart(Function) displaying.stock(Source) names(Source) and(Source) their(Source) values(Source) on(Source) Dec(Function) 31(Function).
+Plot a horizontal bar chart in this new sheet illustrating the revenue sums in the pivot table. ,Plot (Function) a horizontal (Orientation) bar (ChartType) chart in this new (NewDestinationSheet) sheet illustrating the revenue (DataField) sums in the pivot (Table) table.
+Plot a horizontal bar chart in the new sheet for the total revenue by product. ,Plot(O) a horizontal(ChartType) bar(ChartType) chart(ChartType) in(Function) the(DestinationSheet) new(NewDestinationSheet) sheet(Destination) for(Function) the(Source) total(Function) revenue(Function) by(Criteria) product(Criteria).
+Plot a pie chart in the new sheet for the total revenue by sales channel. ,Plot (Function) a pie (ChartType) chart in the new (NewDestinationSheet) sheet for the total (Name) revenue by sales (Source) channel.
+Plot a line chart with the months as the x-axis labels. ,"Plot(Orientation='rows') a line chart with the months as the x-axis labels. 
+
+Token Tags:
+Plot(Function) a line chart with the months as the x-axis labels."
+Display the summarized revenue as a line chart in the new sheet. ,Display (Function) the summarized (Criteria) revenue (Source) as a line (ChartType) chart (Function) in the new (NewDestinationSheet) sheet (Destination).
+Create a pie chart showing the percentage for each month. ,Create(O) a pie chart(Function) showing the percentage(Function) for each month.
+Plot a line chart with the X-axis showing the week and the Y-axis showing the sales. ,Plot (Function) a (Function) line (ChartType) chart with the (ChartXAxis) X-axis showing the week and the (ChartYAxis) Y-axis showing the sales.
+Plot a line chart displaying the sales and profits before tax against the Week. ,Plot (Function) a line (ChartType) chart displaying the sales (DataField) and profits (DataField) before tax against the Week (XField).
+Plot a scatter chart showing displacement (X-axis) against velocity (Y-axis). ,"Plot (Function) a scatter (ChartType) chart showing displacement (X-axis) against velocity (Y-axis). 
+
+Tokens with tags:
+- Plot (Function)
+- a 
+- scatter (ChartType)
+- chart 
+- showing (Function)
+- displacement (ChartXAxisTitle) 
+- (X-axis) 
+- against 
+- velocity (ChartYAxisTitle) 
+- (Y-axis)."
+Draw a linear trend line on the scatter chart and display its equation. ,"Draw (Function) a linear (ChartTrendlineType) trend line on the (ChartType) scatter chart and display its equation (ChartTrendlineEquation). 
+
+Tokens with NER tags:
+- Draw (Function)
+- a (ChartTrendlineType)
+- linear (ChartTrendlineType)
+- trend (Function)
+- line (Function)
+- on (Function)
+- the (ChartType)
+- scatter (ChartType)
+- chart (ChartType)
+- and (Function)
+- display (Function)
+- its (ChartTrendlineEquation)
+- equation (ChartTrendlineEquation)"
+Draw a scatter chart with triangle markers that shows the correlation between displacement and velocity. ,Draw(O) a(Function) scatter(Source) chart(Source) with(Function) triangle(ChartMarkerStyle) markers(ChartMarkerStyle) that shows(Function) the correlation between(Criteria) displacement(XField) and(Criteria) velocity(YField).
+"Plot a chart to show the trend of weekly Sales, COGS, and Profits with the legends shown at the bottom. ","Plot (Function) a chart to show the trend of weekly (Source: ColumnName) Sales, COGS, and Profits with the legends shown at the bottom. 
+
+Entities:
+- Function: plot
+- Source: ColumnName (Sales, COGS, Profits)"
+Plot a line chart with weeks as the X-axis and Sales and COGS columns as the Y-axis values. ,Plot (Function) a line (ChartType) chart with weeks (XField) as the X-axis (ChartXAxis) and Sales (YField) and COGS (YField) columns as the Y-axis (ChartYAxis) values.
+Create a column chart with Week as the X-axis and Profit as the Y-axis. ,Create(O) a(column) column(ColumnField) chart(ChartType) with(Bool) Week(XField) as(ColumnField) the X-axis(XField) and(Bool) Profit(YField) as(YField) the Y-axis(YField).
+Draw a scatter plot showing the relationships between Range/Height and Angle. ,Draw (Function) a scatter (ChartType) plot showing the relationships between Range (Source) /Height (RowField) and Angle (YField).
+Create a scatter chart in a new sheet without chart legend. ,Create(O) a scatter(chart) Function(chartType=scatter) in(O) a new(NewDestinationSheet=True) sheet without(ChartLegend=False) chart legend.
+"Create a line chart with ""Angle"" on the X-axis and both ""Range"" and ""Height"" on the Y-axis.","Create (Function) a line (ChartType) chart with ""Angle"" on the X-axis (ChartXAxisTitle) and both ""Range"" and ""Height"" on the Y-axis (ChartYAxisTitle)."
+Set chart title -> SetChartTitle,(Set/chartFunction) (chart/chartObject) (title/chartTitle) -> (Set/chartFunction)(chart/chartObject)(Title/chartTitle)
+"Set the chart title as ""Revenue of each product"". ","Set (Function) the chart (Source) title (ChartTitle) as ""Revenue of each product"" (Text)."
+"Set the chart title as ""Sales & COGS"". ","Set (Function) the chart (Source) title (ChartTitle) as ""Sales & COGS"" (Text)."
+"Set the chart title as ""Roll number of each date"". ","Set (Function) the chart (Source) title (ChartTitle) as ""Roll number of each date"" (Text)."
+"Set the chart title as ""HEA statistics"". ","Set(O) the(O) chart(O) title(Function) as(O) ""HEA""(ChartTitle) statistics(Function)""."
+"Set the chart title as ""Sex Statistics"". ","Set (Function) the chart (Source) title (ChartTitle) as ""Sex Statistics"" (Text)."
+"Set the chart title as ""Top 10 GDP"". ","Set (Function) the chart (Source) title as ""Top 10 GDP"" (ChartTitle)"
+"Set the chart title as ""Japan's Economic Indicators in 2013"". ","Set (Function) the chart (Source) title (ChartTitle) as ""Japan's (Text) Economic (Text) Indicators (Text) in 2013 (Text)""."
+"Set the chart title as ""Acc. Vs. Up Block"". ","Set (Function) the chart (Source: ChartType) title (ChartTitle) as ""Acc. Vs. Up Block"" (ChartTitle)."
+Set the chart titles as the two row headers respectively. ,Set(O) the chart titles(Function) as the two row headers respectively.
+"Set the chart title as ""Sales Trend"". ","Set(O) the chart(Function) title(Function) as ""Sales"" (Name) Trend."
+"Set the chart title as ""Range/Height vs. Angle"". ","Set(Orientation) the chart(Function) title(Function) as ""Range/Height""(ChartTitle) vs.(ChartXAxisTitle) Angle""(ChartYAxisTitle)."
+"Set the chart title as ""Range vs. Angle"". ","Set(O) the(O) chart(O) title(O) as(O) ""Range(Source) vs.(Function) Angle(Source)""."
+Set the axis titles as the corresponding column headers. ,Set (Function) the axis (ChartYAxisTitle) titles (Text) as (Function) the corresponding (Criteria) column (ColumnField) headers (Text).
+"Set the X-axis title as ""Year"" and the Y-axis title as ""Amount"". ","Set (Function) the X-axis (ChartXAxis) title as ""Year"" and the Y-axis (ChartYAxis) title as ""Amount""."
+Set the X-axis label as the column A header. ,Set (Function) the X-axis (XField) label (ChartXAxisTitle) as the column (Column) A (ColumnLetter) header.
+Turn off the vertical axis. ,"Turn(Function) off(Function) the(Function) vertical(Function) axis(Function). 
+
+Tagged:
+Turn (Function) off (Function) the (Function) vertical (Orientation) axis (Orientation)."
+"Set the X-axis title as ""Hanging mass (kg)"" and Y-axis title as ""Acceleration (m/s^2)"". ","Set (Function) the X-axis (ChartXAxis) title (ChartXAxisTitle) as ""Hanging (SourceSheet) mass (kg)"" and Y-axis (ChartYAxis) title (ChartYAxisTitle) as ""Acceleration (m/s^2)""."
+"Set the axis titles as the two corresponding column headers and the chart title as ""Acceleration vs. Hanging Mass"". ","Set (Function) the axis (Source) titles as the two corresponding column headers and the chart title as ""Acceleration vs. Hanging Mass"". 
+
+Token Tags:
+- Set (Function)
+- the (Source)
+- axis (Source)
+- titles (Source)
+- as (Function)
+- the (Source)
+- two (Source)
+- corresponding (Source)
+- column (Source)
+- headers (Source)
+- and (Function)
+- the (Source)
+- chart (Source)
+- title (Source)
+- as (Function)
+- ""Acceleration vs. Hanging Mass"" (Text)"
+Add the corresponding column headers as the axis labels. ,Add(Orientation='rows') the corresponding Column(ColumnLetter='A') headers as the axis labels.
+"Set the axis labels as the corresponding column headers and the chart title as ""Acceleration vs. Hanging Mass"". ","Set (Function) the axis labels (ChartYAxisTitle) as the corresponding column headers (Name) and the chart title (ChartTitle) as ""Acceleration vs. Hanging Mass"" (Text). 
+
+Tokens with tags:
+Set(Function) the( ) axis( ) labels(ChartYAxisTitle) as( ) the( ) corresponding( ) column headers(Name) and( ) the( ) chart(ChartTitle) title( ) as( ) ""Acceleration vs. Hanging Mass""(Text)"
+Set the axis titles as the corresponding column headers. ,"Set (Function) the (Function) axis (ChartXAxisTitle) titles as the corresponding column headers. 
+(Function)"
+"Set the X-axis label as ""Hanging Mass (kg)"" and the Y-axis label as ""Acceleration (m/s^2)"". ","Set(O) the XField(Source) -axis (Source) label as (text) ""Hanging(ColumnLetter) Mass (ColumnLetter) (kg)"" and the YField(Source) -axis (Source) label as (text) ""Acceleration (ColumnLetter) (m/s^2)""."
+Set the line chart to show column A as X values and column B as Y values with the column headers as axis titles. ,Set (Function) the line chart to show column A (Source: ColumnName) as X (ChartXAxis) values and column B (Source: ColumnName) as Y (ChartYAxis) values with the column (RowField) headers as axis titles.
+Set the X-axis label as the column A header and the Y-axis label as the column B header. ,Set(O) the(O) XField(Source) -axis(O) label(O) as(O) the(O) column(O) A(Key) header(O) and(O) the(O) YField(Source) -axis(O) label(O) as(O) the(O) column(O) B(Key) header(O).
+Set the X-axis title as the column A header. ,Set(O) the X-axisKey(SourceColumnLetter) title as the column A header.
+Set the Y-axis title as the column B header. ,Set(O) the Y-axis(Function) title(Function) as(Function) the(Function) column(ColumnLetter) B(ColumnLetter) header(ColumnName).
+"Set the X-axis title as ""Angle"". ","Set(O) the(O) XField(O) title(Function) as(O) ""Angle""(ChartXAxisTitle)"
+"Set the Y-axis title as ""Range"". ","Set(O) the Function 
+
+the Y-axis (Source) Link title (Destination) as ""Range"" (Criteria) ."
+Turn off the legend of the chart. ,Turn(off(Function) the(ChartLegend) legend of the chart.(ChartType)
+Move the legend to the left. ,"Move (Function) the legend (ChartLegend) to (DestinationPosition) the left (ChartLegendPosition). 
+
+Tokens:
+- Move (Function)
+- the (ChartLegend)
+- legend (ChartLegend)
+- to (DestinationPosition)
+- the (ChartLegendPosition)
+- left (ChartLegendPosition)"
+Turn on the legends at the bottom. ,"Turn (Function) on (Function) the (ChartLegend) legends at the (ChartLegendPosition) bottom. 
+
+Token Tags:
+- Turn (Function)
+- on (Function)
+- the (ChartLegend)
+- legends (ChartLegend)
+- at (ChartLegendPosition)
+- the (ChartLegendPosition)
+- bottom (ChartLegendPosition)  
+"
+Turn on the legends on the left. ,"Turn (Function) on (ChartLegend) the (ChartLegendPosition) legends (Font) on (Orientation) the left. 
+
+Token with their tags:
+1. Turn (Function)
+2. on (ChartLegend)
+3. the (ChartLegendPosition)
+4. legends (Font)
+5. on (Orientation)
+6. the (ChartLegendPosition)
+7. left. (ChartLegendPosition)"
+Turn off the legends. ,Turn (Function) off (Function) the (Function) legends (ChartLegend).
+Display the legends as the top 10 country names on the right. ,Display (Function) the legends (Name) as the top 10 (Key) country names (DataField) on the right (ChartLegendPosition).
+Turn on the legends on the right. ,"Turn(on) the(legends) on(on) the(right). 
+
+Tags:
+- Function: Turn
+- ChartLegend: Bool
+- ChartLegendPosition: right"
+Set the legends at the bottom. ,Set (Function) the legends (ChartLegend) at (ChartLegendPosition) the (DestinationPosition) bottom.
+Display the legends at the top. ,"Display (Function) the legends (Source) at (DestinationPosition) the top (Orientation). 
+
+Tags: 
+- Function: Display
+- Source: legends
+- DestinationPosition: at
+- Orientation: top"
+Display the legends at the bottom. ,Display (Function) the legends (Source) at (DestinationPosition) the bottom (Orientation).
+Add data labels. ,"Add(data) data(labels)	names."
+Add outside end data labels for the chart. ,Add(O) outside(DataPosition) end(DataPosition) data(DataField) labels(Function) for(DataField) the(Function) chart(Source).
+Add data labels to the chart. ,Add(data) data(labels) to the chart(Function)
+Set the marker shape of Range as square and that of Height as triangle. ,Set (Function) the marker (ChartMarkerField) shape of (Source) Range (Source) as (ChartMarkerStyle) square and (Function) that of (Source) Height (Source) as (ChartMarkerStyle) triangle.
+Set the Range marker as square and the Height marker as triangle. ,Set(O) the Function(O) Range(Source) marker as square and the Function(O) Height(Source) marker as triangle.

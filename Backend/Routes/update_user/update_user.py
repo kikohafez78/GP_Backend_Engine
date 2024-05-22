@@ -5,7 +5,10 @@ import jwt
 import json
 from functools import wraps
 from Database.Database import Database as mydb
-
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 
 update_user = Blueprint('update_user', __name__)
