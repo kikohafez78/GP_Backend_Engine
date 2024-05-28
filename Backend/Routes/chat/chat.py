@@ -26,7 +26,7 @@ chat = Blueprint('chat', __name__)
 def send_message():
     user_name = request.form.get('user_name')
     session_name = request.form.get('session_name')
-    user = mydb.User.find_one({"username": user_name.lower()})
+    user = mydb.User.find_one({"user_name": user_name.lower()})
     if user == None:
         return {"message" : "user is not found in the database"}, 404
     session: dict = mydb.Sessions.find_one({"session_name" : session_name, "owner_id": user["_id"]})
@@ -34,13 +34,14 @@ def send_message():
         return Response(response=json.dumps({"message": "session doesnt exist"}),status = 400, mimetype="application/json")
     sheet_name = request.form.get('sheet_name')
     text = request.form.get('prompt')
-    if sheet_name.lower() not in list(session["sheets"].keys()):
+    print(session["sheets"].keys())
+    if sheet_name not in list(session["sheets"].keys()):
         return Response(response=json.dumps({"message": "The request was succefull in retreiving file names", "session_id": str(session["_id"]) ,"session_name":session_name}),status = 200, mimetype="application/json")
     
     #================================================
     file = open(session["sheets"][sheet_name],"r")
     steps, updated_sheet, errors = process_message(text, file)
-    updated_sheet.save(session["sheets"][session["sheets"][sheet_name]])
+    updated_sheet.close()
     #================================================
     user_message = {
         "id" : len(session["messages"]) + 1,
@@ -59,16 +60,18 @@ def send_message():
     session["messages"].append([user_message, system_message])
     mydb.Sessions.update_one({"session_name": session_name, "owner_id": user["_id"]}, {"$set": session})
     #================================================
-    if len(steps) == 0:
-        return Response(response=json.dumps({"message": "The request was could'nt be fullfilled due to the errors shown", "session_id": str(session["_id"]) ,"session_name":session_name,"errors": errors}),status = 405, mimetype="application/json")
+    # if len(steps) == 0:
+    #     return Response(response=json.dumps({"message": "The request was could'nt be fullfilled due to the errors shown", "session_id": str(session["_id"]) ,"session_name":session_name,"errors": errors}),status = 405, mimetype="application/json")
     resp = send_file(
         os.path.join(os.getcwd(), f"Sessions\\{user_name}\\{session_name}\\{sheet_name}"),
         as_attachment=True,
-        attachment_filename=sheet_name,
+        download_name = "response",
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     )
-    resp.headers['message'] = 'The request was succefull in fullfilling the tasks required'
-    resp.headers['step'] = json.dumps(steps)
+    resp.headers['message'] = json.dumps({
+        "steps": convert_to_numbered_list(steps),
+        "errors": errors
+    })
     resp.status = 200
     return resp
         
@@ -76,7 +79,7 @@ def send_message():
 def get_chat():
     user_name = request.form.get('user_name')
     session_name = request.form.get('session_name')
-    user = mydb.User.find_one({"username": user_name.lower()})
+    user = mydb.User.find_one({"user_name": user_name.lower()})
     if user == None:
         return {"message" : "user is not found in the database"}, 404
     session: dict = mydb.Sessions.find_one({"session_name" : session_name, "owner_id": user["_id"]})
@@ -90,7 +93,7 @@ def edit_message():
     session_name = request.form.get('session_name')
     message_id = request.form.get('message_id')
     text = request.form.get('prompt')
-    user = mydb.User.find_one({"username": user_name.lower()})
+    user = mydb.User.find_one({"user_name": user_name.lower()})
     if user == None:
         return {"message" : "user is not found in the database"}, 404
     session: dict = mydb.Sessions.find_one({"session_name" : session_name, "owner_id": user["_id"]})
@@ -145,7 +148,7 @@ def delete_message():
     user_name = request.form.get('user_name')
     session_name = request.form.get('session_name')
     message_id = request.form.get('message_id')
-    user = mydb.User.find_one({"username": user_name.lower()})
+    user = mydb.User.find_one({"user_name": user_name.lower()})
     if user == None:
         return {"message" : "user is not found in the database"}, 404
     session: dict = mydb.Sessions.find_one({"session_name" : session_name, "owner_id": user["_id"]})
