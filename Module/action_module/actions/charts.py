@@ -126,7 +126,7 @@ class Charts_App():
             pass
         chart.Parent.Name = chartName
         self.SaveWorkbook(output_wb_path)
-        self.closeWorkBook()
+        # self.closeWorkBook()
 
     def SetChartTrendline(self, src_wb_path: str, chartName: str, trendlineType: List[str], DisplayEquation: Optional[bool] = None,
                           DisplayRSquared: Optional[bool] = None, output_wb_path: str = None) -> None:

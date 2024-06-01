@@ -133,7 +133,7 @@ class Auto:
     def demo_test_1(self,path):
         steps = []
         self.entry.OpenWorkbook(path)
-        time.sleep(3)
+        time.sleep(5)
         steps.append(self.entry.autofill(path, "Sheet1", "D2", "Sheet1", "D2:D9", path))
         self.entry.Save()
         self.entry.SaveWorkbook(path)
@@ -142,8 +142,8 @@ class Auto:
     
     def demo_test_2(self,path):
         steps = []
-        self.entry.OpenWorkbook(path)
-        time.sleep(3)
+        # self.entry.OpenWorkbook(path)
+        time.sleep(1)
         steps.append(self.formatting.conditional_formatting(path, "Sheet1", "D2:D9", fillColor="yellow", formula="=D2>150000"))
         self.entry.Save()
         self.entry.SaveWorkbook(path)
@@ -152,7 +152,7 @@ class Auto:
     
     def demo_test_3(self,path):
         steps = []
-        time.sleep(3)
+        time.sleep(1)
         steps.append(self.charts.CreateChart(path, source="A1:D9", destSheet="Sheet1", chartName="AboIsmail", chartType="Pie", XField=1, YField=[4]))
         self.entry.Save()
         self.entry.SaveWorkbook(path)
