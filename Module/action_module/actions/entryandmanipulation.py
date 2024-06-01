@@ -290,6 +290,7 @@
 
 
 import win32com.client as win32
+import pythoncom
 from typing import List
 from openpyxl.utils import get_column_letter
 import os
@@ -314,6 +315,7 @@ class entry_manipulation_App():
     def activeAPP(self):
         if not self.__excel:
             try:
+                pythoncom.CoInitialize()
                 self.__excel = win32.Dispatch('Excel.Application') if self.appName == 'excel' else win32.Dispatch('ket.Application')
                 self.__excel.DisplayAlerts = False
                 self.__excel.Visible = True
@@ -684,7 +686,7 @@ class entry_manipulation_App():
 #        self.closeWorkBook()
         return f"deleted sheet with name {sheet_name}"
             
-# path = "./DemographicProfile.xlsx"
+# path = "C:\\Users\\ramy6\\Downloads\\Book1.xlsx"
 # app = entry_manipulation_App()
 # time.sleep(3)
 # app.OpenWorkbook(path)
