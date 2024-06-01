@@ -142,6 +142,7 @@ class Auto:
     
     def demo_test_2(self,path):
         steps = []
+        self.entry.OpenWorkbook(path)
         time.sleep(3)
         steps.append(self.formatting.conditional_formatting(path, "Sheet1", "D2:D9", fillColor="yellow", formula="=D2>150000"))
         self.entry.Save()

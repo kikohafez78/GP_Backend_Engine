@@ -9,11 +9,11 @@ sys.path.append(script_dir)
 
 def process_message(text, sheet):
     if "autofill" in text.lower():
-        steps, errors = current_app.config["engine"].demo_test_1(sheet)
+        steps, errors = current_app.config["engine"].demo_test_1("C:\\Users\\ramy6\\Downloads\\IncomeStatement.xlsx")
     elif "highlight" in text.lower():
-        steps, errors = current_app.config["engine"].demo_test_2(sheet)
+        steps, errors = current_app.config["engine"].demo_test_2("C:\\Users\\ramy6\\Downloads\\IncomeStatement.xlsx")
     else:
-        steps, errors = current_app.config["engine"].demo_test_3(sheet)
+        steps, errors = current_app.config["engine"].demo_test_3("C:\\Users\\ramy6\\Downloads\\IncomeStatement.xlsx")
     # steps, errors = current_app.config["engine"].demo_test_1(sheet)
     return steps, sheet, errors
 

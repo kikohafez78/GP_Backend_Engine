@@ -323,12 +323,12 @@ class formatting_App():
 
     @property
     def activeAPP(self):
-        if not self.excel:
+        if not self.__excel:
             try:
                 pythoncom.CoInitialize()
-                self.excel = win32.Dispatch('Excel.Application') if self.appName == 'excel' else win32.Dispatch('ket.Application')
-                self.excel.DisplayAlerts = False
-                self.excel.Visible = True
+                self.__excel = win32.Dispatch('Excel.Application') if self.appName == 'excel' else win32.Dispatch('ket.Application')
+                self.__excel.DisplayAlerts = False
+                self.__excel.Visible = True
             except:
                 raise Exception('{} is not running.'.format(self.appName))
         return self.__excel
