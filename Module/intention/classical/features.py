@@ -6,6 +6,11 @@ import os
 import pandas as pd
 from helper_functions import load_pkl
 from sklearn.feature_extraction.text import TfidfVectorizer
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
 
 #gets the Term frequency
 def TF(word_counts: dict):

@@ -5,23 +5,25 @@ from Module.action_module.feature_resolution import feature_resolution
 from Module.action_module.feature_resolution_config import get_feature_resolution
 # from Module.coreference.main import coreference_resolution_seive
 #==========================================================================
-from Module.action_module.actions.charts import Charts_App
-from Module.action_module.actions.entryandmanipulation import enntry_manipulation_App
-from Module.action_module.actions.formatting import formatting_App
-from Module.action_module.actions.management import management_App
-from Module.action_module.actions.pivot_table import Pivot_App
-from Module.action_module.actions.formula import Formula_App
-#==========================================================================
-from Module.self_instruct.self_Instruct_config import get_self_instruct
-from Module.self_instruct.self_instruct import self_instruct
+# from Module.self_instruct.self_Instruct_config import get_self_instruct
+# from Module.self_instruct.self_instruct import self_instruct
 #==========================================================================
 from Module.intention.classical.Integrated_ISF import classical_Integrated
 from Module.intention.deep.bert_model_implementation_torch.intention_model import JOINTIDSF
 #==========================================================================
 from Auto_Config import get_auto_config
+from Module.intention.deep import deep_model_config
+#==========================================================================
+from Module.action_module.actions.entryandmanipulation import entry_manipulation_App
+from Module.action_module.actions.charts import Charts_App
+from Module.action_module.actions.formatting import formatting_App
+from Module.action_module.actions.management import management_App
+from Module.action_module.actions.pivot_table import Pivot_App
+from Module.action_module.actions.formula import Formula_App
 #==========================================================================
 import os
 import sys
+import time
 script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(script_dir)
 #==========================================================================
@@ -63,8 +65,8 @@ class Auto:
     config = get_auto_config()
     speech_recognition = sr.Recognizer()
     preprocessing = preprocessing()
-    feature_extraction = excel_information_extractor(False, "excel dissector")
-    text_features = text_features
+    sheet_information_extraction = excel_information_extractor(False, "excel dissector")
+    prompt_features = text_features
     coreference_resolution = None
     sentence_simplification = None
     #=======================
@@ -72,23 +74,28 @@ class Auto:
     classical_planning_module = classical_Integrated("planning")
     deep_planning_module = None
     feature_resolver = feature_resolution(get_feature_resolution())
-    #=======================
-    #===== actions =========
-    charts_action = Charts_App()
-    pivot_action = Pivot_App()
-    manipulation_action = enntry_manipulation_App()
-    management_action = management_App()
-    formatting_action = formatting_App()
-    formula_action = Formula_App()
     #========================
-    self_instruction = self_instruct("instructor", get_self_instruct())
+    # self_instruction = self_instruct("instructor", get_self_instruct())
     #========================
-    working_sheets = {}
+    entry = entry_manipulation_App()
+    management = management_App()
+    formatting = formatting_App()
+    charts = Charts_App()
+    pivot = Pivot_App()
+    formula = Formula_App()
+    #========================
+    working_sheet = None
     def __init__(self, config: dict):
         self.config = config
         self.state = {}
         self.execution_state = {}
         
+    def set_current_sheet(self, user_name: str, filename: str):
+        self.working_sheet = self.feature_extraction.file_scan_(os.path.join(os.getcwd(), f"\\{user_name}\\{filename}"))
+    
+    def extract_features_from_prompt(self, prompt: str):
+        return self.text_features()
+    
     def text_preprocessing(self, text):
         text_state = self.preprocessing(text)
         return text_state
@@ -114,19 +121,41 @@ class Auto:
     def error_checking_(self, state):
         return
     
-    def self_instruct_(self, text, mode, intents = None):
-        if mode == "prompt":
-            return self.self_instruction.generate_parphrases_based_on_s(text)
-        elif mode == "plan":
-            return self.self_instruction.augment_auto(text, intents)
-        elif mode == "learn":
-            data = self.self_instruction.augment_auto(text, intents)
+    # def self_instruct_(self, text, mode, intents = None):
+    #     if mode == "prompt":
+    #         return self.self_instruction.generate_parphrases_based_on_s(text)
+    #     elif mode == "plan":
+    #         return self.self_instruction.augment_auto(text, intents)
+    #     elif mode == "learn":
+    #         data = self.self_instruction.augment_auto(text, intents)
             
         
-    def run(self):
-        pass        
-    
-    
+    def demo_test_1(self, path):
+        steps = []
+        time.sleep(3)
+        self.entry.OpenWorkbook(path)
+        time.sleep(3)
+        print(self.entry.autofill(path, "Sheet1", "D2:D2", "Sheet1", "D2:D10", path))
+        time.sleep(3)
+        print(self.entry.autofill(path, "Sheet1", "F2:F2", "Sheet1", "F2:F10", path))
+        time.sleep(3)
+        print(self.entry.autofill(path, "Sheet1", "G2:G2", "Sheet1", "G2:G10", path))
+        time.sleep(3)
+        print(self.entry.update_cell_value(path, "Sheet1", 'A2:A10', 674, path))
+        time.sleep(3)
+        print(self.entry.delete_cells(path, "Sheet1", 'A2:A10', path))
+        time.sleep(3)
+        print(self.entry.merge_cells(path, "Sheet1", 'D2:D10', path))
+        time.sleep(3)
+        print(self.entry.unmerge_cells(path, "Sheet1", 'D2:D10', path))
+        time.sleep(3)
+        self.entry.Save()
+        self.entry.SaveWorkbook(path)
+        self.entry.closeWorkBook()
+        return steps, []
 
+# config = get_auto_config()
+# auto = Auto(config)
+# auto.demo_test_1(os.path.join(os.getcwd(), "./IncomeStatement.xlsx"))
         
         

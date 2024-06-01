@@ -128,7 +128,7 @@ def delete_workbooks():
     user_name = request.json['user_name']
     session_name = request.json['session_name']
     file_names = request.json['file_names']
-    user = mydb.User.find_one({"user_name": user_name.lower()})
+    user = mydb.User.find_one({"username": user_name.lower()})
     if user == None:
         return {"message" : "user is not found in the database"}, 404
     session: dict = mydb.Sessions.find_one({"session_name" : session_name, "owner_id": user["_id"]})
@@ -166,7 +166,7 @@ def delete_workbooks():
 def get_sheet_names():
     user_name = request.form.get('user_name')
     session_name = request.form.get('session_name')
-    user = mydb.User.find_one({"user_name": user_name.lower()})
+    user = mydb.User.find_one({"username": user_name.lower()})
     if user == None:
         return {"message" : "user is not found in the database"}, 404
     session: dict = mydb.Sessions.find_one({"session_name" : session_name, "owner_id": user["_id"]})
@@ -180,7 +180,7 @@ def get_sheet_names():
 def delete_session():
     user_name = request.form.get('user_name')
     session_name = request.form.get('session_name')
-    user = mydb.User.find_one({"user_name": user_name.lower()})
+    user = mydb.User.find_one({"username": user_name.lower()})
     if user == None:
         return {"message" : "user is not found in the database"}, 404
     session: dict = mydb.Sessions.find_one({"session_name" : session_name, "owner_id": user["_id"]})
@@ -195,7 +195,7 @@ def delete_session():
 @Sessions.route("/", methods = ["GET"])
 def get_sessions():
     user_name = request.form.get('user_name')
-    user = mydb.User.find_one({"user_name": user_name.lower()})
+    user = mydb.User.find_one({"username": user_name.lower()})
     if user == None:
         return {"message" : "user is not found in the database"}, 404
     sessions: dict = mydb.Sessions.find({ "owner_id": user["_id"]})

@@ -1,4 +1,4 @@
-import pandas as pd
+
 #=================================
 #openpyxl lib
 # from openpyxl import load_workbook
@@ -384,7 +384,7 @@ class formatting_App():
     def format_cells(self,workbook_path, sheet_name, cell_range: str, font: Optional[str] = None, fontSize: Optional[float] = None,
                     color: Optional[int] = None, fillColor: Optional[int] = None, bold: Optional[bool] = None,
                     italic: Optional[bool] = None, underline: Optional[bool] = None, horizontalAlignment: Optional[str] = None, output_workbook_path: str = "") -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         if font:
@@ -403,98 +403,98 @@ class formatting_App():
             source.Font.Underline = win32c.UnderlineStyle.xlUnderlineStyleSingle if underline else win32c.UnderlineStyle.xlUnderlineStyleNone
         if horizontalAlignment:
             source.HorizontalAlignment = constants.HorizontalAlignment[horizontalAlignment]
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"formatted cells in the range {cell_range} for sheet {sheet_name}"
     
         
     def delete_format(self,workbook_path, sheet_name, cell_range: str , output_workbook_path: str = "") -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         source.ClearFormats() 
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"deleted format of cells in the range {cell_range} for sheet {sheet_name}"
     
     def set_data_type(self,workbook_path, sheet_name, dataType: str, cell_range: str , output_workbook_path: str = "") -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         source.NumberFormat = constants.DataType[dataType]
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"dtatype format of cells in the range {cell_range} is changed to {dataType} for sheet {sheet_name}"
     
     def change_page_layout(self,workbook_path, sheet_name,paper_size, orientation , output_workbook_path: str = "") -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         sheet.PageSetup.Orientation = constants.PageOrientation[orientation]
         sheet.PageSetup.PaperSize = constants.PaperSize[paper_size]
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"page layout for sheet '{sheet_name}' is changed for orientation {orientation} and paper size {paper_size}"
     
     def set_border(self, workbook_path, sheet_name, cell_range, color: str, weight: str , output_workbook_path = None):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         source = self.toRange(source)
         source.BorderAround(ColorIndex=constants.ColorIndex[color], Weight=constants.BorderWeight[weight])
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"border for range {cell_range} in sheet '{sheet_name}' is set to {weight} weight and {color} color"
     
     def data_validation(self, workbook_path, sheet_name, cell_range, type: str, formula1: str, output_workbook_path = None) -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         handle = source.Validation.Add(constants.ValidationType[type], Formula1 = formula1)
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"data validation for range {cell_range} in sheet '{sheet_name}' is set to {type} type and {formula1} formula"
     
     def display_formula(self, workbook_path, display: bool, output_workbook_path):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         self.activeAPP.ActiveWindow.DisplayFormulas = display
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
-        return f"formula display for workbook is set to {"visible" if display else "invisible"}"
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+        return f"formula display for workbook is set to {'visible' if display else 'invisible'}"
     
     def wrap_unwrap_text(self, workbook_path, sheet_name, cell_range, output_workbook_path = None, wrap = True) -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         source.WrapText = wrap
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
-        return f"data validation for range {cell_range} in sheet {sheet_name} is set to {"wrapped" if wrap else "unwrapped"}"
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+        return f"data validation for range {cell_range} in sheet {sheet_name} is set to {'wrapped' if wrap else 'unwrapped'}"
     
     def autofit(self, workbook_path, sheet_name, cell_range, output_workbook_path = None) -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         source.AutoFit()
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"the range {cell_range} in sheet {sheet_name} is Autofitted"
     
     def resize_cells(self, workbook_path, sheet_name, cell_range, width: Optional[int] = None, height: Optional[int] = None, output_workbook_path = None) -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         if height:
             source.RowHeight = height
         if width:
             source.ColumnWidth = width
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"the range {cell_range} in sheet {sheet_name} is Autofitted"
     
     def conditional_formatting(self, workbook_path, sheet_name, cell_range,formula: str,
                             bold: Optional[bool] = None, color: Optional[str] = None,
                             fillColor: Optional[str] = None, italic: Optional[bool] = None, underline: Optional[bool] = None, output_workbook_path = None) -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         handle = source.FormatConditions.Add(Type = constants.FormatConditionType['expression'], Formula1 = formula)
@@ -508,34 +508,34 @@ class formatting_App():
             handle.Font.Italic = italic
         if not underline is None:
             handle.Font.Underline = win32c.UnderlineStyle.xlUnderlineStyleSingle if underline else win32c.UnderlineStyle.xlUnderlineStyleNone
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"conditional formatting is applied for range {cell_range} in sheet {sheet_name}" #<== continue doc
     
     def lock_unlock_cells(self, workbook_path, sheet_name, cell_range, lock, output_workbook_path = None) -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         source.Locked = lock
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
-        return f"the range {cell_range} in sheet {sheet_name} is {"locked" if lock else "unlocked"}"
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+        return f"the range {cell_range} in sheet {sheet_name} is {'locked' if lock else 'unlocked'}"
     
     
     def protect_unprotect_cells(self, workbook_path, sheet_name, cell_range, protect, password, output_workbook_path = None) -> None:
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         if protect:
             sheet.Protect(password)
         else:
             sheet.Unprotect(password)
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
-        return f"the {sheet_name} sheet is {f"protected with {password}" if protect else "unprotected"}"
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+        return f"the {sheet_name} sheet is {f'protected with {password}' if protect else 'unprotected'}"
     
     
     def dropdown_list(self, workbook_path, sheet_name, cell_range, dropdown_values, output_workbook_path = None):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         dropdown_range = self.toRange(sheet, cell_range)
         try:
@@ -546,8 +546,8 @@ class formatting_App():
             dropdown_range.Validation.InCellDropdown = True
         except Exception as e:
             print(f"Error: {e}")
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"" #<== finish this
     
     

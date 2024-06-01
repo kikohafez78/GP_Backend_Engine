@@ -226,7 +226,11 @@ import glob2 as gl # type: ignore
 import win32com.client as win32 #type: ignore
 from xlwings import constants as win32c
 import json
-from charts_types import constants as chart_classifier
+from .charts_types import constants as chart_classifier
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
 class excel_information_extractor:
     def __init__(self, visible: bool, name: str):
         self.name = name

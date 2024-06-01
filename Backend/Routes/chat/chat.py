@@ -1,16 +1,15 @@
-from flask import Flask, request, Response, Blueprint, send_file
-from bson.objectid import ObjectId
+from flask import Flask, request, Response, Blueprint, send_from_directory, current_app
 import json
 from Database.Database import Database as mydb
 import datetime
 import os
 import sys
-# from app import engine
 script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(script_dir)
 
 def process_message(text, sheet):
-    return [], sheet, []
+    steps, errors = current_app.config["engine"].demo_test_1(sheet)
+    return steps, sheet, errors
 
 def convert_to_numbered_list(string_array):
     numbered_list = ""
@@ -39,9 +38,7 @@ def send_message():
         return Response(response=json.dumps({"message": "The request was succefull in retreiving file names", "session_id": str(session["_id"]) ,"session_name":session_name}),status = 200, mimetype="application/json")
     
     #================================================
-    file = open(session["sheets"][sheet_name],"r")
-    steps, updated_sheet, errors = process_message(text, file)
-    updated_sheet.close()
+    steps, updated_sheet, errors = process_message(text, os.path.join(os.getcwd(), f"Sessions\\{user_name}\\{session_name}\\{sheet_name}"))
     #================================================
     user_message = {
         "id" : len(session["messages"]) + 1,
@@ -54,6 +51,7 @@ def send_message():
         "id" : len(session["messages"]) + 2,
         "role": "Auto",
         "text": convert_to_numbered_list(steps),
+        "errors": convert_to_numbered_list(errors),
         "target_sheet": sheet_name,
         "date": str(datetime.datetime.now())
     }
@@ -62,19 +60,12 @@ def send_message():
     #================================================
     # if len(steps) == 0:
     #     return Response(response=json.dumps({"message": "The request was could'nt be fullfilled due to the errors shown", "session_id": str(session["_id"]) ,"session_name":session_name,"errors": errors}),status = 405, mimetype="application/json")
-    resp = send_file(
-        os.path.join(os.getcwd(), f"Sessions\\{user_name}\\{session_name}\\{sheet_name}"),
-        as_attachment=True,
-        download_name = "response",
-        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    )
-    resp.headers['message'] = json.dumps({
+    return Response(response = json.dumps({
         "steps": convert_to_numbered_list(steps),
-        "errors": errors
-    })
-    resp.status = 200
-    return resp
-        
+        "errors": convert_to_numbered_list(errors)
+    }),status= 200, mimetype="application/json")
+    
+            
 @chat.route("/",methods = ["GET"])
 def get_chat():
     user_name = request.form.get('user_name')
@@ -131,17 +122,11 @@ def edit_message():
     #================================================
     if len(steps) == 0:
         return Response(response=json.dumps({"message": "The request was could'nt be fullfilled due to the errors shown", "session_id": str(session["_id"]) ,"session_name":session_name,"errors": errors}),status = 405, mimetype="application/json")
-    resp = send_file(
-        os.path.join(os.getcwd(), f"Sessions\\{user_name}\\{session_name}\\{user_message['target_sheet']}"),
-        as_attachment=True,
-        attachment_filename=user_message["target_sheet"],
-        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    )
-    resp.headers['message'] = 'The request was succefull in editing the message'
-    resp.headers['step'] = json.dumps(steps)
-    resp.status = 200
-    return resp
-
+    return Response(resposne = json.dumps({
+        "steps": convert_to_numbered_list(steps),
+        "errors": convert_to_numbered_list(errors)
+    }),status= 200, mimetype="application/json")
+    
 
 @chat.route("/", methods = ['DELETE'])
 def delete_message():
@@ -177,3 +162,15 @@ def delete_message():
 
 
 
+@chat.route('/file', methods=['GET'])
+def download_file():
+    user_name = request.form.get('user_name')
+    session_name = request.form.get('session_name')
+    user = mydb.User.find_one({"user_name": user_name.lower()})
+    if user == None:
+        return Response(response=json.dumps({"message": "user doesn't exist"}),status = 404, mimetype="application/json")
+    session: dict = mydb.Sessions.find_one({"session_name" : session_name, "owner_id": user["_id"]})
+    if  session is None:
+        return Response(response=json.dumps({"message": "session doesnt exist"}),status = 400, mimetype="application/json")
+    sheet_name = request.form.get("sheet_name")
+    return send_from_directory(directory = os.path.join(os.getcwd(), f"Sessions\\{user_name}\\{session_name}"), path = f"{sheet_name}", as_attachment = True)

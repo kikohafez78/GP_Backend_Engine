@@ -1,6 +1,6 @@
 from openpyxl import load_workbook, worksheet, Workbook
 import openpyxl as excel
-from helper_functions import excel_column_to_index
+from ...helper_functions import excel_column_to_index
 import pandas as pd
 from openpyxl.workbook.defined_name import DefinedName
 from openpyxl.utils import get_column_letter, column_index_from_string,range_boundaries

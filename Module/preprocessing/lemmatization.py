@@ -1,5 +1,7 @@
 import pickle, os
-
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 from word_utils import get_inflected_noun
 
 class AbstractLemmatizer:

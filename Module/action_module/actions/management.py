@@ -422,7 +422,11 @@ class management_App():
   
   def closeWorkBook(self) -> None:
       self.activeWB.Close()
-      
+     
+  def Save(self) -> None:
+    # self.activeWB.Save()
+    pass
+     
   def switch_sheet(self, sheet_name):
     if sheet_name not in self.activeWB.Sheets():
       return "did not switch sheet"
@@ -432,17 +436,17 @@ class management_App():
   
   
   def sort(self, workbook_path, sheet_name, cell_range, order, orientation, output_workbook_path):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(sheet_name)
     source = self.toRange(sheet, cell_range)
-    key1 = self.toRange(sheet, key1)
-    source.Sort(Key1=key1, Order1=1 if order == 'asc' else 2, Orientation=1 if orientation == 'column' else 2)
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
+    source.Sort(Key1=source, Order1=1 if order == 'asc' else 2, Orientation=1 if orientation == 'column' else 2)
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"sorted data in the range {cell_range} using {order} order and the {orientation} orientation in sheet {sheet_name}"
   
   def filter(self, workbook_path, sheet_name, cell_range, feild_index, criteria, output_workbook_path):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(sheet_name)
     source = self.toRange(sheet, cell_range)
     try:
@@ -452,86 +456,112 @@ class management_App():
     if criteriaRange:
         criteria = [criteriaRange.Cells(i).Text for i in range(1, criteriaRange.Cells.Count + 1)]
     source.AutoFilter(Field=feild_index, Criteria1=criteria)
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"applied filter on column {feild_index} using condition {criteria} in sheet {sheet_name}"
   
   def delete_filter(self, workbook_path, sheet_name, output_workbook_path):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(sheet_name)
     if sheet.AutoFilterMode: self.activeWS.AutoFilterMode = False
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"deleted filters on sheet {sheet_name}"
   
-  def slicer(self, workbook_path: str, source_sheet_name: str, source_range: str, key: str, value: str, output_workbook_path):
-    self.OpenWorkbook(workbook_path)
+  def slicer(self, workbook_path: str, source_sheet_name: str, source_range: str, key: str, value: str, output_workbook_path: str):
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(source_sheet_name)
+    
     try:
-      range_to_slice = self.toRange(sheet, source_range)
-      slicer_cache = self.activeWB.SlicerCache.Add2(range_to_slice, key)
-      slicer = slicer_cache.Slicers.Add(sheet, value, key, "", "", "", "", 1)
+        range_to_slice = self.toRange(sheet, source_range)
+        slicer_cache = self.activeWB.SlicerCaches.Add2(range_to_slice, key)
+        slicer = slicer_cache.Slicers.Add(sheet, key, value)
     except Exception as e:
-      print(f"Error: {e}")
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
-    return f"create slicer on range {source_range} with key {key} and value {value} in sheet {source_sheet_name}"
-  
+        print(f"Error: {e}")
+
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+    return f"Created slicer on range {source_range} with key {key} and value {value} in sheet {source_sheet_name}"
+
   def move_rows(self, workbook_path: str, source_sheet_name: str, row_range: tuple, new_pos: int, output_workbook_path):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(source_sheet_name)
-    if new_pos > row_range[1]:
-      new_pos += 1
-    else:
-      row_range[0] += 1
-      row_range[1] += 1
-    index = new_pos
-    lastCell = sheet.UsedRange(sheet.UsedRange.Count)
-    source = sheet.Range(sheet.Cells(index[0], row_range[1] - row_range[0]), sheet.Cells(index, lastCell.Column))
-    for i in range(row_range[1] - row_range[0]):    
-        source.Insert(constants.InsertShiftDirection['down'])
-    sheet.Rows(source).Copy(sheet.Rows(new_pos))
-    sheet.Rows(source).Delete()
-    self.SaveWorkbook(workbook_path)
-    self.closeWorkBook()
+    source_start = row_range[0]
+    source_end = row_range[1]
+    num_rows = abs(source_end - source_start + 1)
+    if new_pos >= source_start and new_pos <= source_end:
+        raise ValueError("Destination range overlaps with source range.")
+    for i in range(num_rows):
+        sheet.Rows(new_pos + num_rows).Insert(Shift=win32.constants.xlShiftDown)
+    # Copy the source rows to the destination
+    source_range = sheet.Rows(f"{source_start}:{source_end}")
+    dest_range = sheet.Rows(new_pos + num_rows)
+    source_range.Copy(dest_range)
+
+    # Delete the original source rows
+    source_range.Delete(Shift=win32.constants.xlShiftUp)
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"moved rows {row_range[0]} - {row_range[1]} to a new position at {new_pos} in sheet '{source_sheet_name}'"
  
-  def move_columns(self, workbook_path: str, source_sheet_name: str, column_range: tuple, new_pos: int, output_workbook_path):
-    self.OpenWorkbook(workbook_path)
+  def move_columns(self, workbook_path: str, source_sheet_name: str, column_range: tuple, new_pos: int, output_workbook_path: str):
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(source_sheet_name)
-    if new_pos > column_range[1]:
-      new_pos += 1
-    else:
-      column_range[0] += 1
-      column_range[1] += 1
-    index = new_pos
-    lastCell = sheet.UsedRange(sheet.UsedRange.Count)
-    source = sheet.Range(sheet.Cells(column_range[1] - column_range[0], index[0]), sheet.Cells(lastCell.Column, index))
-    for i in range(column_range[1] - column_range[0]):    
-        source.Insert(constants.InsertShiftDirection['right'])
-    sheet.Columns(source).Copy(sheet.Columns(new_pos))
-    sheet.Columns(source).Delete()
-    self.SaveWorkbook(workbook_path)
-    self.closeWorkBook()
-    return f"moved columns {column_range[0]} - {column_range[1]} to a new position at {new_pos} in sheet '{source_sheet_name}'"
-  
+    start_col, end_col = column_range
+    num_cols = abs(end_col - start_col + 1)
+
+    if new_pos >= start_col and new_pos <= end_col:
+        raise ValueError("Destination range overlaps with source range.")
+
+    # Adjust new position to avoid overlap
+    if new_pos > end_col:
+        new_pos += 1
+
+    # Insert blank columns at the new position
+    for _ in range(num_cols):
+        sheet.Columns(new_pos).Insert(Shift=win32.constants.xlShiftToRight)
+
+    # Copy the source columns to the new position
+    start_col_letter = get_column_letter(start_col)
+    end_col_letter = get_column_letter(end_col)
+    new_pos_letter = get_column_letter(new_pos)
+    source_range = self.toRange(sheet, f"{start_col_letter}:{end_col_letter}")
+    dest_range = self.toRange(sheet, new_pos_letter)
+    source_range.Copy(dest_range)
+
+    # Delete the original source columns
+    source_range.Delete(Shift=win32.constants.xlShiftToLeft)
+
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+
+    return f"Moved columns {start_col} - {end_col} to a new position at {new_pos} in sheet '{source_sheet_name}'"
+
   def group(self, workbook_path: str, source_sheet_name: str, source_range: str, output_workbook_path: str, group_by_rows: bool = True,  hidden: bool = True):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     try:
         sheet = self.activeWB.Sheets(source_sheet_name)
         group_range = self.toRange(sheet, source_range)
         if group_by_rows:
-            group_range.Rows.Group(Hidden = hidden)
+            group_range.Rows.Group()
+            group_range.Rows.Hidden = hidden
         else:
-            group_range.Columns.Group(Hidden = hidden)
+            group_range.Columns.Group()
+            group_range.Columns.Hidden = hidden
     except Exception as e:
         print(f"Error: {e}")
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"grouped range {source_range} in sheet '{source_sheet_name}'"
   
-  def group(self, workbook_path: str, source_sheet_name: str, source_range: str, output_workbook_path: str, group_by_rows: bool = True):
-    self.OpenWorkbook(workbook_path)
+  def ungroup(self, workbook_path: str, source_sheet_name: str, source_range: str, output_workbook_path: str, group_by_rows: bool = True):
+    # self.OpenWorkbook(workbook_path)
     try:
         sheet = self.activeWB.Sheets(source_sheet_name)
         group_range = self.toRange(sheet, source_range)
@@ -541,12 +571,13 @@ class management_App():
             group_range.Columns.Ungroup()
     except Exception as e:
         print(f"Error: {e}")
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"ungrouped range {source_range} in sheet '{source_sheet_name}'"
   
   def hide_unhide_rows(self, workbook_path: str, source_sheet_name: str, start_row, end_row, output_workbook_path: str, hidden = True):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(source_sheet_name)
     group_range = sheet.Rows(f"{start_row}:{end_row}")
     try:
@@ -554,36 +585,39 @@ class management_App():
         # Save the workbook
     except Exception as e:
         print(f"Error: {e}")
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
-    return f"{"hide" if hidden else "unhide"} rows({start_row} - {end_row}) in sheet '{source_sheet_name}'"
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+    return f"{'hide' if hidden else 'unhide'} rows({start_row} - {end_row}) in sheet '{source_sheet_name}'"
   
-  def hide_unhide_columns(self, workbook_path: str, source_sheet_name: str, start_col, end_col, output_workbook_path: str, hidden = True):
-    self.OpenWorkbook(workbook_path)
+  def hide_unhide_columns(self, workbook_path: str, source_sheet_name: str, start_col: int, end_col: int, output_workbook_path: str, hidden: bool = True):
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(source_sheet_name)
-    group_range = sheet.Columns(f"{start_col}:{end_col}")
+    start_col_letter = get_column_letter(start_col)
+    end_col_letter = get_column_letter(end_col)
+    group_range = sheet.Range(f"{start_col_letter}:{end_col_letter}")
     try:
-      group_range.Hidden = hidden
-        # Save the workbook
+        group_range.EntireColumn.Hidden = hidden
     except Exception as e:
         print(f"Error: {e}")
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
-    return f"{"hide" if hidden else "unhide"} columns({start_col} - {end_col}) in sheet '{source_sheet_name}'"
-  
-  def hide_unhide_sheet(self, workbook_path: str, source_sheet_name: str, hidden: bool, output_workbook_path):
-    self.OpenWorkbook(workbook_path)
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+    return f"{'hide' if hidden else 'unhide'} columns({start_col} - {end_col}) in sheet '{source_sheet_name}'"
+ 
+  def hide_unhide_sheet(self, workbook_path: str, source_sheet_name: str, hidden: bool, output_workbook_path: str):
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(source_sheet_name)
     try:
-      sheet.Visible = -1 if hidden else 2
+        sheet.Visible = 0 if hidden else -1
     except Exception as e:
-      print(f"Error: {e}")
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
-    return f"{"hide" if hidden else "unhide"}  sheet '{source_sheet_name}'"
-  
+        print(f"Error: {e}")
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+    return f"{'hide' if hidden else 'unhide'} sheet '{source_sheet_name}'"
   def set_password(self, workbook_path: str, source_sheet_name: str, password: str, output_workbook_path, wb = False):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(source_sheet_name)
     try:
       if wb:
@@ -592,89 +626,123 @@ class management_App():
         sheet.Protect(Password = password)
     except Exception as e:
       print(f"Error: {e}")
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
-    return f"{"workbook is" if wb else f"sheet '{source_sheet_name}' is"}  protected using password {["*"] * len(password)}"
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+    return f"{'workbook is' if wb else f'sheet {source_sheet_name} is'}  protected using password {['*'] * len(password)}"
   
-  def transpose(self, workbook_path: str, source_sheet_name: str, source_range: str, output_workbook_path):
-    self.OpenWorkbook(workbook_path)
+  def transpose(self, workbook_path: str, source_sheet_name: str, source_range: str, output_workbook_path: str):
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(source_sheet_name)
-    source = self.toRange(source)
+    source = self.toRange(sheet, source_range)  # Note: `toRange` method should not require `sheet` as an argument.
     dataT = self.activeAPP.WorksheetFunction.Transpose(source)
     source.Clear()
-    cell = source.Cells(1).Address
-    destination_range = self.toRange(sheet, cell)
-    if isinstance(dataT, (list, tuple)) and range.Count == 1:
-        if isinstance(dataT[0], (list, tuple)):
-            for rowOffet, elem in enumerate(dataT):
-                for columnOffset, elem2 in enumerate(elem):
-                    destination_range.GetOffset(rowOffet, columnOffset).Value = elem2
-        else:
-            for columnOffset, elem in enumerate(dataT):
-                destination_range.GetOffset(0, columnOffset).Value = elem
+    
+    # Determining the starting cell for the transposed data
+    start_row = source.Row
+    start_col = source.Column
+    # print(start_row, start_col)
+    # print(dataT)
+    if isinstance(dataT, list) and isinstance(dataT[0], list):
+        for rowOffset, row in enumerate(dataT):
+            for colOffset, value in enumerate(row):
+                sheet.Cells(start_row + rowOffset, start_col + colOffset).Value = value
     else:
-        destination_range.Value = dataT
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
+        for rowOffset, row in enumerate(list(dataT)):
+          for column_offset, column in enumerate(list(row)):
+            sheet.Cells(start_row + rowOffset, start_col + column_offset).Value = column
+    
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"transposed the range {source_range} in sheet '{source_sheet_name}'"
-  
+
   def create_named_range(self, workbook_path: str, source_sheet_name: str,  range_name: str, source_range: str, output_workbook_path: str):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(source_sheet_name)
     source = self.toRange(sheet, source_range)
     try:
       source.Name = range_name
     except Exception as e:
       print(f"Error: {e}")
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"transposed the range {source_range} in sheet '{source_sheet_name}'"
   
   def freeze_panes(self, workbook_path: str, sheet_name: str, range_obj: str, output_workbook_path: str):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(sheet_name)
     source = self.toRange(sheet, range_obj)
     source.Select()
     source.Parent.Application.ActiveWindow.FreezePanes = True
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"froze panes range {range_obj} in sheet '{sheet_name}'"
   
   def unfreeze_panes(self, workbook_path: str, sheet_name: str,  output_workbook_path: str):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(sheet_name)
     if sheet_name:
         sheet = self.activeWB.Worksheets(sheet_name)
     else:
         sheet = self.activeWS
     sheet.Application.ActiveWindow.FreezePanes = False
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"unfroze panes in sheet '{sheet_name}'"
   
   def split_panes(self, workbook_path: str, sheet_name: str, vertical_split: str, horizontal_split: str,  output_workbook_path: str):
-    self.OpenWorkbook(workbook_path)
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(sheet_name)
     try:
       self.activeAPP.ActiveWindow.SplitRow = vertical_split
       self.activeAPP.ActiveWindow.SplitColumn = horizontal_split
     except Exception as e:
       print(f"Error: {e}")
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
     return f"unfroze panes in sheet '{sheet_name}'"
   
-  def data_consolidation(self, workbook_path: str, ranges, destination_sheet, output_workbook_path):
-    self.OpenWorkbook(workbook_path)
+  def data_consolidation(self, workbook_path: str, source_ranges: list, destination_sheet: str, destination_range: str, output_workbook_path: str, function: int = 1, top_row: bool = False, left_column: bool = False, create_links: bool = False):
+    # self.OpenWorkbook(workbook_path)
     sheet = self.activeWB.Sheets(destination_sheet)
+    
     try:
-        consolidation_range = sheet.Range(ranges)
+        # Get the destination range
+        dest_range = sheet.Range(destination_range)
         
         # Perform data consolidation
-        destination_sheet.Consolidate(consolidation_range)
+        dest_range.Consolidate(Sources=source_ranges, Function=function, TopRow=top_row, LeftColumn=left_column, CreateLinks=create_links)
     except Exception as e:
         print(f"Error: {e}")
-    self.SaveWorkbook(output_workbook_path)
-    self.closeWorkBook()
-    return f"data is consolidated for ranges {ranges} in sheet '{destination_sheet}'"
     
+    self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+    
+    return f"Data consolidated for ranges {source_ranges} in sheet '{destination_sheet}' into range '{destination_range}'"
+
+    
+    
+    
+    
+# app = management_App() <== works
+# app.sort("./DemographicProfile.xlsx", "Sheet1", "A1:A4", "desc", "column", "./DemographicProfile.xlsx") <== works
+# app.filter("./DemographicProfile.xlsx", "Sheet1", "A1:A4", "desc", "column", "./DemographicProfile.xlsx") <== test
+# app.delete_filter() <== test after testing filter
+# app.slicer("./DemographicProfile.xlsx", "Sheet1", "A1:A4", "E", "Elemen", "./DemographicProfile.xlsx") <== fix and retest
+# app.move_rows("./DemographicProfile.xlsx", "Sheet1", (1, 3), 20, "./DemographicProfile.xlsx") <== works
+# app.move_columns("./DemographicProfile.xlsx", "Sheet1", (3, 4), 5, "./DemographicProfile.xlsx") <== retest later
+# app.group("./DemographicProfile.xlsx", "Sheet1", "3:10", "./DemographicProfile.xlsx") <== works
+# app.ungroup("./DemographicProfile.xlsx", "Sheet1", "3:10", "./DemographicProfile.xlsx") <== works
+# app.hide_unhide_rows("./DemographicProfile.xlsx", "Sheet1", 2, 5, "./DemographicProfile.xlsx",False) <== works
+# app.hide_unhide_columns("./DemographicProfile.xlsx", "Sheet1", 3, 4, "./DemographicProfile.xlsx", False) <== works
+# app.hide_unhide_sheet("./DemographicProfile.xlsx", "Sheet1", False, "./DemographicProfile.xlsx") <== works
+# app.transpose("./DemographicProfile.xlsx", "Sheet1", "A1:D41", "./DemographicProfile.xlsx") <== works
+# app.freeze_panes("./DemographicProfile.xlsx", "Sheet1", "A1:D1", "./DemographicProfile.xlsx") <== works
+# app.unfreeze_panes("./DemographicProfile.xlsx", "Sheet1", "./DemographicProfile.xlsx") <== works
+# app.data_consolidation("./DemographicProfile.xlsx", ["Sheet1!A1:B10", "Sheet2!C1:D10"], "Sheet1", "A1:B10", "./DemographicProfile.xlsx") <== fix later

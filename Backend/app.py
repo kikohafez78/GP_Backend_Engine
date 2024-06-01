@@ -31,19 +31,20 @@ from Routes.Session.workbooks import Sessions
 #chat
 from Routes.chat.chat import chat
 #### Auto Engine ####
-
+from Auto_Engine import Auto
+from Auto_Config import get_auto_config
 # Creating flask application
 app = Flask(__name__, template_folder='Templates')
 #====== Auto Engine ===========
-# config = get_auto_config()
-# Engine = Auto(config)
+config = get_auto_config()
+app.config['engine'] = Auto(config)
 #==============================
 app.config.from_pyfile('config.cfg')
 
 
 # Registering all the blue prints created in other files
 
-app.register_blueprint(Login, url_prefix='/Login')
+app.register_blueprint(Login, url_prefix='/login')
 app.register_blueprint(GetAll, url_prefix='/users')
 app.register_blueprint(signup, url_prefix='/signup')
 app.register_blueprint(get_me, url_prefix='/users')

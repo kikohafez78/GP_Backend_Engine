@@ -288,13 +288,13 @@
 
 
 
-from xlwings import constants as win32c
-from constants import constants
+
 import win32com.client as win32
 from typing import List
 from openpyxl.utils import get_column_letter
 import os
 import sys
+import time
 script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(script_dir)
 
@@ -316,7 +316,7 @@ class entry_manipulation_App():
             try:
                 self.__excel = win32.Dispatch('Excel.Application') if self.appName == 'excel' else win32.Dispatch('ket.Application')
                 self.__excel.DisplayAlerts = False
-                self.__excel.Visible = False
+                self.__excel.Visible = True
             except:
                 raise Exception('{} is not running.'.format(self.appName))
         return self.__excel
@@ -368,9 +368,19 @@ class entry_manipulation_App():
     
     def closeWorkBook(self) -> None:
         self.activeWB.Close()
+    
+    def Save(self) -> None:
+        '''
+        Saves the current workbook in its existing location.
+
+        Returns:
+        None
+        '''
+        # self.activeWB.Save()
+        pass
         
     def update_cell_value(self, workbook_path: str, destination_sheet: str, cell_range: str, value, output_workbook_path: str):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         if destination_sheet not in [sheet.Name for sheet in self.activeWB.Worksheets]:
             raise ValueError(f'Sheet {destination_sheet} does not exist.')
         sheet = self.activeWB.Sheets(destination_sheet)
@@ -384,108 +394,125 @@ class entry_manipulation_App():
                 for columnOffset, elem in enumerate(value):
                     destination_range.GetOffset(0, columnOffset).Value = elem
         else:
+            
             destination_range.Value = value
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"update cell range {cell_range} in sheet {destination_sheet} with value {value}"
     
     def delete_cells(self, workbook_path, sheet_name, cell_range, output_workbook_path):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         cell_range_to_del = self.toRange(sheet, cell_range)
         cell_range_to_del.Delete()
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"deleted cells in the range {cell_range} for sheet {sheet_name}"
     
     
     def merge_cells(self, workbook_path: str, sheet_name, cell_range, output_workbook_path: str):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         cells_to_merge = self.toRange(sheet, cell_range)
         cells_to_merge.Merge()
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook() 
-        return f"merged cells in the range {cell_range} on the value {cells_to_merge.Value}"
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook() 
+        return f"merged cells in the range {cell_range}"
     
-    def umerge_cells(self, workbook_path: str, sheet_name, cell_range, output_workbook_path: str):
-        self.OpenWorkbook(workbook_path)
+    def unmerge_cells(self, workbook_path: str, sheet_name, cell_range, output_workbook_path: str):
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         cells_to_merge = self.toRange(sheet, cell_range)
         cells_to_merge.UnMerge()
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook() 
-        return f"Unmerged cells in the range {cell_range} on the value {cells_to_merge.Value}"
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook() 
+        return f"Unmerged cells in the range {cell_range}"
+    
+    def InsertColumn(self, column: int) -> None:
+        self.activeWS.Columns(column).Insert()
     
     
-    def split_text_to_columns(self, workbook_path, sheet_name, cell_range, output_workbook_path: str = "", delimiter:str = "."):
-        self.OpenWorkbook(workbook_path)
+    def split_text_to_columns(self, workbook_path, sheet_name, cell_range, output_workbook_path: str = "", delimiter: str = "."):
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
-        source = self.toRange(sheet, source)
+        source = self.toRange(sheet, cell_range)
+        
         if source.Columns.Count != 1:
             print('Source must be one column.')
             return
-        row = source.Row
-        column = source.Column
+
         orgData = source.Value
+        if isinstance(orgData, tuple):
+            orgData = [cell[0] for cell in orgData]
+
         newData = [x.split(delimiter) for x in orgData]
         maxLen = max(len(x) for x in newData)
-        newData = [x + [None] * (maxLen-len(x)) for x in newData]
+        newData = [x + [None] * (maxLen - len(x)) for x in newData]
+
         for i in range(maxLen - 1):
-            self.InsertColumn(source.Column)
-        destination_range = self.toRange(sheet, cell_range)
-        if isinstance(newData, (list, tuple)) and range.Count == 1:
-            if isinstance(newData[0], (list, tuple)):
-                for rowOffet, elem in enumerate(newData):
-                    for columnOffset, elem2 in enumerate(elem):
-                        destination_range.GetOffset(rowOffet, columnOffset).Value = elem2
-            else:
-                for columnOffset, elem in enumerate(newData):
-                    destination_range.GetOffset(0, columnOffset).Value = elem
+            self.InsertColumn(source.Column + i + 1)
+
+        for rowOffset, row in enumerate(newData):
+            for colOffset, value in enumerate(row):
+                sheet.Cells(source.Row + rowOffset, source.Column + colOffset).Value = value
+
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+        return f"Splitted text cells in the range {cell_range} on the delimiter '{delimiter}'."
+
+
+    def insert_columns(self, workbook_path, sheet_name, before_column, after_column, count, output_workbook_path):
+        # self.OpenWorkbook(workbook_path)
+        sheet = self.activeWB.Sheets(sheet_name)
+        if before_column:
+            index = before_column
+        elif after_column:
+            index = after_column + 1
         else:
-            destination_range.Value = newData
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook() 
-        return f"splitted text cells in the range {cell_range} on the delimiter {delimiter}"
-
-
+            raise ValueError("Either before_column or after_column must be specified.")
+        # Insert the required number of blank columns
+        for _ in range(count):
+            sheet.Columns(index).Insert(Shift=win32.constants.xlShiftToRight)
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook() 
+        return f"inserted new column at position {after_column} between {before_column} and {after_column} in the sheet {sheet_name}"
+    
     def insert_rows(self, workbook_path, sheet_name, above_row, below_row, count, output_workbook_path):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
+        sheet = self.activeWB.Sheets(sheet_name)
+        
         if above_row:
             index = above_row
         elif below_row:
             index = below_row + 1
+        else:
+            raise ValueError("Either 'above_row' or 'below_row' must be specified.")
+
+        for i in range(count):
+            sheet.Rows(index).Insert(Shift=win32.constants.xlShiftDown)
+
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+        
+        return f"Inserted {count} new row(s) at position {index} in the sheet {sheet_name}"
+
+    def autofill(self, workbook_path, sheet_name, cell_range, dest_sheet, dest_range, output_workbook_path):
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
-        lastCell = sheet.UsedRange(sheet.UsedRange.Count)
-        source = sheet.Range(sheet.Cells(index, count), sheet.Cells(index, lastCell.Column))
-        for i in range(count):    
-            source.Insert(constants.InsertShiftDirection['down'])
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook() 
-        return f"inserted new row at position {below_row} between {above_row} and {below_row} in the sheet {sheet_name}"
-    
-    def insert_columns(self, workbook_path, sheet_name, before_column, after_column, count, output_workbook_path):
-        self.OpenWorkbook(workbook_path)
-        if before_column:
-            index = self.activeWS.Columns(before_column).Column
-        elif after_column:
-            index = self.activeWS.Columns(after_column).Column + 1
-        sheet = self.activeWB.Sheets(sheet_name)
-        lastCell = sheet.UsedRange(sheet.UsedRange.Count)
-        source = sheet.Range(sheet.Cells(count, index), sheet.Cells(lastCell.Row, index))
-        for i in range(count):    
-            source.Insert(constants.InsertShiftDirection['right'])
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook() 
-        return f"inserted new column at position {after_column} between {before_column} and {after_column} in the sheet {sheet_name}"
-    
-    def autofill(self, workbook_path, sheet_name, cell_range, output_workbook_path):
-        self.OpenWorkbook(workbook_path)
-        sheet = self.activeWB.Sheets(sheet_name)
+        dest_sheet = self.activeWB.Sheets(dest_sheet)
         source = self.toRange(sheet, cell_range)
-        source.AutoFill(source)
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook() 
+        destination = self.toRange(dest_sheet, dest_range)
+        source.AutoFill(destination)
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook() 
         return f"autofilled {cell_range} in sheet name {sheet_name}"
     
     def copy_paste(self, source_workbook_path: str, source_sheet_name: str, target_sheet_name: str, source_range: str, target_range: str, output_workbook_path: str):
@@ -496,8 +523,9 @@ class entry_manipulation_App():
         dest_range = self.toRange(sheet_2, target_range)
         src_range.Copy()
         dest_range.PasteSpecial(-4163)
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook() 
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook() 
         return f"copied {source_range} in sheet name {source_sheet_name} to {target_range} in sheet name {target_sheet_name}"
     
     def copy_paste_format(self, source_workbook_path: str, source_sheet_name: str, target_sheet_name: str, source_range: str, target_range: str, output_workbook_path: str):
@@ -508,117 +536,139 @@ class entry_manipulation_App():
         dest_range = self.toRange(sheet_2, target_range)
         src_range.Copy()
         dest_range.PasteSpecial(-4122)
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook() 
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook() 
         return f"copied {source_range} in sheet name {source_sheet_name} to {target_range} in sheet name {target_sheet_name}"
     
-    def copy_sheet(self, source_workbook_file, sheet_name, new_sheet_name, output_workbook_path):
+    def copy_paste_with_format(self, source_workbook_path: str, source_sheet_name: str, target_sheet_name: str, source_range: str, target_range: str, output_workbook_path: str):
+        self.copy_paste(source_workbook_path, source_sheet_name, target_sheet_name, source_range, target_range, output_workbook_path)
+        self.copy_paste_format(source_workbook_path, source_sheet_name, target_sheet_name, source_range, target_range, output_workbook_path)
+        
+            
+    def copy_sheet(self, source_workbook_file, source_sheet, target_sheet, output_workbook_path, before = False):
         self.OpenWorkbook(source_workbook_file)
-        src_sheet = self.activeWB.Sheets(sheet_name)
-        self.closeWorkBook()   
-        self.OpenWorkbook(output_workbook_path)
-        dest_sheet = self.activeWB.Sheets(sheet_name)
-        src_sheet.Copy(Before = dest_sheet)
-        new_sheet = self.activeWB.Sheets(sheet_name)
-        new_sheet.Name = new_sheet_name
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
-        return f"copied sheet name {sheet_name} as new sheet {new_sheet_name} to new workbook"
+        if source_sheet not in [sheet.Name for sheet in self.activeWB.Worksheets]:
+            raise ValueError(f'Sheet {source_sheet} does not exist.')
+
+        source = self.activeWB.Sheets(source_sheet)
+        if target_sheet:
+            if target_sheet not in [sheet.Name for sheet in self.activeWB.Worksheets]:
+                raise ValueError(f'Target sheet {target_sheet} does not exist.')
+            target = self.activeWB.Sheets(target_sheet)
+            if before:
+                source.Copy(Before=target)
+            else:
+                source.Copy(After=target)
+        else:
+            source.Copy(After=self.activeWB.Sheets(self.activeWB.Sheets.Count))
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
+        return f"copied sheet name {source_sheet} as new sheet {target_sheet} to new workbook"
         
     def cut_paste(self, src_workbook_path, tgt_workbook_path, src_sheet_name,tgt_sheet_name, source_range, target_range):
         self.copy_paste(src_workbook_path, src_sheet_name, tgt_sheet_name, source_range, target_range, tgt_workbook_path)
         self.delete_cells(src_workbook_path, src_sheet_name, source_range, src_workbook_path)
         
         
-    def find_n_replace(self, workbook_path, sheet_name, find_text, replace_text, output_worbook_path):
-        self.OpenWorkbook(workbook_path)
+    def find_n_replace(self, workbook_path, sheet_name, cell_range, find_text, replace_text, output_worbook_path):
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
-        range_to_search = sheet.UsedRange
+        range_to_search = self.toRange(sheet, cell_range)
         range_to_search.Replace(find_text, replace_text)
+        self.Save()
         self.SaveWorkbook(output_worbook_path)
         self.closeWorkBook()
         return f"found value {replace_text} and replaced it with {find_text} in sheet {sheet_name}"
     
     def set_hyperlink(self, workbook_path, sheet_name, cell_range, url, output_workbook_path):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
-        source = self.toRange(cell_range)
+        source = self.toRange(sheet, cell_range)
         sheet = source.Parent
         sheet.Hyperlinks.Add(Anchor=source, Address=url, TextToDisplay=str(source.Value))
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"the hyper link {url} was set for the cell range {cell_range} in sheet {sheet_name}"
     
     def delete_hyperlink(self, workbook_path, sheet_name, cell_range, output_workbook_path):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
         source.ClearHyperlinks()
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"the hyper link was removed for the cell range {cell_range} in sheet {sheet_name}"
     
     
     def remove_duplicates(self, workbook_path, sheet_name, column_number, cell_range, target_workbook_path):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
         source = self.toRange(sheet, cell_range)
-        source.RemoveDuplicates(column_number)
+        source.RemoveDuplicates(Columns=[column_number], Header=win32.constants.xlNo)  # Columns should be a list
+        self.Save()
         self.SaveWorkbook(target_workbook_path)
         self.closeWorkBook()
-        return f"duplicates were removed from column {column_number} in sheet {sheet_name}"
-    
+        return f"Duplicates were removed from column {column_number} in sheet {sheet_name}"
+
     def rename_sheet(self, workbook_path, old_sheet_name, new_sheet_name, target_workbook_path):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(old_sheet_name)
         sheet.Name = new_sheet_name
+        self.Save()
         self.SaveWorkbook(target_workbook_path)
         self.closeWorkBook()
         return f"the sheet {old_sheet_name} was renamed to {new_sheet_name}"
     
     
-    def insert_checkbox(self, workbook_path, sheet_name, cell_range, output_workbook_path):
-        self.OpenWorkbook(workbook_path)
+    def insert_checkbox(self, workbook_path, sheet_name, cell_range, output_workbook_path, width: int = 10, height: int = 10):
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
-        sheet.CheckBoxes().Add(Left=sheet.Range(cell_range).Left, Top=sheet.Range(cell_range).Top, Width=100, Height=100)
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+        sheet.CheckBoxes().Add(Left=sheet.Range(cell_range).Left, Top=sheet.Range(cell_range).Top, Width = width, Height = height)
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"Inserted checkboxes for the range {cell_range} on sheet {sheet_name}"
     
     
-    def insert_textbox(self, workbook_path, sheet_name, cell_range, output_workbook_path, text = ""):
-        self.OpenWorkbook(workbook_path)
+    def insert_textbox(self, workbook_path, sheet_name, cell_range, output_workbook_path, text = "", width: int = 10, height: int = 10):
+        # self.OpenWorkbook(workbook_path)
         sheet = self.activeWB.Sheets(sheet_name)
-        textbox = sheet.Shapes.AddTextbox(1, Left=sheet.Range(cell_range).Left, Top=sheet.Range(cell_range).Top, Width=100, Height=100)
+        textbox = sheet.Shapes.AddTextbox(1, Left=sheet.Range(cell_range).Left, Top=sheet.Range(cell_range).Top, Width = width, Height =  height)
         textbox.TextFrame.Characters().Text = text
-        self.SaveWorkbook(output_workbook_path)
-        self.closeWorkBook()
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"Inserted checkboxes for the range {cell_range} on sheet {sheet_name}"
     
     
     def create_sheet(self, workbook_path, sheet_name):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         self.activeWB.Sheets.Add(After = self.activeWB.Sheets(self.activeWB.Sheets.Count))
         new_sheet = self.activeWB.Sheets(self.activeWB.Sheets.Count)
         new_sheet.Name = sheet_name
+        self.Save()
         self.SaveWorkbook(workbook_path)
         self.closeWorkBook()
         return f"created new sheet with name {sheet_name}"
     
     def delete_sheet(self, workbook_path, sheet_name):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         self.activeWB.Sheets.Add(After = self.activeWB.Sheets(self.activeWB.Sheets.Count))
         try:
             sheet = self.activeWB.Sheets(sheet_name)
             sheet.Delete()
         except Exception as e:
             print(f"Error: {e}")
+        self.Save()
         self.SaveWorkbook(workbook_path)
         self.closeWorkBook()
         return f"deleted sheet with name {sheet_name}"
     
     def clear(self, workbook_path, sheet_name, cell_range, output_workbook_path):
-        self.OpenWorkbook(workbook_path)
+        # self.OpenWorkbook(workbook_path)
         try:
         # Get the sheet by name
             sheet = self.activeWB.Sheets(sheet_name)
@@ -629,8 +679,40 @@ class entry_manipulation_App():
         # Save the workbook
         except Exception as e:
             print(f"Error: {e}")
-        self.SaveWorkbook(workbook_path)
-        self.closeWorkBook()
+        self.Save()
+#        self.SaveWorkbook(output_workbook_path)
+#        self.closeWorkBook()
         return f"deleted sheet with name {sheet_name}"
             
-    
+# path = "./DemographicProfile.xlsx"
+# app = entry_manipulation_App()
+# time.sleep(3)
+# app.OpenWorkbook(path)
+# time.sleep(3)
+# print(app.update_cell_value(path, "Sheet1", 'A2:A10', 674, path))
+# time.sleep(3)
+# print(app.delete_cells(path, "Sheet1", 'A2:A10', path))
+# time.sleep(3)
+# print(app.merge_cells(path, "Sheet1", 'D2:D10', path))
+# time.sleep(3)
+# print(app.unmerge_cells(path, "Sheet1", 'D2:D10', path))
+# app.Save()
+# app.SaveWorkbook(path)
+# app.split_text_to_columns("./DemographicProfile.xlsx", "Sheet1", 'D2:D10', "./DemographicProfile.xlsx", ",") <== works
+# app.insert_rows("./DemographicsProfile.xlsx", "Sheet1", 5, 6, 10,"./DemographicProfile.xlsx") <== works
+# app.insert_columns("./DemographicProfile.xlsx", "Sheet1", 2, 3, 10,"./DemographicProfile.xlsx") <== works
+# app.autofill("./BoomerangSales.xlsx", "Sheet1", 'E2:E10', "Sheet1", 'E2:E10', "./BoomerangSales.xlsx") <== works
+# app.copy_paste("./IncomeStatement2.xlsx", "Sheet1", "sheet replica", 'A2:A10', 'G2:G10', "./IncomeStatement2.xlsx") <== works
+# app.copy_paste_format("./IncomeStatement2.xlsx", "Sheet1", "sheet replica", 'B1:B10', 'B1:B10', "./IncomeStatement2.xlsx") <== works
+# app.copy_sheet("./IncomeStatement2.xlsx", "sheet replica", "Sheet2", "./IncomeStatement2.xlsx") <== works
+# app.cut_paste("./IncomeStatement2.xlsx","./IncomeStatement2.xlsx","sheet replica", "Sheet2", "A1:A20", "D1:D20") <== works
+# app.find_n_replace("./IncomeStatement2.xlsx", "Sheet1", 'A2:A20', "2033", "work", "./IncomeStatement2.xlsx") <== works
+# app.set_hyperlink("./IncomeStatement2.xlsx", "Sheet1", 'A2:A10', "https://chromewebstore.google.com/?hl=en&pli=1", "./IncomeStatement2.xlsx") <== works
+# app.delete_hyperlink("./IncomeStatement2.xlsx", "Sheet1", 'A2:A10', "./IncomeStatement2.xlsx") <== works
+# app.remove_duplicates("./DemographicProfile.xlsx", "Sheet1", 5, 'E1:E10', "./DemographicProfile.xlsx") <== fix this
+# app.rename_sheet("./IncomeStatement2.xlsx", "Sheet2", "sheet replica", "./IncomeStatement2.xlsx") <== works
+# app.insert_checkbox("./IncomeStatement2.xlsx", "Sheet2", "A1:A1","./IncomeStatement2.xlsx") <== works
+# app.insert_textbox("./IncomeStatement2.xlsx", "Sheet1", "A1:A1","./IncomeStatement2.xlsx", "hello") <== works
+# app.create_sheet("./IncomeStatement2.xlsx", "code") <== works
+# app.delete_sheet("./IncomeStatement2.xlsx", "code") <== works
+# app.clear("./IncomeStatement2.xlsx", "Sheet1", 'G2:G10', "./IncomeStatement2.xlsx") <== works

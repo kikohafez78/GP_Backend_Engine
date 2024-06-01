@@ -2,6 +2,11 @@ import nltk
 import re
 import pandas as pd
 # from Module.action_module.actions.constants import constants
+import sys
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
 
 class masking:
     def __init__(self, name: str, config: dict):

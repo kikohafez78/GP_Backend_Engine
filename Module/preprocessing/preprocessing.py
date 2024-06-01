@@ -1,7 +1,10 @@
 import re
-from normalization import simplify_punctuation, normalize_contractions,  spell_correction, Normalizer
+from .normalization import simplify_punctuation, normalize_contractions,  spell_correction, Normalizer
 from tokenization import Tokenizer, Sentencizer
 import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 import json
 
 currency_file = os.path.join(os.path.dirname(__file__),"./preloaded/dictionaries/currencies/currency.json")

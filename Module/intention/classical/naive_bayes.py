@@ -3,6 +3,12 @@ from sklearn.naive_bayes import MultinomialNB
 from nltk import word_tokenize
 import math
 from sklearn.metrics import accuracy_score
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
+
 class NBMC(object): #Naive bayes multi class 
     def __init__(self, classes):
         self.classes = classes

@@ -1,5 +1,5 @@
 import pandas as pd
-from classical_config import get_classical_config
+from .classical_config import get_classical_config
 from integrated_model import integrated_model_v_4
 from CRFModel import CRFModel
 import os

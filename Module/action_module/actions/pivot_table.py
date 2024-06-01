@@ -79,6 +79,10 @@ class Pivot_App():
     def closeWorkBook(self) -> None:
         self.activeWB.Close()
 
+    def Save(self) -> None:
+        # self.activeWB.Save()
+        pass
+        
     def CreatePivotTable(self, src_wb_path: str, src_wb_sheet: str, source: str, destSheet: str, name: str,
                         RowField: List = [], ColumnField: List = [],
                         PageField: List = [], DataField: List = [],
@@ -86,7 +90,7 @@ class Pivot_App():
         # check if the pivot table name exists
         if output_wb_path == None:
             output_wb_path = src_wb_path
-        self.OpenWorkbook(src_wb_path)
+        # self.OpenWorkbook(src_wb_path)
         for sheet in self.activeWB.Worksheets:
             for pt in sheet.PivotTables():
                 if pt.Name == name:
@@ -130,8 +134,9 @@ class Pivot_App():
                 pt.AddDataField(pt.PivotFields(field), Function = constants.SummarizationFunction[summarizeFunction])
             except:
                 raise Exception(f"The field {field} is not included in the pivot table source range and cannot be selected as a data field!")
-        self.SaveWorkbook(output_wb_path)
-        self.closeWorkBook()
+        self.Save()
+#        self.SaveWorkbook(output_wb_path)
+#        self.closeWorkBook()
         return f"created a pivot table in sheet {destSheet} with the following properties" #<==== finsih this
          
     def GetBlankArea(self, sheetName: str):
@@ -173,7 +178,7 @@ class Pivot_App():
         # find the pivot table
         if output_wb_path == None:
             output_wb_path = src_wb_path
-        self.OpenWorkbook(src_wb_path)
+        # self.OpenWorkbook(src_wb_path)
         pt = None
         for sheet in self.activeWB.Worksheets:
             for pt in sheet.PivotTables():
@@ -182,29 +187,32 @@ class Pivot_App():
         if pt is None or pt.Name != name:
             raise ValueError(f'Pivot table {name} does not exist.')
         pt.TableRange2.Clear()
-        self.SaveWorkbook(output_wb_path)
-        self.closeWorkBook()
+        self.Save()
+#        self.SaveWorkbook(output_wb_path)
+#        self.closeWorkBook()
         return f"removed a pivot table with name {name}" #<==== finsih this
 
     def set_summary_type(self, src_wb_path: str, name: str, field: str, func: str, output_wb_path: str = None) -> None:
         if output_wb_path == None:
             output_wb_path = src_wb_path
-        self.OpenWorkbook(src_wb_path)
+        # self.OpenWorkbook(src_wb_path)
         pt = self.activeWS.PivotTables(name)
         pt.PivotFields(field).Function = constants.ConsolidationFunction[func]
-        self.SaveWorkbook(output_wb_path)
-        self.closeWorkBook()
+        self.Save()
+#        self.SaveWorkbook(output_wb_path)
+#        self.closeWorkBook()
         return f"changed pivot table with name {name} summary type to {func} summary" #<==== finsih this
         
     def sort_pivot_table(self, src_wb_path: str, name: str, field: str, key: str, order: str = 'ascending', output_wb_path: str = None) -> None:
         if output_wb_path == None:
             output_wb_path = src_wb_path
-        self.OpenWorkbook(src_wb_path)
+        # self.OpenWorkbook(src_wb_path)
         pt = self.activeWS.PivotTables(name)
         order = constants.SortOrder[order]
         pt.PivotFields(field).AutoSort(order, key)
-        self.SaveWorkbook(output_wb_path)
-        self.closeWorkBook()
+        self.Save()
+#        self.SaveWorkbook(output_wb_path)
+#        self.closeWorkBook()
         return f"sorted pivot table with name {name} with the following feild {field} in {order} order and with key {key}" #<==== finsih this
 
     def GetSheetsState(self) -> str:
@@ -253,3 +261,17 @@ class Pivot_App():
                                                                                                                        
         return "Sheet state: " + ' '.join(states)
 
+# app = Pivot_App()
+# app.CreatePivotTable(
+#     src_wb_path="./DemographicProfile.xlsx", 
+#     src_wb_sheet="Sheet1", 
+#     source="A1:D10",  # Assuming data is from A1 to D10
+#     destSheet="Sheet2", 
+#     name="DemographicsTable",
+#     RowField=["Respondents", "Sex"], 
+#     ColumnField=["Civil status"], 
+#     PageField=[], 
+#     DataField=["Highest Educational Attainment"],
+#     summarizeFunction='sum',  # Or any other appropriate function
+#     output_wb_path="./DemographicProfile.xlsx"
+# )

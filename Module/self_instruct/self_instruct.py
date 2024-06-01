@@ -2,10 +2,14 @@ import pandas as pd
 from textgenie import TextGenie
 # from Module.preprocessing.preprocessing import Sentencizer
 import torch
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 torch.set_warn_always(False)
 
 class self_instruct:
-    model = textgenie = TextGenie("ramsrigouthamg/t5_paraphraser",'bert-base-uncased', device = "cuda")
+    model = TextGenie("ramsrigouthamg/t5_paraphraser",'bert-base-uncased', device = "cuda")
     def __init__(self, name: str, config: dict):
         self.name = name
         self.config = config
@@ -41,9 +45,9 @@ class self_instruct:
             
 
 
-from self_Instruct_config import get_self_instruct
+# from self_Instruct_config import get_self_instruct
 
 
-config = get_self_instruct()
-model = self_instruct("a7a", config)
-model.generate_parphrases_based_on_s("create a new sheet called 'hero'")
+# config = get_self_instruct()
+# model = self_instruct("a7a", config)
+# model.generate_parphrases_based_on_s("create a new sheet called 'hero'")

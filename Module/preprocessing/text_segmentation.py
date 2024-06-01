@@ -1,5 +1,11 @@
 import spacy
 from typing import List
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
+
 nlp = spacy.load("en_core_web_sm")
 
 def remove_stop_words(text: str) -> str:

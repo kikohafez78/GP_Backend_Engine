@@ -1,4 +1,10 @@
 import re
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
+
 
 DEFAULT_SENTENCE_BOUNDARIES = [r'(?<=[0-9]|[^0-9.])(\.)(?=[^0-9.]|[^0-9.]|[\s]|$)(?![\n\r]+)',
                                r'\.{2,}', r'\!+', r'\:+', r'\?+', r'[\n\r]+']

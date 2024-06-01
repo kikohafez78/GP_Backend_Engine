@@ -1,5 +1,8 @@
 import pytest
-
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 from .word_utils import get_inflected_noun, levenshtein_distance, SimpleSpellCorrector
 
 def test_inflect_noun_simple():

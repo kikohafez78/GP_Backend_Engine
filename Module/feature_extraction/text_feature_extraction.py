@@ -1,12 +1,84 @@
 import nltk
 import spacy 
-import string
+import stanza
 import re
-from tfidf import TFIDF, get_tfidf_given_file
+from tfidf import TFIDF
 # nltk.download('punkt')
 # nltk.download('averaged_perceptron_tagger')
 # nltk.download('maxent_ne_chunker')
 # nltk.download('words')
+import sys
+import os 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
+def replace_and_store(match):
+    content = match.group(1).split()[0]
+    bracket = match.group(1).split()[1]
+    contents_list.append(content)
+    brackets_list.append(bracket)
+    return '*'
+
+def conll_table(string, lemmas, ner, sent_count):
+    stared_string = re.sub(r'\(([^()]+)\)', replace_and_store, string)
+
+    print(brackets_list)
+    stared_string = stared_string.replace('ROOT', 'TOP')
+    stared_string = ''.join(stared_string.split())
+    stared_string = re.sub(r'\*(\*)', r'* \1', stared_string)
+    stared_string = re.sub(r'\*\*', r'* *', stared_string)
+    stared_string = re.sub(r'\*(\()', r'* \1', stared_string)
+    stared_string = re.sub(r'\)(\*)', r') \1', stared_string)
+    stared_string = re.sub(r'\)(\()', r') \1', stared_string)
+
+    tree1 = stared_string.split()
+    print(tree1)
+
+    table = []
+    c = 0
+    for i in range(len(contents_list)):
+        table.append(['wb/a2e/00/a2e_0010', '0', c, brackets_list[i], contents_list[i], tree1[i], lemmas[i], '-', '-', '-', ner[i], '-'])
+        c += 1
+        if brackets_list[i] == ".":
+            c = 0
+      
+    return table
+
+def wrapper(doc):
+    global contents_list, brackets_list
+    contents_list = []
+    brackets_list = []
+
+    tree_dict = {}
+    table_list = []
+    lemmas = []
+    ner = []
+
+    for sent in doc.sentences:
+        cons = sent.constituency
+        tree_dict[sent] = str(cons)
+        for token in sent.tokens:
+            if token.ner == 'O':
+                ner.append('*')
+            else:
+                ner.append('*')
+
+        for word in sent.words:
+            if word.upos == "VERB":
+                lemmas.append(word.lemma)
+            else:
+                lemmas.append('-')
+
+    combined_tree = ''
+    for sent in doc.sentences:
+       combined_tree += ' ' + ' '.join(tree_dict[sent].split())
+
+    table_list.append(conll_table(combined_tree, lemmas, ner, len(doc.sentences)))
+
+    return table_list
+
+
+
 def tags_since_dt(sentence, i):
     tags = set()
     for word, pos in sentence[:i]:
@@ -68,10 +140,27 @@ class ConsecutiveNPChunker(nltk.ChunkParserI):
         return nltk.chunk.conlltags2tree(conlltags)
 
 class text_features:
-    tool = spacy.load('en_core_web_sm')
+    spacy_tool = spacy.load('en_core_web_sm')
+    stanza_tool = stanza.Pipeline('en', processors='tokenize,pos,lemma,constituency,ner,mwt')
     tool1 = ConsecutiveNPChunker
     tool2 = ConsecutiveNPChunkTagger
-    with open("temporal.txt") as f:
+    temporal_connectives = {
+    "before": "precedence",
+    "after": "succession",
+    "while": "simultaneity",
+    "until": "termination",
+    "since": "causality",
+    "when": "causality",
+    "as soon as": "immediate succession",
+    "whenever": "repetition",
+    "once": "single occurrence",
+    "by the time": "deadline",
+    "during": "duration",
+    "then": "succession",
+    "later": "succession",
+    "earlier": "precedence"
+    }
+    with open(os.path.join(os.getcwd(), "Module\\feature_extraction\\temporal.txt")) as f:
         temporal = f.readlines()
     def __init__(self, tokens: list[list[str]]):
         self.tokens = tokens
@@ -85,12 +174,48 @@ class text_features:
     def get_tfidf(self, text):
         return TFIDF(text)
     
-    def temporal_seperators(self):
-        data = {}
-        for sent in self.tokens:
-            for token in sent:
-                pass
+    
+
+    def extract_temporal_connectives(self, paragraph: str):
+        doc = self.spacy_tool(paragraph)
+        connectives_info = []
+
+        # Iterate through sentences in the paragraph
+        for sent in doc.sents:
+            sent_text = sent.text
+            sent_start_idx = sent.start_char
+            sent_end_idx = sent.end_char
+
+            # Check for temporal connectives within the sentence
+            for connective, connective_type in self.temporal_connectives.items():
+                if connective in sent_text:
+                    start_idx = sent_text.index(connective)
+                    end_idx = start_idx + len(connective)
+                    # Calculate the absolute indices within the paragraph
+                    abs_start_idx = sent_start_idx + start_idx
+                    abs_end_idx = sent_start_idx + end_idx
+
+                    # Determine the text before and after the connective
+                    before_text = sent_text[:start_idx].strip()
+                    after_text = sent_text[end_idx:].strip()
+
+                    connectives_info.append({
+                        "connective": connective,
+                        "type": connective_type,
+                        "start_idx": abs_start_idx,
+                        "end_idx": abs_end_idx,
+                        "precedence": {
+                            "before": before_text,
+                            "after": after_text
+                        }
+                    })
+
+            return connectives_info
+            
+    def conll_features(self, text: str):
+        return wrapper(text)[0]
         
+    
     
                 
                 

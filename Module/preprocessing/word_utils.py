@@ -1,4 +1,8 @@
-import pickle, os, sys
+import pickle
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 import numpy as np
 
 def sigmoid(x):

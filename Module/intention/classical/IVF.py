@@ -7,7 +7,10 @@ import cvxopt
 import copy
 from sklearn.svm import LinearSVC
 from sklearn.metrics import accuracy_score
-
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 def sort_vectors_by_cosine_similarity(vectors, reference_vector):
     # Calculate cosine similarities

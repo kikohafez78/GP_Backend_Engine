@@ -1,4 +1,7 @@
-import os 
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 import pandas as pd
 import numpy as np
 from collections import Counter

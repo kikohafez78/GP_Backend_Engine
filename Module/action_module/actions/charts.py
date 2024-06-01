@@ -81,6 +81,10 @@ class Charts_App():
     def closeWorkBook(self) -> None:
         self.activeWB.Close()
 
+    def Save(self) -> None:
+        # self.activeWB.Save()
+        pass
+        
     def CreateChart(self, src_wb_path: str, source: str, destSheet: str, chartType: str, chartName: str, XField: int = None, YField: List[int] = [], output_wb_path: str = ""):
         if output_wb_path == None:
             output_wb_path = src_wb_path
@@ -715,3 +719,6 @@ class Charts_App():
 
 
 
+# app = Charts_App()
+# app.OpenWorkbook("./IncomeStatement.xlsx")
+# app.CreateChart("./IncomeStatement.xlsx", "Sheet1!B2:C9", "Sheet1", "Barchart", "profits", 2, [3],"./IncomeStatement.xlsx")

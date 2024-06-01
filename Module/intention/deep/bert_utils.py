@@ -2,26 +2,16 @@ import os
 import sys
 import random
 import logging
-
 import torch
 import numpy as np
 from seqeval.metrics import precision_score, recall_score, f1_score
+import re
 
-from transformers import BertConfig, DistilBertConfig, AlbertConfig
-from transformers import BertTokenizer
 
-from bertcrf import JointBert
 script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(script_dir)
 
 
-MODEL_CLASSES = {
-    'bert': (BertConfig, JointBert, BertTokenizer),
-}
-
-MODEL_PATH_MAP = {
-    'bert': 'bert-base-uncased',
-}
 
 
 def get_intent_labels(args):
@@ -32,8 +22,6 @@ def get_slot_labels(args):
     return [label.strip() for label in open(os.path.join(args.data_dir, args.task, args.slot_label_file), 'r', encoding='utf-8')]
 
 
-def load_tokenizer(args):
-    return MODEL_CLASSES[args.model_type][2].from_pretrained(args.model_name_or_path)
 
 
 def init_logger():
@@ -105,3 +93,16 @@ def get_sentence_frame_acc(intent_preds, intent_labels, slot_preds, slot_labels)
     return {
         "sementic_frame_acc": sementic_acc
     }
+    
+def replace_angle_brackets(text: str) -> str:
+    pattern = r'<([^>]*)>'
+    replaced_text = re.sub(pattern, r'\1', text)
+    return replaced_text
+
+def mask_tokens(text: str):
+    return re.sub(r'<[^>]+>', '[MASK]', text)
+
+
+def cross_entropy_loss_fn(outputs, targets: torch.Tensor):
+    targets = targets.float()
+    return torch.nn.CrossEntropyLoss()(outputs, targets)

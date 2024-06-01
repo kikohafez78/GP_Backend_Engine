@@ -1,7 +1,7 @@
-import re
-import nltk as nlp
-import pandas as pd
-import numpy as np
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 from nltk import WordNetLemmatizer
 import string 
 

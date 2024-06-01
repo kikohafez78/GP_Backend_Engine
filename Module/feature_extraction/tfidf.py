@@ -4,7 +4,12 @@ from collections import Counter
 import openpyxl as excel
 import os
 import pandas as pd
-from helper_functions import load_pkl
+# from ..helper_functions import load_pkl
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
 
 #gets the Term frequency
 def TF(word_counts: dict):
@@ -35,22 +40,22 @@ def TFIDF(data):
 
 
 
-#calculate tfidf given filename
-def get_tfidf_given_file(filename):
-    if not os.path.exists(filename):
-        logs.log(0,"file used doesn't exists in the current workspace ")
-        return None
-    filename, extension = filename.split(".")
-    data = None
-    if extension == "pkl":
-        data = np.load(filename+"."+extension)
-    elif extension == "csv":
-        data = pd.read_csv(filename+"."+extension)
-    elif extension == "xlsx":
-        data = excel.load_workbook(filename+"."+extension)
-        sheet_names = data.get_sheet_names()
-        sheets = [data.get_sheet_by_name(name) for name in sheet_names]
-        data = sheets
-    elif extension == "pkl":
-        data = load_pkl(filename+"."+extension)
+# #calculate tfidf given filename
+# def get_tfidf_given_file(filename):
+#     if not os.path.exists(filename):
+#         logs.log(0,"file used doesn't exists in the current workspace ")
+#         return None
+#     filename, extension = filename.split(".")
+#     data = None
+#     if extension == "pkl":
+#         data = np.load(filename+"."+extension)
+#     elif extension == "csv":
+#         data = pd.read_csv(filename+"."+extension)
+#     elif extension == "xlsx":
+#         data = excel.load_workbook(filename+"."+extension)
+#         sheet_names = data.get_sheet_names()
+#         sheets = [data.get_sheet_by_name(name) for name in sheet_names]
+#         data = sheets
+#     elif extension == "pkl":
+#         data = load_pkl(filename+"."+extension)
         

@@ -4,6 +4,11 @@ import string
 import pickle
 from functools import reduce
 from preprocessing.structures import Document, Sentence, Token
+import os
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
 
 class AbstractFeaturizer():
 

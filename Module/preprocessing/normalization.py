@@ -7,7 +7,10 @@ import warnings
 import pkg_resources
 from symspellpy.symspellpy import SymSpell, Verbosity
 
-from structures import sentencize, tokenize, Sentence, Document, untokenize
+from .structures import sentencize, tokenize, Sentence, Document, untokenize
+import sys
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 
 contractions_file = os.path.join(os.path.dirname(__file__),"./preloaded/dictionaries/contractions/english_contractions.json")
 stopwords_file = os.path.join(os.path.dirname(__file__), "./preloaded/lists/words/english_stopwords.txt")
