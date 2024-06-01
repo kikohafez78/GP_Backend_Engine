@@ -130,25 +130,29 @@ class Auto:
     #         data = self.self_instruction.augment_auto(text, intents)
             
         
-    def demo_test_1(self, path):
+    def demo_test_1(self,path):
         steps = []
-        time.sleep(3)
         self.entry.OpenWorkbook(path)
         time.sleep(3)
-        steps.append(self.entry.autofill(path, "Sheet1", "D2:D2", "Sheet1", "D2:D10", path))
+        steps.append(self.entry.autofill(path, "Sheet1", "D2", "Sheet1", "D2:D9", path))
+        self.entry.Save()
+        self.entry.SaveWorkbook(path)
+        # self.entry.closeWorkBook()
+        return steps, []
+    
+    def demo_test_2(self,path):
+        steps = []
         time.sleep(3)
-        steps.append(self.entry.autofill(path, "Sheet1", "F2:F2", "Sheet1", "F2:F10", path))
+        steps.append(self.formatting.conditional_formatting(path, "Sheet1", "D2:D9", fillColor="yellow", formula="=D2>150000"))
+        self.entry.Save()
+        self.entry.SaveWorkbook(path)
+        # self.entry.closeWorkBook()
+        return steps, []
+    
+    def demo_test_3(self,path):
+        steps = []
         time.sleep(3)
-        steps.append(self.entry.autofill(path, "Sheet1", "G2:G2", "Sheet1", "G2:G10", path))
-        time.sleep(3)
-        steps.append(self.entry.update_cell_value(path, "Sheet1", 'A2:A10', 674, path))
-        time.sleep(3)
-        steps.append(self.entry.delete_cells(path, "Sheet1", 'A2:A10', path))
-        time.sleep(3)
-        steps.append(self.entry.merge_cells(path, "Sheet1", 'D2:D10', path))
-        time.sleep(3)
-        steps.append(self.entry.unmerge_cells(path, "Sheet1", 'D2:D10', path))
-        time.sleep(3)
+        steps.append(self.charts.CreateChart(path, source="A1:D9", destSheet="Sheet1", chartName="AboIsmail", chartType="Pie", XField=1, YField=[4]))
         self.entry.Save()
         self.entry.SaveWorkbook(path)
         # self.entry.closeWorkBook()

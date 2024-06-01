@@ -8,7 +8,13 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(script_dir)
 
 def process_message(text, sheet):
-    steps, errors = current_app.config["engine"].demo_test_1(sheet)
+    if "autofill" in text.lower():
+        steps, errors = current_app.config["engine"].demo_test_1(sheet)
+    elif "highlight" in text.lower():
+        steps, errors = current_app.config["engine"].demo_test_2(sheet)
+    else:
+        steps, errors = current_app.config["engine"].demo_test_3(sheet)
+    # steps, errors = current_app.config["engine"].demo_test_1(sheet)
     return steps, sheet, errors
 
 def convert_to_numbered_list(string_array):

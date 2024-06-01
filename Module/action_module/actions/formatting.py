@@ -297,7 +297,7 @@
         
 
 
-
+import pythoncom
 from xlwings import constants as win32c
 from constants import constants
 import win32com.client as win32
@@ -323,11 +323,12 @@ class formatting_App():
 
     @property
     def activeAPP(self):
-        if not self.__excel:
+        if not self.excel:
             try:
-                self.__excel = win32.Dispatch('Excel.Application') if self.appName == 'excel' else win32.Dispatch('ket.Application')
-                self.__excel.DisplayAlerts = False
-                self.__excel.Visible = False
+                pythoncom.CoInitialize()
+                self.excel = win32.Dispatch('Excel.Application') if self.appName == 'excel' else win32.Dispatch('ket.Application')
+                self.excel.DisplayAlerts = False
+                self.excel.Visible = True
             except:
                 raise Exception('{} is not running.'.format(self.appName))
         return self.__excel

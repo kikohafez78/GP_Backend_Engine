@@ -1,3 +1,4 @@
+import pythoncom
 from xlwings import constants as win32c
 from constants import constants
 import win32api
@@ -24,11 +25,12 @@ class Charts_App():
 
     @property
     def activeAPP(self):
-        if not self.__excel:
+        if not self.excel:
             try:
-                self.__excel = win32.Dispatch('Excel.Application') if self.appName == 'excel' else win32.Dispatch('ket.Application')
-                self.__excel.DisplayAlerts = False
-                self.__excel.Visible = False
+                pythoncom.CoInitialize()
+                self.excel = win32.Dispatch('Excel.Application') if self.appName == 'excel' else win32.Dispatch('ket.Application')
+                self.excel.DisplayAlerts = False
+                self.excel.Visible = True
             except:
                 raise Exception('{} is not running.'.format(self.appName))
         return self.__excel
@@ -106,25 +108,22 @@ class Charts_App():
         if chartType not in constants.ChartType:
             raise ValueError(f'Chart type {chartType} is not supported!')
         
-        chart.chart_type = constants.ChartType[chartType]
+        chart.ChartType = constants.ChartType[chartType]
         
-        if 'pie' in chartType.lower():
-            chart.SetSourceData(dataRange)
-        else:
-            if not XField:
-                XField = 1
-            XFieldRange = dataRange.Parent.Range(dataRange.Cells(2, XField), dataRange.Cells(dataRange.Rows.Count, XField))
-            if not YField:
-                YField = [i for i in range(1, dataRange.Columns.Count + 1) if i != XField]
-            for i in YField:
-                series = chart.SeriesCollection().NewSeries()
-                series.XValues = XFieldRange
-                series.Values = dataRange.Parent.Range(dataRange.Cells(2, i), dataRange.Cells(dataRange.Rows.Count, i))
-                series.Name = dataRange.Cells(1, i)
-            try:
-                chart.Axes(constants.AxisType['x']).CategoryNames = XFieldRange
-            except:
-                pass
+        if not XField:
+            XField = 1
+        XFieldRange = dataRange.Parent.Range(dataRange.Cells(2, XField), dataRange.Cells(dataRange.Rows.Count, XField))
+        if not YField:
+            YField = [i for i in range(1, dataRange.Columns.Count + 1) if i != XField]
+        for i in YField:
+            series = chart.SeriesCollection().NewSeries()
+            series.XValues = XFieldRange
+            series.Values = dataRange.Parent.Range(dataRange.Cells(2, i), dataRange.Cells(dataRange.Rows.Count, i))
+            series.Name = dataRange.Cells(1, i)
+        try:
+            chart.Axes(constants.AxisType['x']).CategoryNames = XFieldRange
+        except:
+            pass
         chart.Parent.Name = chartName
         self.SaveWorkbook(output_wb_path)
         self.closeWorkBook()
